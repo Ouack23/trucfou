@@ -55,7 +55,8 @@ nav ul li a {
 	margin-top: 5px;
 }
 
-#main * {
+#main iframe {
+	display: block;
 	margin: auto;
 }
 
