@@ -19,14 +19,12 @@ else {
 	else {
 		$urlCR =  'include/pdf/CR'.$num.'.pdf'; ?>
 
-		<section id="CR">
-			<object data="<?php echo($urlCR);?>" type="application/pdf" height="100%" width="70%">
-			<p>
-				Votre navigateur est moisi et ne supporte pas l'affichage pdf en html5. Vous pouvez directement télécharger le pdf <a href="<?php echo($urlCR);?>">ici</a>.<br />
-				Vous pouvez également télécharger un navigateur potable <a href="https://www.mozilla.org/en-US/firefox/all/#fr">ici</a>.
-			</p>
-			</object>
-		</section>
+		<object data="<?php echo($urlCR);?>" type="application/pdf" height="100%" width="70%">
+		<p>
+			Votre navigateur est moisi et ne supporte pas l'affichage pdf en html5. Vous pouvez directement télécharger le pdf <a href="<?php echo($urlCR);?>">ici</a>.<br />
+			Vous pouvez également télécharger un navigateur potable <a href="https://www.mozilla.org/en-US/firefox/all/#fr">ici</a>.
+		</p>
+		</object>
 	<?php
 	}
 }?>
