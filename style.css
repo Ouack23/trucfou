@@ -56,8 +56,9 @@ nav ul li a {
 }
 
 #main {
-	border: 2px solid grey;
-	margin-right: 200px;
+	border: 1px solid grey;
+	margin-right: 300px;
+	padding: 20px;
 }
 
 #main iframe {
