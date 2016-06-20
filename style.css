@@ -60,6 +60,7 @@ nav ul li a {
 	margin-right: 300px;
 	margin-top: 50px;
 	padding: 20px;
+	min-height: 700px;
 }
 
 #main iframe {
