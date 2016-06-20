@@ -11,7 +11,7 @@ include ('include/functions.php');
 		<?php include_Content('top'); ?>
 		<section id="main">
 			<h1>This is the ultimate test</h1>
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/Rq3SYvzm6c8" frameborder="0" allowfullscreen></iframe>
+			<iframe width="800" height="600" src="https://www.youtube.com/embed/Rq3SYvzm6c8" frameborder="0" allowfullscreen></iframe>
 		</section>
 		<?php include_Content('bottom'); ?>
 	</body>

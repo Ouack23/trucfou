@@ -7,6 +7,10 @@ body {
 	padding: 10px;
 }
 
+iframe {
+	margin: auto;
+}
+
 nav {
 	display: block;
 	margin: auto;
