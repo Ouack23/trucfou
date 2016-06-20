@@ -38,8 +38,8 @@ include("include/config.php");?>
 			</div>
 			<?php
 			}
-		echo('</section>');
 		if(isset($_GET['num'])) {include('include/CR.php');}
+		echo('</section>');
 		include_Content("bottom");?>
 	</body>
 </html>
