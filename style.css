@@ -55,6 +55,11 @@ nav ul li a {
 	margin-top: 5px;
 }
 
+#main {
+	border: 2px solid grey;
+	margin-right: 200px;
+}
+
 #main iframe {
 	display: block;
 	margin: auto;
