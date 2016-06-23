@@ -77,7 +77,7 @@ function select_annonce() {
 	echo('<select name="annonce">');
 	
 	while($annonces=$reponse->fetch()) {
-		echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].'€</option>');
+		echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].' k€</option>');
 	}
 	$reponse->closeCursor();
 	
