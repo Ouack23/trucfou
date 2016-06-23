@@ -90,7 +90,7 @@ else {
 					echo('<td>'.$donnees['superf_t'].'</td>');
 					echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
 					echo('<td>'.$hours.'h'.$minutes.'</td>');
-					echo('<td>'.$donnees['price'].'</td>');
+					echo('<td>'.$donnees['price'].' k€</td>');
 					echo('<td><a href='.$donnees['link'].'>Annonce</a></td>');
 					
 				$reponse->closeCursor();
