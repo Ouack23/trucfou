@@ -1,5 +1,5 @@
 ﻿<section id="login">
-	<?php if (! $user->data['is_registered']) { ?>
+	<?php if(! $user->data['is_registered']) { ?>
 		<form action="<?php echo(append_sid('forum/ucp.php', 'mode=login', true, $user->session_id)); ?>" method="post">
 			<p>
 				<label for="username">Username:</label><input type="text" name="username" id="username" size="10" title="Username" /><br />

@@ -1,5 +1,5 @@
 <?php
-if (! $user->data['is_registered']) include('include/not_registered.php');
+if(! $user->data['is_registered']) include('include/not_registered.php');
 
 else {
 	secureGet();
@@ -24,11 +24,10 @@ else {
 			</div>
 			
 			<?php
-			  $dateQuery = format_Date();
-			  if ($current_url_reverse == 'false')	
-			  	$reponse_query = 'SELECT id, annonce, '.$dateQuery.', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
+			  if($current_url_reverse == 'false')
+			  	$reponse_query = 'SELECT id, annonce, '.format_Date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
 			  else
-			  	$reponse_query = 'SELECT id, annonce, '.$dateQuery.', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.' DESC';
+			  	$reponse_query = 'SELECT id, annonce, '.format_Date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.' DESC';
 			  
 			  $reponse=$bdd->query($reponse_query);
 			  
@@ -42,6 +41,8 @@ else {
 	}
 	//On demande la sélection d'une annonce
 	else {
+		echo('<h1>Choisissez une annonce pour voir les commentaires correspondants</h1>');
 		
+		select_annonce();
 	}
 }?>

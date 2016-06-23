@@ -15,7 +15,7 @@ include('include/config.php');?>
 		echo('<section id="main">');	
 			echo('<h1>Écrire un nouveau commentaire</h1>');
 			
-			if (! $user->data['is_registered']) include('include/not_registered.php');
+			if(!$user->data['is_registered']) include('include/not_registered.php');
 
 			else {
 				$reponse = $bdd->query('SELECT * FROM annonces');
@@ -28,20 +28,10 @@ include('include/config.php');?>
 					//Vérification de l'existence d'une annonce au moins
 					if(!empty($isThereAnnonce)) {
 						//Sélection d'une annonce à commenter
-						if (empty($current_url_annonce) and !isset($_POST['preview'])) {
+						if(empty($current_url_annonce) and !isset($_POST['preview'])) {
 							echo('<p>Sélectionnez une annonce à commenter :</p>');
 
-							$dateQuery = format_Date();
-							$reponse = $bdd->query('SELECT id, price,'.$dateQuery.', auteur, lieu FROM annonces');
-
-							echo('<form action="#" method="post">');
-							echo ('<select name="annonce">');
-
-							while($annonces=$reponse->fetch()) {
-								echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].'€</option>');		
-							}
-							echo('</select>');
-							echo('<input type="submit" value="Valider" /></form>');
+							select_annonce();
 						}
 
 						//Création du commentaire

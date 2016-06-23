@@ -1,6 +1,6 @@
 <?php
 define('IN_PHPBB', true);
-$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
+$phpbb_root_path =(defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include($phpbb_root_path . 'common.' . $phpEx);
 global $user, $auth, $phpbb_root_path, $phpEx;
@@ -24,7 +24,7 @@ function include_Content($where) {
 		break;
 
 		case 'bottom':
-			include ('footer.php');
+			include('footer.php');
 		break;
 
 		default:
@@ -67,4 +67,20 @@ function printReverse($whichpage, $criteria) {
 	}
 	
 	else {echo('Erreur');}
-}?>
+}
+
+function select_annonce() {
+	global $bdd;
+	$reponse = $bdd->query('SELECT id, price,'.format_Date().', auteur, lieu FROM annonces');
+	
+	echo('<form action="#" method="post">');
+	echo('<select name="annonce">');
+	
+	while($annonces=$reponse->fetch()) {
+		echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].'€</option>');
+	}
+	$reponse->closeCursor();
+	echo('</select>');
+	echo('<input type="submit" value="Valider" /></form>');
+}
+?>

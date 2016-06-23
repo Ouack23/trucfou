@@ -10,7 +10,7 @@
 		<section id="main">	
 			<h1>Nouvelle annonce</h1>
 			<?php
-			if (! $user->data['is_registered']) include('include/not_registered.php');
+			if(! $user->data['is_registered']) include('include/not_registered.php');
 
 			else { ?>
 				

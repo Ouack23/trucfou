@@ -3,7 +3,7 @@ if(!$user->data['is_registered']) include('include/not_registered.php');
 
 else {
 	secureGet();
-	if(!isset($_GET['annonce'])) { ?>
+	if(!isset($_GET['annonce']) && !isset($_POST['annonce'])) { ?>
 	<h1>Liste des annonces</h1>
 	
 	<div id="table">
@@ -20,10 +20,11 @@ else {
 				<td>Commentaires</td>
 			</tr>
 			<?php
-			$dateQuery = format_Date();
 	
-			if($current_url_reverse == "false") $reponse_query = 'SELECT id, '.$dateQuery.', auteur, lieu, superf_h, superf_t, price, link FROM annonces ORDER BY '.$current_url_order.'';
-			else 								$reponse_query = 'SELECT id, '.$dateQuery.', auteur, lieu, superf_h, superf_t, price, link FROM annonces ORDER BY '.$current_url_order.' DESC';
+			if($current_url_reverse == "false")
+				$reponse_query = 'SELECT id, '.format_Date().', auteur, lieu, superf_h, superf_t, price, link FROM annonces ORDER BY '.$current_url_order.'';
+			else
+				$reponse_query = 'SELECT id, '.format_Date().', auteur, lieu, superf_h, superf_t, price, link FROM annonces ORDER BY '.$current_url_order.' DESC';
 	
 			$reponse = $bdd->query($reponse_query);
 	
@@ -60,10 +61,10 @@ else {
 					<td>Commentaires</td>
 				</tr>
 				<?php
-				$dateQuery = format_Date();
-				$reponse_query = 'SELECT id, '.$dateQuery.', auteur, lieu, superf_h, superf_t, price, link FROM annonces';
+				$reponse_query = 'SELECT id, '.format_Date().', auteur, lieu, superf_h, superf_t, price, link FROM annonces WHERE id = '.$current_url_annonce.'';
 				$reponse = $bdd->query($reponse_query);
 				$donnees = $reponse->fetch();
+				
 				echo('<tr><td class="left">'.$donnees['id'].'</td>');
 					echo('<td>'.$donnees['date'].'</td>');
 					echo('<td>'.$donnees['auteur'].'</td>');

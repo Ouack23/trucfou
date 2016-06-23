@@ -7,14 +7,14 @@ function insertBalise(balise) {
 	var direct = ["b", "code", "i", "img", "noparse", "quote", "s", "table", "td", "tr", "u", "url"];
 	var isDirect = false;
 	
-	for (i=0; i<direct.length; i++) {
+	for(i=0; i<direct.length; i++) {
 		if(balise === direct[i]) {
 			textArea.value = before_txt + "[" + balise + "]" + selected_txt + "[/" + balise + "]" + after_txt;
 			isDirect = true;
 		}
 	}
 	
-	if (!(isDirect)) {
+	if(!(isDirect)) {
 		switch(balise) {
 			case "size":
 				textArea.value = before_txt + "[size=30]" + selected_txt + "[/size]" + after_txt;
