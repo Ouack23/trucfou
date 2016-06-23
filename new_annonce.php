@@ -9,16 +9,15 @@ include('include/config.php');
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<?php include_Content('top'); ?>
+		<?php include_content('top'); ?>
 		<section id="main">	
-			<h1>Nouvelle annonce</h1>
+			<h1>Poster un nouvelle annonce</h1>
 			<?php
-			echo('<h1>Poster une nouvelle annonce</h1>');
 			
 			if(! $user->data['is_registered']) include('include/not_registered.php');
 
 			else {
-				secureGet();
+				secure_get();
 				
 				//Si on a pas encore rempli le formulaire
 				if(!isset($_POST['Valider'])) print_form_new_annonce(['', '', '', '', '', '', '']);
@@ -39,13 +38,14 @@ include('include/config.php');
 					if($superf_h < 0) $superf_h = 0;
 					if($superf_t < 0) $superf_t = 0;
 					if($time < 0) $time = 0;
+					if($price < 0.0) $price = 0.0;
 					
 					$param_array = ['lieu' => $lieu, 'superf_h' => $superf_h, 'superf_t' => $superf_t, 'link' => $link, 'habit' => $habit, 'time' => $time, 'price' => $price];
 					
 					$print_form = false;
 					
 					//Si tous les champs sont remplis
-					if(!empty($lieu) && $superf_h != 0 && $superf_t != 0 && !empty($link) && $habit != 0 && $time != 0 && !empty($price)) {
+					if(!empty($lieu) && $superf_h != 0 && $superf_t != 0 && !empty($link) && $habit != 0 && $time != 0 && $price != 0) {
 						//Vérification du lien
 						if(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $link)) {
 							//Vérification de time, superf_h, superf_t et price
@@ -111,6 +111,6 @@ include('include/config.php');
 				}
 			} ?>
 		</section>
-		<?php include_Content('bottom'); ?>
+		<?php include_content('bottom'); ?>
 	</body>
 </html>

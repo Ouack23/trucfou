@@ -9,7 +9,7 @@ include("include/config.php");?>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<?php include_Content("top");
+		<?php include_content("top");
 		echo('<section id="main">');
 			echo('<h1>Liste des comptes-rendus</h1>');
 			
@@ -24,15 +24,12 @@ include("include/config.php");?>
 						<td>Lien</td>
 					</tr>
 					<?php
-					$i = 1;
-					$dateQuery = format_Date("date", "date");
-					$reponse = $bdd->query('SELECT id, '.$dateQuery.' FROM CR'); 
+					$reponse = $bdd->query('SELECT id, '.format_date().' FROM CR'); 
 
 					while($donnees = $reponse->fetch()) {
-						echo('<tr><td class="left">'.$i.'</td>');
+						echo('<tr><td class="left">'.$donnees['id'].'</td>');
 						echo('<td>'.$donnees['date'].'</td>');
-						echo('<td><a href="'.append_sid("?num=").''.$i.'">Visualiser</a></tr>');
-						$i ++;
+						echo('<td><a href="'.append_sid('listeCR.php', 'num='.$donnees['id'].'').'">Visualiser</a></tr>');
 					}
 					$reponse->closeCursor(); 
 					?>
@@ -42,6 +39,6 @@ include("include/config.php");?>
 			}
 		if(isset($_GET['num'])) {include('include/CR.php');}
 		echo('</section>');
-		include_Content("bottom");?>
+		include_content("bottom");?>
 	</body>
 </html>

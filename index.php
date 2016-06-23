@@ -8,7 +8,7 @@ include('include/functions.php');
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<?php include_Content('top'); ?>
+		<?php include_content('top'); ?>
 		<section id="main">
 			<h1>Accueil du site</h1>
 			<p>Yo, je te présente le site internet dédié à notre recherche de Maison / Ferme / Grange / etc ... Si tu t'inscris, tu vas pouvoir
@@ -19,6 +19,6 @@ include('include/functions.php');
 			<p>Si tu te sens un peu trop babos et tu cherches quelqu'un qui te remette à ta place, tu peux écouter la musique ci-dessous.</p>
 			<iframe width="420" height="315" src="https://www.youtube.com/embed/Rq3SYvzm6c8"></iframe>
 		</section>
-		<?php include_Content('bottom'); ?>
+		<?php include_content('bottom'); ?>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 if(! $user->data['is_registered']) include('include/not_registered.php');
 
 else {
-	secureGet();
+	secure_get();
 	//Tri par date par défaut
 	if(empty($current_url_order)) $current_url_order = 'date';
 	
@@ -17,17 +17,18 @@ else {
 				<table>
 					<tr class="top"><td class="left" colspan="2">Tri</td></tr>
 					<tr>
-						<td class="left"><a href="?annonce=<?php echo($current_url_annonce); ?>&orderBy=date&reverse=<?php printReverse('comments', 'date'); ?>">Date</a></td>
-						<td><a href="?annonce=<?php echo($current_url_annonce); ?>&orderBy=auteur&reverse=<?php printReverse('comments', 'auteur'); ?>">Auteur</a></td>
+						<?php
+						echo('<td class="left"><a href="?annonce='.$current_url_annonce.'&orderBy=date&reverse='.print_reverse('comments', 'date').'">Date</a></td>');
+						echo('<td><a href="?annonce='.$current_url_annonce.'&orderBy=auteur&reverse='.print_reverse('comments', 'auteur').'">Auteur</a></td>'); ?>
 					</tr>
 				</table>
 			</div>
 			
 			<?php
 			  if($current_url_reverse == 'false')
-			  	$reponse_query = 'SELECT id, annonce, '.format_Date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
+			  	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
 			  else
-			  	$reponse_query = 'SELECT id, annonce, '.format_Date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.' DESC';
+			  	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.' DESC';
 			  
 			  $reponse=$bdd->query($reponse_query);
 			  

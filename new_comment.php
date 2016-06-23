@@ -11,7 +11,7 @@ include('include/config.php');?>
 		<script src="include/BBcode.js"></script>
 	</head>
 	<body>
-		<?php include_Content('top');
+		<?php include_content('top');
 		echo('<section id="main">');	
 			echo('<h1>Écrire un nouveau commentaire</h1>');
 			
@@ -21,7 +21,7 @@ include('include/config.php');?>
 				$reponse = $bdd->query('SELECT * FROM annonces');
 				$isThereAnnonce = $reponse->fetch();
 				
-				secureGet();
+				secure_get();
 				
 				//Si on a pas encore rempli le formulaire
 				if(!isset($_POST['submit'])) {
@@ -61,7 +61,7 @@ include('include/config.php');?>
 							<?php
 							if(isset($_POST['preview'])) {
 								echo('<div id="invisiblePreview" style="display: none;">');
-								echo(htmlspecialchars($request->variable('comment', '')));
+								echo($request->variable('comment', ''));
 								echo('</div>');
 								echo('<p id="visualPreview"></p>');
 								echo('<script>doPreview();</script>');
@@ -84,6 +84,6 @@ include('include/config.php');?>
 				}
 			}
 		echo('</section>');
-		include_Content('bottom'); ?>
+		include_content('bottom'); ?>
 	</body>
 </html>

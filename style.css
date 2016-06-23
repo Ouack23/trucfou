@@ -48,7 +48,7 @@ nav ul li a {
 #login label {
 	float: left;
 	width: 100px;
-	margin-top: 15px;
+	margin-top: 5px;
 }
 
 #new_announce label {
@@ -56,8 +56,12 @@ nav ul li a {
 	width: 290px;
 	margin-top: 15px;
 }
-#login input, #new_announce input {
 
+#login input {
+	margin-top: 5px;
+}
+
+#new_announce input {
 	margin-top: 15px;
 }
 
@@ -65,9 +69,13 @@ nav ul li a {
 	width: 200px;
 }
 
+#new_announce select {
+	margin-top: 15px;
+}
+
 #main {
 	border: 1px solid grey;
-	margin-right: 300px;
+	margin-right: 260px;
 	margin-top: 50px;
 	padding: 20px;
 	min-height: 650px;
@@ -146,4 +154,24 @@ textarea {
 
 .success {
 	color: green;
+}
+
+.habit1 {
+	background-color: red;
+}
+
+.habit2 {
+	background-color: orange;
+}
+
+.habit3 {
+	background-color: gold;
+}
+
+.habit4 {
+	background-color: limegreen;
+}
+
+.habit5 {
+	background-color: greenyellow;
 }

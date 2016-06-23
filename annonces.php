@@ -9,10 +9,10 @@ include("include/config.php");?>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<?php include_Content("top"); ?>
+		<?php include_content("top"); ?>
 		<section id="main">
 			<?php include('include/content_annonces.php'); ?>
 		</section>
-		<?php include_Content("bottom"); ?>
+		<?php include_content("bottom"); ?>
 	</body>
 </html>
