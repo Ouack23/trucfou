@@ -48,11 +48,21 @@ nav ul li a {
 #login label {
 	float: left;
 	width: 100px;
-	margin-top: 5px;
+	margin-top: 15px;
 }
 
-#login input {
-	margin-top: 5px;
+#new_announce label {
+	float: left;
+	width: 290px;
+	margin-top: 15px;
+}
+#login input, #new_announce input {
+
+	margin-top: 15px;
+}
+
+#new_announce input {
+	width: 200px;
 }
 
 #main {
@@ -128,4 +138,12 @@ textarea {
 	width: 80%;
 	height: 60%;
 	margin: auto;
+}
+
+.error {
+	color: red;
+}
+
+.success {
+	color: green;
 }

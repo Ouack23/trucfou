@@ -35,7 +35,7 @@ else {
 				echo('<td>'.$donnees['lieu'].'</td>');
 				echo('<td>'.$donnees['superf_h'].'</td>');
 				echo('<td>'.$donnees['superf_t'].'</td>');
-				echo('<td>'.$donnees['price'].' €</td>');
+				echo('<td>'.$donnees['price'].' k€</td>');
 				echo('<td><a href='.$donnees['link'].'>Annonce</a></td>');
 				echo('<td><a href=comments.php?annonce='.$donnees['id'].'>Commentaires</a></td></tr>');
 			}
