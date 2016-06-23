@@ -9,10 +9,12 @@ include("include/config.php");?>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<?php include_Content("top"); ?>
-		<section id="main">
-			<h1>Liste des comptes-rendus</h1>
-			<?php if (! $user->data['is_registered']) include('include/not_registered.php');
+		<?php include_Content("top");
+		echo('<section id="main">');
+			echo('<h1>Liste des comptes-rendus</h1>');
+			
+			if (! $user->data['is_registered']) include('include/not_registered.php');
+			
 			else { ?>
 			<div id="table">
 				<table>

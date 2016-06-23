@@ -11,7 +11,6 @@ include("include/config.php");?>
 	<body>
 		<?php include_Content("top"); ?>
 		<section id="main">
-			<h1>Liste des annonces</h1>
 			<?php include('include/content_annonces.php'); ?>
 		</section>
 		<?php include_Content("bottom"); ?>

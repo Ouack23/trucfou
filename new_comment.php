@@ -11,10 +11,10 @@ include('include/config.php');?>
 		<script src="include/BBcode.js"></script>
 	</head>
 	<body>
-		<?php include_Content('top'); ?>
-		<section id="main">	
-			<h1>Écrire un nouveau commentaire</h1>
-			<?php
+		<?php include_Content('top');
+		echo('<section id="main">');	
+			echo('<h1>Écrire un nouveau commentaire</h1>');
+			
 			if (! $user->data['is_registered']) include('include/not_registered.php');
 
 			else {
@@ -92,8 +92,8 @@ include('include/config.php');?>
 					echo('<h3>Succès !</h3>');
 					echo('<p>Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url_annonce.'>ici</a></p>');
 				}
-			}?>
-		</section>
-		<?php include_Content('bottom'); ?>
+			}
+		echo('</section>');
+		include_Content('bottom'); ?>
 	</body>
 </html>

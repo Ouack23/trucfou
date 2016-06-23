@@ -17,7 +17,7 @@ include ('include/functions.php');
 				<a href="<?php echo(append_sid('listeCR.php')); ?>">lire</a> les comptes-rendus de réunion, et poster des messages sur le
 				<a href="<?php echo(append_sid('forum/index.php')); ?>">Forum</a>. N'hésite plus, rejoins-nous, on est bien.</p>
 			<p>Si tu te sens un peu trop babos et tu cherches quelqu'un qui te remette à ta place, tu peux écouter la musique ci-dessous.</p>
-			<iframe width="420" height="315" src="https://www.youtube.com/embed/Rq3SYvzm6c8" frameborder="0" allowfullscreen></iframe>
+			<iframe width="420" height="315" src="https://www.youtube.com/embed/Rq3SYvzm6c8"></iframe>
 		</section>
 		<?php include_Content('bottom'); ?>
 	</body>
