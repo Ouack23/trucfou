@@ -27,11 +27,10 @@ else {
 				<td>Commentaires</td>
 			</tr>
 			<?php
-	
-			if($current_url_reverse == "false")
-				$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url_order.'';
-			else
-				$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url_order.' DESC';
+			$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url_order.'';
+			
+			if($current_url_reverse == "true")
+				$reponse_query .= ' DESC';
 	
 			$reponse = $bdd->query($reponse_query);
 	

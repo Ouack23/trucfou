@@ -25,19 +25,20 @@ else {
 			</div>
 			
 			<?php
-			  if($current_url_reverse == 'false')
-			  	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
-			  else
-			  	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.' DESC';
+			$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$current_url_annonce.' ORDER BY '.$current_url_order.'';
+			
+			if($current_url_reverse == 'true')
+				$reponse_query .= ' DESC';
 			  
-			  $reponse=$bdd->query($reponse_query);
-			  
-			  while($donnees = $reponse->fetch()) {
-				  echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
-				  echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
-				  echo('<p id="content">'.$donnees['comment'].'</p>');
-			  }
-			  $reponse->closeCursor(); 
+			$reponse=$bdd->query($reponse_query);
+			
+			while($donnees = $reponse->fetch()) {
+				echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
+				echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
+				echo('<p id="content">'.$donnees['comment'].'</p>');
+			}
+			
+			$reponse->closeCursor(); 
 		echo('</div>');
 	}
 	//On demande la sélection d'une annonce
