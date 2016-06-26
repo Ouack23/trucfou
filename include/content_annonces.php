@@ -89,7 +89,8 @@ else {
 					echo('<td>'.$donnees['superf_h'].'</td>');
 					echo('<td>'.$donnees['superf_t'].'</td>');
 					echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
-					echo('<td>'.$hours.'h'.$minutes.'</td>');
+					if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+					else echo('<td>'.$hours.'h'.$minutes.'</td>');
 					echo('<td>'.$donnees['price'].' k€</td>');
 					echo('<td><a href='.$donnees['link'].'>Annonce</a></td>');
 					

@@ -11,10 +11,10 @@ include('include/config.php');
 	<body>
 		<?php include_content('top'); ?>
 		<section id="main">	
-			<h1>Poster un nouvelle annonce</h1>
+			<h1>Poster une nouvelle annonce</h1>
 			<?php
 			
-			if(! $user->data['is_registered']) include('include/not_registered.php');
+			if(!$user->data['is_registered']) include('include/not_registered.php');
 
 			else {
 				secure_get();
