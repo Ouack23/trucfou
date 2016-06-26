@@ -4,4 +4,4 @@ include/config.php
 .project
 .buildpath
 .settings/
-phpmyadmin/
+/phpmyadmin/
