@@ -1,7 +1,5 @@
 ﻿<?php
-if(! $user->data['is_registered']){
-	include('include/not_registered.php');
-}
+if(! $user->data['is_registered']) include('include/not_registered.php');
 
 else {
 	$num = $request->variable('num', 0, true);

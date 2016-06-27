@@ -8,6 +8,7 @@
 					echo('<li><a href="'.append_sid('listeCR.php').'">Comptes-Rendus</a></li>');
 					echo('<li><a href="'.append_sid('annonces.php').'">Annonces</a></li>');
 					echo('<li><a href="'.append_sid('comments.php').'">Commentaires</a></li>');
+					echo('<li><a href="'.append_sid('user.php').'">Membres</a></li>');
 				}
 			?>
 		</ul>

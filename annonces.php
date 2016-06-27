@@ -11,7 +11,10 @@ include("include/config.php");?>
 	<body>
 		<?php include_content("top"); ?>
 		<section id="main">
-			<?php include('include/content_annonces.php'); ?>
+			<?php
+			if(! $user->data['is_registered']) include('include/not_registered.php');
+			else content_annonce('annonces.php');
+			?>
 		</section>
 		<?php include_content("bottom"); ?>
 	</body>

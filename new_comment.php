@@ -28,7 +28,7 @@ include('include/config.php');?>
 					//Vérification de l'existence d'une annonce au moins
 					if(!empty($isThereAnnonce)) {
 						//Sélection d'une annonce à commenter
-						if(empty($current_url_annonce) and !isset($_POST['preview'])) {
+						if(empty($current_url['annonce']) and !isset($_POST['preview'])) {
 							echo('<p>Sélectionnez une annonce à commenter :</p>');
 
 							select_annonce();
@@ -50,12 +50,12 @@ include('include/config.php');?>
 							</div>
 							
 							<form action="#" method="post">
-								<p>Commentaire de l'annonce n°<?php echo($current_url_annonce);?> : <br /></p>
+								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
 								<textarea name="comment"></textarea>
 								<div id="preview">
 									<input type="submit" name="preview" value="Prévisualiser" /><br />
 									<input type="submit" name="submit" value="Valider" />
-									<input type="text" name="annonce" value="<?php echo($current_url_annonce); ?>" style="display: none;" />
+									<input type="text" name="annonce" value="<?php echo($current_url['annonce']); ?>" style="display: none;" />
 								</div>
 							</form>
 							<?php
@@ -75,12 +75,12 @@ include('include/config.php');?>
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
 					$req->execute(array(
-						'annonce' => $current_url_annonce,
+						'annonce' => $current_url['annonce'],
 						'auteur' => $user->data['username'],
 						'comment' => $request->variable('comment', '')
 						));
 					echo('<h3>Succès !</h3>');
-					echo('<p>Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url_annonce.'>ici</a></p>');
+					echo('<p>Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
 				}
 			}
 		echo('</section>');

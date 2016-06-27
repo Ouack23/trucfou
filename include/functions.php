@@ -15,7 +15,7 @@ function format_date() {
 }
 
 function include_content($where) {
-	global $phpbb_root_path, $trucFou_path, $phpEx, $db, $config, $user, $auth, $cache, $template, $request, $session;
+	global $phpbb_root_path, $phpEx, $config, $user, $auth, $cache, $template, $request, $session;
 	switch($where) {
 		case 'top':
 			include('include/login.php');
@@ -28,45 +28,60 @@ function include_content($where) {
 		break;
 
 		default:
-			echo('Erreur dans l\'argument de la fonction includeContent');
+			echo('Erreur dans l\'argument de la fonction include_content');
 		break;
 	}
 }
 
 function secure_get() {
-	global $current_url_reverse, $current_url_order, $current_url_annonce, $request;
-	$current_url_reverse = $request->variable('reverse', '');
-	$current_url_order = $request->variable('orderBy', '');
-	$current_url_annonce = $request->variable('annonce', '');
+	global $current_url, $request;
+	
+	$current_url['reverse'] = $request->variable('reverse', 'false');
+	$current_url['order'] = $request->variable('order', 'date');
+	$current_url['orderComments'] = $request->variable('orderComments', 'date');
+	$current_url['reverseComments'] = $request->variable('reverseComments', 'false');
+	$current_url['annonce'] = $request->variable('annonce', 0);
+	$current_url['user'] = $request->variable('user', 0);
+	$current_url['comments'] = $request->variable('comments', 'false');
+	
+	if($current_url['comments'] != 'true' && $current_url['comments'] != 'false') {
+		$current_url['comments'] = 'false';
+	}
 }
 
 function print_reverse($whichpage, $criteria) {
-	global $request, $current_url_reverse, $current_url_order;
+	global $request, $current_url;
 	
 	switch($whichpage) {
 		case "annonces":
 			$possibilities = ['id', 'date', 'auteur', 'lieu', 'superf_h', 'superf_t', 'price', 'habit', 'time'];
+			$orderName = 'order';
+			$reverseName = 'reverse';
 		break;
 
 		case "comments":
 			$possibilities = ['date', 'auteur'];
+			$orderName = 'orderComments';
+			$reverseName = 'reverseComments';
 		break;
 
 		default:
 			$possibilities = '';
+			$orderName = '';
+			$reverseName = '';
 			echo'Erreur';
 		break;
 	}
 	
-	$current_url_reverse = $request->variable('reverse', 'false');
-	$current_url_order = $request->variable('orderBy', 'date');
+	secure_get();
+	
 	$boolArray=['true', 'false'];
 	
-	if(in_array($current_url_reverse, $boolArray) and in_array($current_url_order, $possibilities)) {
-		if($current_url_order==$criteria) {if($current_url_reverse == 'false') return('true'); else return('false');} else return('false');
+	if(in_array($current_url[$reverseName], $boolArray) and in_array($current_url[$orderName], $possibilities)) {
+		if($current_url[$orderName] == $criteria) {if($current_url[$reverseName] == 'false') return('true'); else return('false');} else return('false');
 	}
 	
-	else {echo('Erreur');}
+	else {echo('<p class="error">Erreur : mauvaise URL empêche la bonne exécution de print_reverse() !</p>');}
 }
 
 function select_annonce() {
@@ -139,5 +154,230 @@ function convert_habit($h){
 			return 0;
 		break;
 	}
+}
+
+function get_username($user_id) {
+	global $bdd;
+	
+	$get_username = $bdd->query('SELECT user_id, username FROM phpbb_users WHERE user_id = \''.$user_id.'\'');
+	
+	if($get_username != NULL) {
+		$result = $get_username->fetch();
+		$get_username->closeCursor();
+		return($result['username']);	
+	}
+	else {$get_username->closeCursor(); return('');}
+}
+
+function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url) {
+	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+
+	foreach($sort_columns_array as $column_bdd => $column_name) {
+		if($column_bdd == 'id') echo('<td class="left">');
+		else echo('<td>');
+		echo('<a href="'.append_sid($current_page, 'order='.$column_bdd.'&amp;reverse='.print_reverse('annonces', $column_bdd).'&amp;user='.$current_url['user'].'&amp;comments='.$current_url['comments'].'&amp;annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
+	}
+	
+	foreach($other_columns_array as $other_column_name) {
+		if(empty($sort_columns_array)) echo('<td class="left">');
+		else echo('<td>');
+		echo($other_column_name.'</td>');
+	}
+	
+	echo('</tr>');
+}
+
+function content_annonce($current_page) {
+	global $current_url, $bdd;
+	
+	secure_get();
+	
+	//Si on ne veut pas afficher que les annonces d'un membre
+	if($current_url['user'] == 0){
+		print_all_annonces($current_page, $current_url);
+	}
+	
+	//Si on veut afficher les annonces d'un user particulier
+	else {
+		print_user_annonces($current_page, $current_url);
+	}
+	
+	//Si on veut afficher les commentaires
+	if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true') {
+		print_comments_annonce($current_page, $current_url);
+	}
+}
+
+function print_all_annonces($current_page, $current_url) {
+	global $bdd;
+	
+	$columns_array = ['id' => 'N°',
+			'date' => 'Date',
+			'auteur' => 'Auteur',
+			'lieu' => 'Lieu',
+			'superf_h' => 'Superficie habitable',
+			'superf_t' => 'Superficie du terrain',
+			'habit' => 'État',
+			'time' => 'Temps de trajet',
+			'price' => 'Prix'];
+	
+	print_debut_table($columns_array, ['Lien', 'Commentaires'], 'Liste des Annonces', $current_url);
+	
+	$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url['order'].'';
+	
+	if($current_url['reverse'] == "true") $reponse_query .= ' DESC';
+	
+	$reponse = $bdd->query($reponse_query);
+	
+	while($donnees = $reponse->fetch()) {
+		$minutes = $donnees['time']%60;
+		$hours = ($donnees['time'] - $minutes)/60;
+			
+		echo('<tr><td class="left">'.$donnees['id'].'</td>');
+		echo('<td>'.$donnees['date'].'</td>');
+		echo('<td>'.$donnees['auteur'].'</td>');
+		echo('<td>'.$donnees['lieu'].'</td>');
+		echo('<td>'.$donnees['superf_h'].'</td>');
+		echo('<td>'.$donnees['superf_t'].'</td>');
+		echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+		if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+		else echo('<td>'.$hours.'h'.$minutes.'</td>');
+		echo('<td>'.$donnees['price'].' k€</td>');
+		echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+		echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;comments=true').'">Commentaires</a></td></tr>');
+	}
+	$reponse->closeCursor();
+	
+	echo('</table></div>');
+}
+
+function print_single_annonce($current_page, $current_url) {
+	global $bdd;
+
+	if($current_url['annonce'] != 0) {
+		$columns_array = ['N°', 'Date', 'Auteur', 'Lieu', 'Superficie habitable', 'Superficie du terrain', 'État', 'Temps de trajet', 'Prix', 'Lien'];
+		
+		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url);
+			
+		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces WHERE id = '.$current_url['annonce'].'';
+		$reponse = $bdd->query($reponse_query);
+		$donnees = $reponse->fetch();
+
+		$minutes = $donnees['time']%60;
+		$hours = ($donnees['time'] - $minutes)/60;
+
+		echo('<tr><td class="left">'.$donnees['id'].'</td>');
+		echo('<td>'.$donnees['date'].'</td>');
+		echo('<td>'.$donnees['auteur'].'</td>');
+		echo('<td>'.$donnees['lieu'].'</td>');
+		echo('<td>'.$donnees['superf_h'].'</td>');
+		echo('<td>'.$donnees['superf_t'].'</td>');
+		echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+		if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+		else echo('<td>'.$hours.'h'.$minutes.'</td>');
+		echo('<td>'.$donnees['price'].' k€</td>');
+		echo('<td><a href='.$donnees['link'].'>Annonce</a></td>');
+
+		$reponse->closeCursor();
+
+		echo('</table></div>');
+	}
+}
+
+function print_user_annonces($current_page, $current_url) {
+	global $bdd;
+	
+	$get_username_result = get_username($current_url['user']);
+	
+	if (!empty($get_username_result) && $current_url['comments'] != 'false') {
+		$columns_array = ['id' => 'N°',
+				'date' => 'Date',
+				'auteur' => 'Auteur',
+				'lieu' => 'Lieu',
+				'superf_h' => 'Superficie habitable',
+				'superf_t' => 'Superficie du terrain',
+				'habit' => 'État',
+				'time' => 'Temps de trajet',
+				'price' => 'Prix'];
+	
+		print_debut_table($columns_array, ['Liens', 'Commentaires'], 'Liste des annonces de '.$get_username_result.'', $current_url);
+	
+		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces WHERE auteur = \''.$get_username_result.'\' ORDER BY '.$current_url['order'].'';
+	
+		if($current_url['reverse'] == 'true')
+			$reponse_query .= ' DESC';
+	
+			$reponse = $bdd->query($reponse_query);
+	
+			while($donnees = $reponse->fetch()) {
+				$minutes = $donnees['time']%60;
+				$hours = ($donnees['time'] - $minutes)/60;
+	
+				echo('<tr><td class="left">'.$donnees['id'].'</td>');
+				echo('<td>'.$donnees['date'].'</td>');
+				echo('<td>'.$donnees['auteur'].'</td>');
+				echo('<td>'.$donnees['lieu'].'</td>');
+				echo('<td>'.$donnees['superf_h'].'</td>');
+				echo('<td>'.$donnees['superf_t'].'</td>');
+				echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+				if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+				else echo('<td>'.$hours.'h'.$minutes.'</td>');
+				echo('<td>'.$donnees['price'].' k€</td>');
+				echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+				echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;user='.$current_url['user'].'&amp;comments='.$current_url['comments'].'').'">Commentaires</a></td></tr>');
+			}
+			$reponse->closeCursor();
+				
+			echo('</table></div>');
+	} else echo('<p class="error">Erreur dans content_annonce() : comments ou get_username_result n\'est pas défini. Dis le à Belette !</p>');
+}
+
+function print_comments_annonce($current_page, $current_url) {
+	global $bdd;
+	
+	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
+	
+	if($current_url['reverse'] == 'true')
+		$reponse_query .= ' DESC';
+			
+	$reponse = $bdd->query($reponse_query);
+	$donnees = $reponse->fetch();
+	
+	if($donnees != NULL) {
+		print_single_annonce($current_page, $current_url);
+		
+		$columns_array = ['Date', 'Auteur'];
+		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url);
+
+		echo('<tr><td class="left"><a href="'.append_sid($current_page, 
+				'annonce='.$current_url['annonce'].'&amp;
+				orderComments=date&amp;
+				reverseComments='.print_reverse('comments', 'date').'&amp;
+				reverse='.$current_url['reverse'].'&amp;
+				user='.$current_url['user'].'&amp;
+				comments='.$current_url['comments'].'').'">Date</a></td>');
+		
+		echo('<td><a href="'.append_sid($current_page, 
+				'annonce='.$current_url['annonce'].'&amp;
+				orderComments=auteur&amp;
+				reverseComments='.print_reverse('comments', 'auteur').'&amp;
+				reverse='.$current_url['reverse'].'&amp;
+				user='.$current_url['user'].'&amp;
+				comments='.$current_url['comments'].'').'">Auteur</a></td>');
+		echo('</tr></table></div>');
+		
+		echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
+		echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
+		echo('<p id="content">'.$donnees['comment'].'</p>');
+		
+		while($donnees = $reponse->fetch()) {
+			echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
+			echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
+			echo('<p id="content">'.$donnees['comment'].'</p>');
+		}
+	}
+	
+	else echo('<h1>Pas de commentaire pour cette annonce !</h1>');
+	$reponse->closeCursor();
 }
 ?>

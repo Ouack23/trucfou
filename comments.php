@@ -11,7 +11,21 @@ include("include/config.php");?>
 	<body>
 		<?php include_content("top"); ?>
 		<section id="main">
-			<?php include('include/content_comments.php'); ?>
+			<?php 
+			if(! $user->data['is_registered']) include('include/not_registered.php');
+			else {
+				//On demande la sélection d'une annonce
+				if(empty($current_url['annonce'])) {
+					echo('<h1>Choisissez une annonce pour voir les commentaires correspondants</h1>');
+				
+					select_annonce();
+				}
+				
+				else {
+					//content_comments('comments.php');
+				}
+			}
+			?>
 		</section>
 		<?php include_content("bottom"); ?>
 	</body>
