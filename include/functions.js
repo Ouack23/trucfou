@@ -41,3 +41,7 @@ function doPreview() {
 	output.innerHTML = result.html;
 	textArea.value = myData;
 }
+
+$(function() {
+    $( "#datepicker" ).datepicker();
+  });

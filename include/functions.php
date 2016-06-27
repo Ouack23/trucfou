@@ -363,6 +363,65 @@ function print_comments_annonce($current_page, $current_url) {
 }
 
 function print_sort_form($current_page, $current_url) {
+	global $bdd;
+	$list_date_query = $bdd->query('SELECT * FROM annonces WHERE date = ');
 	
+	echo('<form action="#" method="post" id="form_sort_annonce">');
+	echo('<p><select name="sort_date">');
+	echo('<option value="before">Avant</option>');
+	echo('<option value="after">Après</option>');
+	echo('</select>');
+	echo('<input type="text" name="value_date" id="datepicker" />');
+	
+	echo('<label for="sort_auteur">Auteur : </label>');
+	echo('<select name="sort_auteur">');
+	echo('</select>');
+	
+	echo('<label for="sort_lieu">Lieu : </lieu>');
+	echo('<select name="sort_lieu">');
+	echo('</select>');
+	
+	echo('<label for="sort_superf_h">Superficie habitable : </label>');
+	echo('<select name="sort_superf_h">');
+	echo('<option value="sup">Supérieure à</option>');
+	echo('<option value="inf">Inférieure à</option>');
+	echo('</select>');
+	echo('<input type="range" name="value_superf_h" id="value_superf_h" min="0" max="65535" step="50" value="0" oninput="print_value_superf_h.value = value_superf_h.value;" />');
+	echo('<output name="print_value_superf_h" id="print_value_superf_h">0</output>');
+	
+	echo('<label for="sort_superf_t">Superficie du terrain : </label>');
+	echo('<select name="sort_superf_t">');
+	echo('<option value="sup">Supérieure à</option>');
+	echo('<option value="inf">Inférieure à</option>');
+	echo('</select>');
+	echo('<input type="range" name="value_superf_t" id="value_superf_t" min="0" max="65535" step="50" value="0" oninput="print_value_superf_t.value = value_superf_t.value;" />');
+	echo('<output name="print_value_superf_t" id="print_value_superf_t">0</output>');
+	
+	echo('<label for="sort_habit">État : </label>');
+	echo('<select name="sort_habit">');
+	echo('<option value="sup">Plus de</option>');
+	echo('<option value="inf">Moins de</option>');
+	echo('</select>');
+	echo('<input type="range" name="value_habit" id="value_habit" min="1" max="5" step="1" value="1" oninput="print_value_habit.value = value_habit.value;" />');
+	echo('<output name="print_value_habit" id="print_value_habit">1</output>');
+	
+	echo('<label for="sort_time">Temps de trajet : </label>');
+	echo('<select name="sort_time">');
+	echo('<option value="inf">Inférieur à</option>');
+	echo('<option value="sup">Supérieur à</option>');
+	echo('</select>');
+	echo('<input type="range" name="value_time" id="value_super_t" min="0" max="255" step="10" value="0" oninput="print_value_time.value = value_time.value;" />');
+	echo('<output name="print_value_time" id="print_value_time">0</output>');
+	
+	echo('<label for="sort_price">Prix</label>');
+	echo('<select name="sort_price">');
+	echo('<option value="inf">Inférieur à</option>');
+	echo('<option value="sup">Supérieur à</option>');
+	echo('</select>');
+	echo('<input type="range" name="value_price" id="value_price" min="0" max="999" step="10" value="0" oninput="print_value_price.value = value_price.value;" />');
+	echo('<output name="print_value_price" id="print_value_price">0</output>');
+	
+	echo('<input type="submit" value="Valider" /></p>');
+	echo('</form>');
 }
 ?>

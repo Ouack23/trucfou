@@ -175,3 +175,55 @@ textarea {
 .habit5 {
 	background-color: greenyellow;
 }
+
+input[type=range]{
+    border: 1px solid white; 
+    width: 100px;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+}
+
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}
+
+output {
+	display: inline-block;
+	width: 50px;
+	font-size: 80%;
+}
+
+#form_sort_annonce {
+	margin: auto;
+	display: block;
+	width: 1250px;
+	text-align: center;
+}
+
+#form_sort_annonce label {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#form_sort_annonce input[type=submit] {
+	font-weight: bold;
+}

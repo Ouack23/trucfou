@@ -7,6 +7,10 @@ include("include/config.php");?>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - annonces</title>
 		<link rel="stylesheet" href="style.css" />
+		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script src="include/functions.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	</head>
 	<body>
 		<?php include_content("top"); ?>
