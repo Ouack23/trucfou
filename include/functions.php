@@ -49,7 +49,7 @@ function secure_get() {
 	}
 }
 
-function print_reverse($whichpage, $criteria) {
+function print_reverse($whichpage, $criteria, $current_url) {
 	global $request, $current_url;
 	
 	switch($whichpage) {
@@ -72,8 +72,6 @@ function print_reverse($whichpage, $criteria) {
 			echo'Erreur';
 		break;
 	}
-	
-	secure_get();
 	
 	$boolArray=['true', 'false'];
 	
@@ -169,17 +167,36 @@ function get_username($user_id) {
 	else {$get_username->closeCursor(); return('');}
 }
 
-function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url) {
+function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $isAnnonce) {
 	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
-
+	$isFirst = true;
+	
 	foreach($sort_columns_array as $column_bdd => $column_name) {
-		if($column_bdd == 'id') echo('<td class="left">');
+		if($isFirst) {
+			echo('<td class="left">');
+			$isFirst = false;
+		}
 		else echo('<td>');
-		echo('<a href="'.append_sid($current_page, 'order='.$column_bdd.'&amp;reverse='.print_reverse('annonces', $column_bdd).'&amp;user='.$current_url['user'].'&amp;comments='.$current_url['comments'].'&amp;annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
+		
+		if($isAnnonce) echo('<a href="'.append_sid($current_page, 'order='.$column_bdd.'&amp;
+																reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;
+																reverseComments='.$current_url['reverseComments'].'&amp;
+																orderComments='.$current_url['orderComments'].'&amp;
+																user='.$current_url['user'].'&amp;
+																comments='.$current_url['comments'].'&amp;
+																annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
+		
+		else echo('<a href="'.append_sid($current_page, 'order='.$current_url['order'].'&amp;
+														reverse='.$current_url['reverse'].'&amp;
+														reverseComments='.print_reverse('comments', $column_bdd, $current_url).'&amp;
+														orderComments='.$column_bdd.'&amp;
+														user='.$current_url['user'].'&amp;
+														comments='.$current_url['comments'].'&amp;
+														annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
 	}
 	
 	foreach($other_columns_array as $other_column_name) {
-		if(empty($sort_columns_array)) echo('<td class="left">');
+		if($isFirst) echo('<td class="left">');
 		else echo('<td>');
 		echo($other_column_name.'</td>');
 	}
@@ -187,10 +204,10 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	echo('</tr>');
 }
 
-function content_annonce($current_page) {
-	global $current_url, $bdd;
+function content_annonce($current_page, $current_url) {
+	global $bdd;
 	
-	secure_get();
+	print_sort_form($current_page, $current_url);
 	
 	//Si on ne veut pas afficher que les annonces d'un membre
 	if($current_url['user'] == 0){
@@ -221,7 +238,7 @@ function print_all_annonces($current_page, $current_url) {
 			'time' => 'Temps de trajet',
 			'price' => 'Prix'];
 	
-	print_debut_table($columns_array, ['Lien', 'Commentaires'], 'Liste des Annonces', $current_url);
+	print_debut_table($columns_array, ['Lien', 'Commentaires'], 'Liste des Annonces', $current_url, true);
 	
 	$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url['order'].'';
 	
@@ -257,7 +274,7 @@ function print_single_annonce($current_page, $current_url) {
 	if($current_url['annonce'] != 0) {
 		$columns_array = ['N°', 'Date', 'Auteur', 'Lieu', 'Superficie habitable', 'Superficie du terrain', 'État', 'Temps de trajet', 'Prix', 'Lien'];
 		
-		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url);
+		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, true);
 			
 		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces WHERE id = '.$current_url['annonce'].'';
 		$reponse = $bdd->query($reponse_query);
@@ -300,7 +317,7 @@ function print_user_annonces($current_page, $current_url) {
 				'time' => 'Temps de trajet',
 				'price' => 'Prix'];
 	
-		print_debut_table($columns_array, ['Liens', 'Commentaires'], 'Liste des annonces de '.$get_username_result.'', $current_url);
+		print_debut_table($columns_array, ['Liens', 'Commentaires'], 'Liste des annonces de '.$get_username_result.'', $current_url, true);
 	
 		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces WHERE auteur = \''.$get_username_result.'\' ORDER BY '.$current_url['order'].'';
 	
@@ -346,24 +363,9 @@ function print_comments_annonce($current_page, $current_url) {
 	if($donnees != NULL) {
 		print_single_annonce($current_page, $current_url);
 		
-		$columns_array = ['Date', 'Auteur'];
-		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url);
-
-		echo('<tr><td class="left"><a href="'.append_sid($current_page, 
-				'annonce='.$current_url['annonce'].'&amp;
-				orderComments=date&amp;
-				reverseComments='.print_reverse('comments', 'date').'&amp;
-				reverse='.$current_url['reverse'].'&amp;
-				user='.$current_url['user'].'&amp;
-				comments='.$current_url['comments'].'').'">Date</a></td>');
+		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
 		
-		echo('<td><a href="'.append_sid($current_page, 
-				'annonce='.$current_url['annonce'].'&amp;
-				orderComments=auteur&amp;
-				reverseComments='.print_reverse('comments', 'auteur').'&amp;
-				reverse='.$current_url['reverse'].'&amp;
-				user='.$current_url['user'].'&amp;
-				comments='.$current_url['comments'].'').'">Auteur</a></td>');
+		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, false);
 		echo('</tr></table></div>');
 		
 		echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
@@ -379,5 +381,9 @@ function print_comments_annonce($current_page, $current_url) {
 	
 	else echo('<h1>Pas de commentaire pour cette annonce !</h1>');
 	$reponse->closeCursor();
+}
+
+function print_sort_form($current_page, $current_url) {
+	
 }
 ?>

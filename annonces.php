@@ -13,7 +13,10 @@ include("include/config.php");?>
 		<section id="main">
 			<?php
 			if(! $user->data['is_registered']) include('include/not_registered.php');
-			else content_annonce('annonces.php');
+			else {
+				secure_get();
+				content_annonce('annonces.php', $current_url);
+			}
 			?>
 		</section>
 		<?php include_content("bottom"); ?>
