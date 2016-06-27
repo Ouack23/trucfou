@@ -204,27 +204,6 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	echo('</tr>');
 }
 
-function content_annonce($current_page, $current_url) {
-	global $bdd;
-	
-	print_sort_form($current_page, $current_url);
-	
-	//Si on ne veut pas afficher que les annonces d'un membre
-	if($current_url['user'] == 0){
-		print_all_annonces($current_page, $current_url);
-	}
-	
-	//Si on veut afficher les annonces d'un user particulier
-	else {
-		print_user_annonces($current_page, $current_url);
-	}
-	
-	//Si on veut afficher les commentaires
-	if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true') {
-		print_comments_annonce($current_page, $current_url);
-	}
-}
-
 function print_all_annonces($current_page, $current_url) {
 	global $bdd;
 	

@@ -12,12 +12,28 @@ include("include/config.php");?>
 		<?php include_content("top"); ?>
 		<section id="main">
 			<?php
-			if(! $user->data['is_registered']) include('include/not_registered.php');
+			if(!$user->data['is_registered']) include('include/not_registered.php');
+			
 			else {
 				secure_get();
-				content_annonce('annonces.php', $current_url);
-			}
-			?>
+				
+				print_sort_form($current_page, $current_url);
+				
+				//Si on ne veut pas afficher que les annonces d'un membre
+				if($current_url['user'] == 0){
+					print_all_annonces($current_page, $current_url);
+				}
+				
+				//Si on veut afficher les annonces d'un user particulier
+				else {
+					print_user_annonces($current_page, $current_url);
+				}
+				
+				//Si on veut afficher les commentaires
+				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true') {
+					print_comments_annonce($current_page, $current_url);
+				}
+			} ?>
 		</section>
 		<?php include_content("bottom"); ?>
 	</body>
