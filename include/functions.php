@@ -372,7 +372,7 @@ function print_sort_form($current_page, $current_url) {
 	echo('<option value="after">Après</option>');
 	echo('<option value="before">Avant</option>');
 	echo('</select>');
-	echo('<input type="text" name="value_date" id="datepicker" value="01/01/2016"/>');
+	echo('<input type="text" name="value_date" id="datepicker" value="01/06/2016"/>');
 	
 	echo('<label for="sort_auteur">Auteur</label>');
 	echo('<select name="sort_auteur">');

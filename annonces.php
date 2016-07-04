@@ -20,6 +20,7 @@ include("include/config.php");?>
 			
 			else {
 				secure_get();
+				$current_page = 'annonces.php';
 				
 				print_sort_form($current_page, $current_url);
 				
