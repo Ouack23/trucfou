@@ -364,64 +364,72 @@ function print_comments_annonce($current_page, $current_url) {
 
 function print_sort_form($current_page, $current_url) {
 	global $bdd;
-	$list_date_query = $bdd->query('SELECT * FROM annonces WHERE date = ');
+	
+	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
 	echo('<form action="#" method="post" id="form_sort_annonce">');
-	echo('<p><select name="sort_date">');
-	echo('<option value="before">Avant</option>');
+	echo('<p><label for="sort_date">Date</label><select name="sort_date">');
 	echo('<option value="after">Après</option>');
+	echo('<option value="before">Avant</option>');
 	echo('</select>');
-	echo('<input type="text" name="value_date" id="datepicker" />');
+	echo('<input type="text" name="value_date" id="datepicker" value="01/01/2016"/>');
 	
-	echo('<label for="sort_auteur">Auteur : </label>');
+	echo('<label for="sort_auteur">Auteur</label>');
 	echo('<select name="sort_auteur">');
+	print_liste('auteur');
 	echo('</select>');
 	
-	echo('<label for="sort_lieu">Lieu : </lieu>');
+	echo('<label for="sort_lieu">Lieu</label>');
 	echo('<select name="sort_lieu">');
-	echo('</select>');
+	print_liste('lieu');
+	echo('</select><br />');
 	
-	echo('<label for="sort_superf_h">Superficie habitable : </label>');
-	echo('<select name="sort_superf_h">');
-	echo('<option value="sup">Supérieure à</option>');
-	echo('<option value="inf">Inférieure à</option>');
-	echo('</select>');
-	echo('<input type="range" name="value_superf_h" id="value_superf_h" min="0" max="65535" step="50" value="0" oninput="print_value_superf_h.value = value_superf_h.value;" />');
-	echo('<output name="print_value_superf_h" id="print_value_superf_h">0</output>');
+	print_option_select($inf_sup_array, 'superf_h', 'Superficie habitable', 0, 65500, 50);
+	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', 0, 65500, 50);
 	
-	echo('<label for="sort_superf_t">Superficie du terrain : </label>');
-	echo('<select name="sort_superf_t">');
-	echo('<option value="sup">Supérieure à</option>');
-	echo('<option value="inf">Inférieure à</option>');
-	echo('</select>');
-	echo('<input type="range" name="value_superf_t" id="value_superf_t" min="0" max="65535" step="50" value="0" oninput="print_value_superf_t.value = value_superf_t.value;" />');
-	echo('<output name="print_value_superf_t" id="print_value_superf_t">0</output>');
+	echo('<br />');
 	
-	echo('<label for="sort_habit">État : </label>');
-	echo('<select name="sort_habit">');
-	echo('<option value="sup">Plus de</option>');
-	echo('<option value="inf">Moins de</option>');
-	echo('</select>');
-	echo('<input type="range" name="value_habit" id="value_habit" min="1" max="5" step="1" value="1" oninput="print_value_habit.value = value_habit.value;" />');
-	echo('<output name="print_value_habit" id="print_value_habit">1</output>');
+	print_option_select($inf_sup_array, 'habit', 'État', 1, 5, 1);
+	print_option_select($inf_sup_array, 'time', 'Temps de trajet', 0, 250, 10);
+	print_option_select($inf_sup_array, 'price', 'Prix', 0, 999, 10);
 	
-	echo('<label for="sort_time">Temps de trajet : </label>');
-	echo('<select name="sort_time">');
-	echo('<option value="inf">Inférieur à</option>');
-	echo('<option value="sup">Supérieur à</option>');
-	echo('</select>');
-	echo('<input type="range" name="value_time" id="value_super_t" min="0" max="255" step="10" value="0" oninput="print_value_time.value = value_time.value;" />');
-	echo('<output name="print_value_time" id="print_value_time">0</output>');
-	
-	echo('<label for="sort_price">Prix</label>');
-	echo('<select name="sort_price">');
-	echo('<option value="inf">Inférieur à</option>');
-	echo('<option value="sup">Supérieur à</option>');
-	echo('</select>');
-	echo('<input type="range" name="value_price" id="value_price" min="0" max="999" step="10" value="0" oninput="print_value_price.value = value_price.value;" />');
-	echo('<output name="print_value_price" id="print_value_price">0</output>');
-	
-	echo('<input type="submit" value="Valider" /></p>');
+	echo('<br /><input type="submit" value="Valider" /></p>');
 	echo('</form>');
+}
+
+function print_option_select($option_array, $name, $label, $min, $max, $step) {
+	echo('<label for="sort_'.$name.'">'.$label.'</label>');
+	echo('<select name="sort_'.$name.'">');
+	
+	foreach($option_array as $value => $option_label) {
+		echo('<option value="'.$value.'">'.$option_label.'</option>');
+	}
+	
+	echo('</select>');
+	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="'.$min.'" oninput="print_value_'.$name.'.value = value_'.$name.'.value;" />');
+	echo('<output name="print_value_'.$name.'" id="print_value_'.$name.'">'.$min.'</output>');
+}
+
+function print_liste($what) {
+	global $bdd;
+	$possibilities = ['auteur', 'lieu'];
+	
+	if(in_array($what, $possibilities)) {
+		$list_auteurs = $bdd->query('SELECT '.$what.' FROM annonces ORDER BY '.$what.'');
+		$array = [];
+		
+		echo('<option value="all">Tous</option>');
+		
+		while($rep = $list_auteurs->fetch()) {
+			if(!in_array($rep[$what], $array)) {
+				array_push($array, $rep[$what]);
+				echo('<option value="'.$rep[$what].'">'.$rep[$what].'</option>');
+			}
+		}
+		
+		$list_auteurs->closeCursor();
+	}
+	
+	else echo('<p class="error">la fonction print_list($what) a été appelée avec un mauvais paramètre</p>');
 }
 ?>
