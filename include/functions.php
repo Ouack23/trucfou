@@ -11,7 +11,7 @@ $auth->acl($user->data);
 $user->setup();
 
 function format_date() {
-	return 'DATE_FORMAT(date, "%e/%c/%Y") AS date';
+	return 'DATE_FORMAT(date, "%d/%m/%Y") AS date';
 }
 
 function include_content($where) {
@@ -34,7 +34,7 @@ function include_content($where) {
 }
 
 function secure_get() {
-	global $current_url, $request;
+	global $current_url, $sort_array, $request;
 	
 	$current_url['reverse'] = $request->variable('reverse', 'false');
 	$current_url['order'] = $request->variable('order', 'date');
@@ -47,6 +47,23 @@ function secure_get() {
 	if($current_url['comments'] != 'true' && $current_url['comments'] != 'false') {
 		$current_url['comments'] = 'false';
 	}
+	
+	$sort_array['auteur'] = $request->variable('sort_auteur', 'all');
+	$sort_array['lieu'] = $request->variable('sort_lieu', 'all');
+	
+	$sort_array['sort_date'] = $request->variable('sort_date', 'after');
+	$sort_array['sort_superf_h'] = $request->variable('sort_superf_h', 'sup');
+	$sort_array['sort_superf_t'] = $request->variable('sort_superf_t', 'sup');
+	$sort_array['sort_habit'] = $request->variable('sort_habit', 'sup');
+	$sort_array['sort_time'] = $request->variable('sort_time', 'sup');
+	$sort_array['sort_price'] = $request->variable('sort_price', 'sup');
+	
+	$sort_array['value_date'] = $request->variable('value_date', '01/01/2016');
+	$sort_array['value_superf_h'] = $request->variable('value_superf_h', 0);
+	$sort_array['value_superf_t'] = $request->variable('value_superf_t', 0);
+	$sort_array['value_habit'] = $request->variable('value_habit', 1);
+	$sort_array['value_time'] = $request->variable('value_time', 0);
+	$sort_array['value_price'] = $request->variable('value_price', 0);
 }
 
 function print_reverse($whichpage, $criteria, $current_url) {
@@ -122,7 +139,7 @@ function print_form_new_annonce($params) {
 function print_selected($n, $p) {
 	$possibilities = [1, 2, 3, 4, 5];
 	if(in_array($n, $possibilities) && in_array($p, $possibilities) && $n == $p)
-		return('selected="'.$n.'"');
+		return('selected');
 }
 
 function convert_habit($h){
@@ -167,7 +184,7 @@ function get_username($user_id) {
 	else {$get_username->closeCursor(); return('');}
 }
 
-function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $isAnnonce) {
+function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $isAnnonce) {
 	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
 	$isFirst = true;
 	
@@ -178,21 +195,20 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		}
 		else echo('<td>');
 		
-		if($isAnnonce) echo('<a href="'.append_sid($current_page, 'order='.$column_bdd.'&amp;
-																reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;
-																reverseComments='.$current_url['reverseComments'].'&amp;
-																orderComments='.$current_url['orderComments'].'&amp;
-																user='.$current_url['user'].'&amp;
-																comments='.$current_url['comments'].'&amp;
-																annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
+		$string_params = '';
 		
-		else echo('<a href="'.append_sid($current_page, 'order='.$current_url['order'].'&amp;
-														reverse='.$current_url['reverse'].'&amp;
-														reverseComments='.print_reverse('comments', $column_bdd, $current_url).'&amp;
-														orderComments='.$column_bdd.'&amp;
-														user='.$current_url['user'].'&amp;
-														comments='.$current_url['comments'].'&amp;
-														annonce='.$current_url['annonce'].'').'">'.$column_name.'</a></td>');
+		foreach($current_url as $label => $value) {
+			if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
+			elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
+			elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
+			else $string_params .= $label.'='.$value.'&amp;';
+		}
+		
+		foreach($sort_array as $label => $value) {
+			$string_params .= $label.'='.$value.'&amp;';
+		}
+		
+		echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></td>');
 	}
 	
 	foreach($other_columns_array as $other_column_name) {
@@ -204,7 +220,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	echo('</tr>');
 }
 
-function print_all_annonces($current_page, $current_url) {
+function print_all_annonces($current_page, $current_url, $sort_array) {
 	global $bdd;
 	
 	$columns_array = ['id' => 'N°',
@@ -217,30 +233,80 @@ function print_all_annonces($current_page, $current_url) {
 			'time' => 'Temps de trajet',
 			'price' => 'Prix'];
 	
-	print_debut_table($columns_array, ['Lien', 'Commentaires'], 'Liste des Annonces', $current_url, true);
+	print_debut_table($columns_array, ['Lien', 'Commentaires'], 'Liste des Annonces', $current_url, $sort_array, true);
 	
-	$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces ORDER BY '.$current_url['order'].'';
+	$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces';
+	
+	if(isset($_GET['value_date'])) {
+		//TODO CHECK COMPATIBILITY WITH EVERY CASE (nottamment tout default sauf date.)
+		$reponse_query .= ' WHERE';
+		$have_to_add_AND = true;
+		
+		if($sort_array['auteur'] == 'all' && $sort_array['lieu'] == 'all') $have_to_add_AND = false;
+		
+		if($sort_array['auteur'] != 'all') $reponse_query .= ' auteur = \''.$sort_array['auteur'].'\'';
+		else {if($sort_array['lieu'] != 'all') $reponse_query .= ' AND';}
+		
+		if($sort_array['lieu'] != 'all') $reponse_query .= ' lieu = \''.$sort_array['lieu'].'\'';
+		
+		$sort_array_criteria=['superf_h', 'superf_t', 'habit', 'time', 'price'];
+		
+		foreach($sort_array_criteria as $s) {
+			if($have_to_add_AND) $reponse_query .= ' AND';
+			if($sort_array['sort_'.$s.''] == 'inf') $reponse_query .= ' '.$s.' <= '.$sort_array['value_'.$s].'';
+			elseif($sort_array['sort_'.$s.''] == 'sup') $reponse_query .= ' '.$s.' >= '.$sort_array['value_'.$s].'';
+			else echo('<p class="error">Mauvais critère pour : '.$s.'</p>');
+			$have_to_add_AND = true;
+		}
+	}
+	
+	$reponse_query .= ' ORDER BY '.$current_url['order'].'';
 	
 	if($current_url['reverse'] == "true") $reponse_query .= ' DESC';
 	
 	$reponse = $bdd->query($reponse_query);
 	
 	while($donnees = $reponse->fetch()) {
-		$minutes = $donnees['time']%60;
-		$hours = ($donnees['time'] - $minutes)/60;
+		if(isset($_POST['sort'])) {
+			$date_sort_compare = preg_replace('#^(\d{2})\/(\d{2})\/(\d{4})$#', '$3$2$1', $sort_array['date']);
+			$date_donnees_compare =preg_replace('#^(\d{2})\/(\d{2})\/(\d{4})$#', '$3$2$1', $donnees['date']);
 			
-		echo('<tr><td class="left">'.$donnees['id'].'</td>');
-		echo('<td>'.$donnees['date'].'</td>');
-		echo('<td>'.$donnees['auteur'].'</td>');
-		echo('<td>'.$donnees['lieu'].'</td>');
-		echo('<td>'.$donnees['superf_h'].'</td>');
-		echo('<td>'.$donnees['superf_t'].'</td>');
-		echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
-		if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
-		else echo('<td>'.$hours.'h'.$minutes.'</td>');
-		echo('<td>'.$donnees['price'].' k€</td>');
-		echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
-		echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;comments=true').'">Commentaires</a></td></tr>');
+			if(($sort_array['criteria_date'] == 'before' && $date_sort_compare >= $date_donnees_compare) || ($sort_array['criteria_date'] == 'after' && $date_sort_compare <= $date_donnees_compare)) {
+				$minutes = $donnees['time']%60;
+				$hours = ($donnees['time'] - $minutes)/60;
+					
+				echo('<tr><td class="left">'.$donnees['id'].'</td>');
+				echo('<td>'.$donnees['date'].'</td>');
+				echo('<td>'.$donnees['auteur'].'</td>');
+				echo('<td>'.$donnees['lieu'].'</td>');
+				echo('<td>'.$donnees['superf_h'].'</td>');
+				echo('<td>'.$donnees['superf_t'].'</td>');
+				echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+				if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+				else echo('<td>'.$hours.'h'.$minutes.'</td>');
+				echo('<td>'.$donnees['price'].' k€</td>');
+				echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+				echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;comments=true').'">Commentaires</a></td></tr>');
+			}
+		}
+		
+		else {
+			$minutes = $donnees['time']%60;
+			$hours = ($donnees['time'] - $minutes)/60;
+			
+			echo('<tr><td class="left">'.$donnees['id'].'</td>');
+			echo('<td>'.$donnees['date'].'</td>');
+			echo('<td>'.$donnees['auteur'].'</td>');
+			echo('<td>'.$donnees['lieu'].'</td>');
+			echo('<td>'.$donnees['superf_h'].'</td>');
+			echo('<td>'.$donnees['superf_t'].'</td>');
+			echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+			if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
+			else echo('<td>'.$hours.'h'.$minutes.'</td>');
+			echo('<td>'.$donnees['price'].' k€</td>');
+			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+			echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;comments=true').'">Commentaires</a></td></tr>');
+		}
 	}
 	$reponse->closeCursor();
 	
@@ -280,7 +346,7 @@ function print_single_annonce($current_page, $current_url) {
 	}
 }
 
-function print_user_annonces($current_page, $current_url) {
+function print_user_annonces($current_page, $current_url, $sort_array) {
 	global $bdd;
 	
 	$get_username_result = get_username($current_url['user']);
@@ -362,17 +428,24 @@ function print_comments_annonce($current_page, $current_url) {
 	$reponse->closeCursor();
 }
 
-function print_sort_form($current_page, $current_url) {
-	global $bdd;
+function print_sort_form($current_page, $current_url, $sort_array) {
+	global $user, $bdd;
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
-	echo('<form action="#" method="post" id="form_sort_annonce">');
+	echo('<form action="#" method="get" id="form_sort_annonce">');
 	echo('<p><label for="sort_date">Date</label><select name="sort_date">');
-	echo('<option value="after">Après</option>');
-	echo('<option value="before">Avant</option>');
+	echo('<option value="before"');
+	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
+	echo('>Avant</option>');
+	echo('<option value="after"');
+	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'after') echo ' selected';
+	echo('>Après</option>');
 	echo('</select>');
-	echo('<input type="text" name="value_date" id="datepicker" value="01/06/2016"/>');
+	
+	echo('<input type="text" name="value_date" id="datepicker" value="');
+	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
+	else echo($sort_array['value_date'].'"/>');
 	
 	echo('<label for="sort_auteur">Auteur</label>');
 	echo('<select name="sort_auteur">');
@@ -393,25 +466,37 @@ function print_sort_form($current_page, $current_url) {
 	print_option_select($inf_sup_array, 'time', 'Temps de trajet', 0, 250, 10);
 	print_option_select($inf_sup_array, 'price', 'Prix', 0, 999, 10);
 	
-	echo('<br /><input type="submit" value="Valider" /></p>');
+	echo('<input type="hidden" name="sid" value="'.$user->session_id.'" />');
+	
+	echo('<br /><input type="submit" name="sort" id="sort" value="Valider" /></p>');
 	echo('</form>');
 }
 
 function print_option_select($option_array, $name, $label, $min, $max, $step) {
+	global $sort_array;
+	
 	echo('<label for="sort_'.$name.'">'.$label.'</label>');
 	echo('<select name="sort_'.$name.'">');
 	
 	foreach($option_array as $value => $option_label) {
-		echo('<option value="'.$value.'">'.$option_label.'</option>');
+		echo('<option value="'.$value.'"');
+		if(isset($_GET['value_date']) && $sort_array['sort_'.$name.''] == $value) echo ' selected';
+		echo('>'.$option_label.'</option>');
 	}
 	
 	echo('</select>');
-	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="'.$min.'" oninput="print_value_'.$name.'.value = value_'.$name.'.value;" />');
-	echo('<output name="print_value_'.$name.'" id="print_value_'.$name.'">'.$min.'</output>');
+	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="');
+	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
+	else echo($min);
+	echo('" oninput="print_value_'.$name.'.value = value_'.$name.'.value;" />');
+	echo('<output name="print_value_'.$name.'" id="print_value_'.$name.'">');
+	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
+	else echo($min);
+	echo('</output>');
 }
 
 function print_liste($what) {
-	global $bdd;
+	global $bdd, $sort_array;
 	$possibilities = ['auteur', 'lieu'];
 	
 	if(in_array($what, $possibilities)) {
@@ -423,7 +508,9 @@ function print_liste($what) {
 		while($rep = $list_auteurs->fetch()) {
 			if(!in_array($rep[$what], $array)) {
 				array_push($array, $rep[$what]);
-				echo('<option value="'.$rep[$what].'">'.$rep[$what].'</option>');
+				echo('<option value="'.$rep[$what].'"');
+				if(isset($_GET['value_date']) && $sort_array[$what] == $rep[$what]) echo ' selected';
+				echo('>'.$rep[$what].'</option>');
 			}
 		}
 		
