@@ -37,7 +37,7 @@ function secure_get() {
 	global $current_url, $sort_array, $request;
 	
 	$current_url['reverse'] = $request->variable('reverse', 'false');
-	$current_url['order'] = $request->variable('order', 'date');
+	$current_url['order'] = $request->variable('order', 'id');
 	$current_url['orderComments'] = $request->variable('orderComments', 'date');
 	$current_url['reverseComments'] = $request->variable('reverseComments', 'false');
 	$current_url['annonce'] = $request->variable('annonce', 0);
@@ -262,16 +262,16 @@ function print_all_annonces($current_page, $current_url, $sort_array) {
 	
 	$reponse_query .= ' ORDER BY '.$current_url['order'].'';
 	
-	if($current_url['reverse'] == "true") $reponse_query .= ' DESC';
+	if($current_url['reverse'] == "true" || ($current_url['order'] == 'id' && !isset($_GET['value_date']))) $reponse_query .= ' DESC';
 	
 	$reponse = $bdd->query($reponse_query);
 	
 	while($donnees = $reponse->fetch()) {
-		if(isset($_POST['sort'])) {
-			$date_sort_compare = preg_replace('#^(\d{2})\/(\d{2})\/(\d{4})$#', '$3$2$1', $sort_array['date']);
+		if(isset($_GET['value_date'])) {
+			$date_sort_compare = preg_replace('#^(\d{2})\/(\d{2})\/(\d{4})$#', '$3$2$1', $sort_array['value_date']);
 			$date_donnees_compare =preg_replace('#^(\d{2})\/(\d{2})\/(\d{4})$#', '$3$2$1', $donnees['date']);
 			
-			if(($sort_array['criteria_date'] == 'before' && $date_sort_compare >= $date_donnees_compare) || ($sort_array['criteria_date'] == 'after' && $date_sort_compare <= $date_donnees_compare)) {
+			if(($sort_array['sort_date'] == 'before' && $date_sort_compare >= $date_donnees_compare) || ($sort_array['sort_date'] == 'after' && $date_sort_compare <= $date_donnees_compare)) {
 				$minutes = $donnees['time']%60;
 				$hours = ($donnees['time'] - $minutes)/60;
 					
@@ -286,7 +286,18 @@ function print_all_annonces($current_page, $current_url, $sort_array) {
 				else echo('<td>'.$hours.'h'.$minutes.'</td>');
 				echo('<td>'.$donnees['price'].' k€</td>');
 				echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
-				echo('<td><a href="'.append_sid($current_page, 'annonce='.$donnees['id'].'&amp;comments=true').'">Commentaires</a></td></tr>');
+				
+				$string_params = 'annonce='.$donnees['id'].'&amp;comments=true&amp;';
+				
+				foreach($current_url as $label => $value) {
+					if($label != 'annonce' && $label != 'comments') $string_params .= $label.'='.$value.'&amp;';
+				}
+				
+				foreach($sort_array as $label => $value) {
+					$string_params .= $label.'='.$value.'&amp;';
+				}
+				
+				echo('<td><a href="'.append_sid($current_page, $string_params).'">Commentaires</a></td></tr>');
 			}
 		}
 		
@@ -313,13 +324,13 @@ function print_all_annonces($current_page, $current_url, $sort_array) {
 	echo('</table></div>');
 }
 
-function print_single_annonce($current_page, $current_url) {
+function print_single_annonce($current_page, $current_url, $sort_array) {
 	global $bdd;
 
 	if($current_url['annonce'] != 0) {
 		$columns_array = ['N°', 'Date', 'Auteur', 'Lieu', 'Superficie habitable', 'Superficie du terrain', 'État', 'Temps de trajet', 'Prix', 'Lien'];
 		
-		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, true);
+		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, true);
 			
 		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time FROM annonces WHERE id = '.$current_url['annonce'].'';
 		$reponse = $bdd->query($reponse_query);
@@ -394,7 +405,7 @@ function print_user_annonces($current_page, $current_url, $sort_array) {
 	} else echo('<p class="error">Erreur dans content_annonce() : comments ou get_username_result n\'est pas défini. Dis le à Belette !</p>');
 }
 
-function print_comments_annonce($current_page, $current_url) {
+function print_comments_annonce($current_page, $current_url, $sort_array) {
 	global $bdd;
 	
 	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
@@ -406,11 +417,11 @@ function print_comments_annonce($current_page, $current_url) {
 	$donnees = $reponse->fetch();
 	
 	if($donnees != NULL) {
-		print_single_annonce($current_page, $current_url);
+		print_single_annonce($current_page, $current_url, $sort_array);
 		
 		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
 		
-		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, false);
+		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, false);
 		echo('</tr></table></div>');
 		
 		echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');

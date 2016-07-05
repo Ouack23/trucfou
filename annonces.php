@@ -24,19 +24,11 @@ include("include/config.php");?>
 				
 				print_sort_form($current_page, $current_url, $sort_array);
 				
-				//Si on ne veut pas afficher que les annonces d'un membre
-				if($current_url['user'] == 0){
-					print_all_annonces($current_page, $current_url, $sort_array);
-				}
-				
-				//Si on veut afficher les annonces d'un user particulier
-				else {
-					print_user_annonces($current_page, $current_url, $sort_array);
-				}
+				print_all_annonces($current_page, $current_url, $sort_array);
 				
 				//Si on veut afficher les commentaires
 				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true') {
-					print_comments_annonce($current_page, $current_url);
+					print_comments_annonce($current_page, $current_url, $sort_array);
 				}
 			} ?>
 		</section>
