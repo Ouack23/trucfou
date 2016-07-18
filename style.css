@@ -156,8 +156,12 @@ textarea {
 	color: green;
 }
 
-.habit1 {
+.habit0 {
 	background-color: red;
+}
+
+.habit1 {
+	background-color: orangered;
 }
 
 .habit2 {
