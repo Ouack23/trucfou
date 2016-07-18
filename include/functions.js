@@ -25,7 +25,7 @@ function insertBalise(balise) {
 			break;
 
 			default:
-				textArea.value += ERREEEEUR;
+				textArea.value += 'ERREEEEUR';
 			break;
 		}
 	}

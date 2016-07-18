@@ -213,10 +213,7 @@ output {
 }
 
 #form_sort_annonce {
-	margin: auto;
-	display: block;
-	width: 1250px;
-	text-align: center;
+	width: 1200px;
 }
 
 #form_sort_annonce label {

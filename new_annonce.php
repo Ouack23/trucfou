@@ -32,7 +32,7 @@ include('include/config.php');
 					$price = $request->variable('price', 0.0);
 					
 					//Conversion de habit en chiffre et vérification des valeurs possibles
-					$habit = convert_habit($habit);
+					$habit = convert_str_nb($habit);
 					
 					if($lieu < 0) $lieu = 0;
 					if($superf_h < 0) $superf_h = 0;
