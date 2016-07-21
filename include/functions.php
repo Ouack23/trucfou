@@ -638,12 +638,20 @@ function print_liste($what) {
 function get_note($annonce) {
 	global $bdd, $user, $request;
 	
-	$get_notes = $bdd->query('SELECT * FROM notes WHERE annonce = '.$annonce.'');
+	$int_annonce = intval($annonce);
+
+	$get_notes = $bdd->query('SELECT * FROM notes WHERE annonce = '.$int_annonce.'');
 	$notes_array = [];
 	
-	while($notes = $get_notes->fetch()) {
-		array_push($notes_array, $notes['value']);
+	if($get_notes) {
+		while($notes = $get_notes->fetch()) {
+			array_push($notes_array, $notes['value']);
+		}
+
+		$get_notes->closeCursor();
 	}
+
+	else {echo('<p class="error">Invalid annonce value in get_note()</p>'); return -1;}
 	
 	if(!empty($notes_array)) return array_sum($notes_array) / count($notes_array);
 	else return 0;
