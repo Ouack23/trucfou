@@ -15,7 +15,11 @@ include('include/functions.php');
 				<a href="<?php echo(append_sid('annonces.php'));?>">ajouter</a> des annonces intéressantes dans la base de données,
 				<a href="<?php echo(append_sid('comments.php')); ?>">commenter</a> les annonces déjà publiées,
 				<a href="<?php echo(append_sid('listeCR.php')); ?>">lire</a> les comptes-rendus de réunion, et poster des messages sur le
-				<a href="<?php echo(append_sid('forum/index.php')); ?>">Forum</a>. N'hésite plus, rejoins-nous, on est bien !</p>
+				<a href="<?php echo(append_sid('forum/index.php')); ?>">Forum</a>. N'hésite plus, rejoins-nous, on est bien !
+			</p>
+			
+			<h1>Prochaine réunion</h1>
+			<p>Veuillez remplir le <mark><a href="https://framadate.org/DkgxR2hLs76mMemG">framazobi</a></mark> pour définir la date de la prochaine réunion.</p>
 		</section>
 		<?php include_content('bottom'); ?>
 	</body>
