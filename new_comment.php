@@ -53,7 +53,7 @@ include('include/config.php');?>
 								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
 								<textarea name="comment"></textarea>
 								<div id="preview">
-									<input type="submit" name="preview" value="Pr�visualiser" /><br />
+									<input type="submit" name="preview" value="Prévisualiser" /><br />
 									<input type="submit" name="submit" value="Valider" />
 									<input type="text" name="annonce" value="<?php echo($current_url['annonce']); ?>" style="display: none;" />
 								</div>
