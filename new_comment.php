@@ -7,8 +7,11 @@ include('include/config.php');?>
 		<title>Nouveau commentaire</title>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
-		<script src="include/xbbcode.js"></script>
+		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 		<script src="include/functions.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="include/xbbcode.js"></script>
 	</head>
 	<body>
 		<?php include_content('top');
@@ -34,7 +37,7 @@ include('include/config.php');?>
 							select_annonce();
 						}
 
-						//Cr�ation du commentaire
+						//Création du commentaire
 						else {?>
 							<div id="BBcode">
 								<input type="submit" onclick="insertBalise('b')" value="Gras" />
@@ -68,7 +71,8 @@ include('include/config.php');?>
 							}
 						}
 					}
-					else{echo('<p class="error">Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');}
+					
+					else echo('<p class="error">Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');
 				}
 				
 				//Traitement de la validation
