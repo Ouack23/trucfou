@@ -150,7 +150,7 @@ function print_form_new_annonce($params) {
 				<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
 				<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
 			</select> sur 5<br />
-			<label for="habit">Ta note pour cette annonce :</label>
+			<label for="note">Ta note pour cette annonce :</label>
 			<select name="note" id="note">
 				<option value="zero" '.print_selected($params['note'], 0).'>0</option>
 				<option value="un" '.print_selected($params['note'], 1).'>1</option>
@@ -326,7 +326,7 @@ function print_all_annonces($current_page, $current_url, $sort_array, $isSorted)
 	if($current_url['order'] != 'note') {
 		$reponse_query .= ' ORDER BY '.$current_url['order'].'';
 		
-		if($current_url['reverse'] == "true" || ($current_url['order'] == 'id' && !isset($_GET['value_date']))) $reponse_query .= ' DESC';
+		if($current_url['reverse'] == "true" || ($current_url['order'] == 'id' && (!isset($_GET['value_date']) || isset($_GET['orderComments'])))) $reponse_query .= ' DESC';
 		
 		$reponse = $bdd->query($reponse_query);
 		
@@ -473,6 +473,8 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			foreach($sort_array as $label => $value) {
 				$string_params .= $label.'='.$value.'&amp;';
 			}
+			
+			$string_params .= '#comments';
 				
 			echo('<td><a href="'.append_sid($current_page, $string_params).'">Commentaires</a></td></tr>');
 		break;
@@ -497,7 +499,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 		break;
 		
 		default:
-			echo('<p class=error>Mauvais paramètre what dans print_data().</p>');
+			echo('<p class="error">Mauvais paramètre what dans print_data().</p>');
 		break;
 	}
 }
@@ -523,7 +525,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, false);
 		echo('</tr></table></div>');
 		
-		echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
+		echo('<h3 id="comments">Commentaire numéro '.$donnees['id'].'</h3>');
 		echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
 		echo('<p id="content">'.$donnees['comment'].'</p>');
 		
@@ -534,7 +536,11 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		}
 	}
 	
-	else echo('<h1>Pas de commentaire pour cette annonce !</h1>');
+	else {
+		echo('<h1 id="comments">Pas de commentaire pour cette annonce !</h1>');
+		
+		print_notation($current_url['annonce']);
+	}
 	$reponse->closeCursor();
 }
 

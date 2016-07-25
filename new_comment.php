@@ -8,7 +8,7 @@ include('include/config.php');?>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="include/xbbcode.js"></script>
-		<script src="include/BBcode.js"></script>
+		<script src="include/functions.js"></script>
 	</head>
 	<body>
 		<?php include_content('top');
@@ -30,7 +30,7 @@ include('include/config.php');?>
 						//Sélection d'une annonce à commenter
 						if(empty($current_url['annonce']) and !isset($_POST['preview'])) {
 							echo('<p>Sélectionnez une annonce à commenter :</p>');
-
+							
 							select_annonce();
 						}
 
@@ -39,11 +39,11 @@ include('include/config.php');?>
 							<div id="BBcode">
 								<input type="submit" onclick="insertBalise('b')" value="Gras" />
 								<input type="submit" onclick="insertBalise('i')" value="Italique" />
-								<input type="submit" onclick="insertBalise('u')" value="Souligné" />
+								<input type="submit" onclick="insertBalise('u')" value="SoulignÃ©" />
 								<input type="submit" onclick="insertBalise('img')" value="Image" />
 								<input type="submit" onclick="insertBalise('noparse')" value="Noparse" />
 								<input type="submit" onclick="insertBalise('quote')" value="Citation" />
-								<input type="submit" onclick="insertBalise('s')" value="Barré" />
+								<input type="submit" onclick="insertBalise('s')" value="BarrÃ©" />
 								<input type="submit" onclick="insertBalise('table')" value="Tableau" />
 								<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
 								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
@@ -53,7 +53,7 @@ include('include/config.php');?>
 								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
 								<textarea name="comment"></textarea>
 								<div id="preview">
-									<input type="submit" name="preview" value="Prévisualiser" /><br />
+									<input type="submit" name="preview" value="PrÃ©visualiser" /><br />
 									<input type="submit" name="submit" value="Valider" />
 									<input type="text" name="annonce" value="<?php echo($current_url['annonce']); ?>" style="display: none;" />
 								</div>
@@ -68,19 +68,14 @@ include('include/config.php');?>
 							}
 						}
 					}
-					else{echo('<p>Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');}
+					else{echo('<p class="error">Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');}
 				}
 				
 				//Traitement de la validation
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
-					$req->execute(array(
-						'annonce' => $current_url['annonce'],
-						'auteur' => $user->data['username'],
-						'comment' => $request->variable('comment', '')
-						));
-					echo('<h3>Succès !</h3>');
-					echo('<p>Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
+					$req->execute(array('annonce' => $current_url['annonce'], 'auteur' => $user->data['username'], 'comment' => $request->variable('comment', '')));
+					echo('<p class="success">Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
 				}
 			}
 		echo('</section>');
