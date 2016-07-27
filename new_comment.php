@@ -52,7 +52,7 @@ include('include/config.php');?>
 								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
 							</div>
 							
-							<form accept-charset="UTF-8" action="#" method="post">
+							<form accept-charset="utf-8" action="#" method="post">
 								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
 								<textarea name="comment"></textarea>
 								<div id="preview">
