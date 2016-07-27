@@ -118,7 +118,7 @@ function select_annonce() {
 	global $bdd;
 	$reponse = $bdd->query('SELECT id, price,'.format_date().', auteur, lieu FROM annonces');
 	
-	echo('<form action="#" method="get"><p>');
+	echo('<form accept-charset="UTF-8"> action="#" method="get"><p>');
 	echo('<select name="annonce">');
 	
 	while($annonces=$reponse->fetch()) {
@@ -132,7 +132,7 @@ function select_annonce() {
 
 function print_form_new_annonce($params) {
 	echo('
-		<form action="#form" method="post" name="new_announce" id="new_announce">
+		<form accept-charset="UTF-8"> action="#form" method="post" name="new_announce" id="new_announce">
 			<p name="form" id="form">
 			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
 			<label for="depart">Département :</label><input type="text" name="depart" id="depart" value="'.$params['depart'].'"/><br />
@@ -549,7 +549,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
-	echo('<form action="#" method="get" id="form_sort_annonce">');
+	echo('<form accept-charset="UTF-8"> action="#" method="get" id="form_sort_annonce">');
 	echo('<p><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
@@ -675,7 +675,7 @@ function print_notation($annonce) {
 		$user_note = $notes['value'];
 		
 		if(!isset($_POST['modify_note'])) {
-			echo('<form action="#" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
+			echo('<form accept-charset="UTF-8"> action="#" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
 			echo('<input type="submit" value="Modifier ce vote" name="modify_note" />');
 			echo('</p></form>');
 		}
@@ -690,7 +690,7 @@ function print_notation($annonce) {
 	
 	else {
 		if(!isset($_POST['value_note_submit'])) {
-			echo('<form action="#" method="post"><p>');
+			echo('<form accept-charset="UTF-8"> action="#" method="post"><p>');
 			echo('<label for="note_option">Note :</label>');
 			echo('<select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');
