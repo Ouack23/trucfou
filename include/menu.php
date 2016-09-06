@@ -8,7 +8,10 @@
 					echo('<li><a href="'.append_sid('listeCR.php').'">Comptes-Rendus</a></li>');
 					echo('<li><a href="'.append_sid('annonces.php').'">Annonces</a></li>');
 					echo('<li><a href="'.append_sid('comments.php').'">Commentaires</a></li>');
-					echo('<li><a href="'.append_sid('user.php').'">Membres</a></li>');
+					echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
+					
+					if($user->data['username'] == 'Belette')
+						echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
 				}
 			?>
 		</ul>
