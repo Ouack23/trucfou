@@ -180,6 +180,10 @@ textarea {
 	background-color: greenyellow;
 }
 
+.unknown {
+	background-color: lightgray;
+}
+
 input[type=range]{
     border: 1px solid white; 
     width: 100px;

@@ -136,8 +136,8 @@ function print_form_new_annonce($params) {
 			<p name="form" id="form">
 			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
 			<label for="depart">Département :</label><input type="text" name="depart" id="depart" value="'.$params['depart'].'"/><br />
-			<label for="superf_h">Superficie intérieure :</label><input type="text" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m²<br />
-			<label for="superf_t">Superficie du terrain :</label><input type="text" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m²<br />
+			<label for="superf_h">Superficie intérieure :</label><input type="text" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)<br />
+			<label for="superf_t">Superficie du terrain :</label><input type="text" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m² (1 si inconnue)<br />
 			<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
 			<label for="time">Temps de trajet depuis Lyon :</label><input type="text" name="time" id="time" value="'.$params['time'].'"/> minutes<br />
 			<label for="price">Prix :</label><input type="text" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)<br />
@@ -150,7 +150,7 @@ function print_form_new_annonce($params) {
 				<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
 				<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
 			</select> sur 5<br />
-			<label for="habit">Ta note pour cette annonce :</label>
+			<label for="note">Ta note pour cette annonce :</label>
 			<select name="note" id="note">
 				<option value="zero" '.print_selected($params['note'], 0).'>0</option>
 				<option value="un" '.print_selected($params['note'], 1).'>1</option>
@@ -262,11 +262,11 @@ function print_all_annonces($current_page, $current_url, $sort_array, $isSorted)
 			'date' => 'Date',
 			'auteur' => 'Auteur',
 			'lieu' => 'Lieu',
-			'departement' => 'Département',
+			'departement' => 'Dpt',
 			'superf_h' => 'Superficie habitable',
 			'superf_t' => 'Superficie du terrain',
 			'habit' => 'État',
-			'time' => 'Temps de trajet',
+			'time' => 'Trajet',
 			'price' => 'Prix',
 			'note' => 'Note'];
 	
@@ -375,7 +375,7 @@ function print_single_annonce($current_page, $current_url, $sort_array) {
 	global $bdd;
 
 	if($current_url['annonce'] != 0) {
-		$columns_array = ['Date', 'Auteur', 'Lieu', 'Département', 'Superficie habitable', 'Superficie du terrain', 'État', 'Temps de trajet', 'Prix', 'Note', 'Lien'];
+		$columns_array = ['Date', 'Auteur', 'Lieu', 'Dpt', 'Superficie habitable', 'Superficie du terrain', 'État', 'Trajet', 'Prix', 'Note', 'Lien'];
 		
 		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, true);
 			
@@ -406,7 +406,7 @@ function print_user_annonces($current_page, $current_url, $sort_array) {
 				'superf_h' => 'Superficie habitable',
 				'superf_t' => 'Superficie du terrain',
 				'habit' => 'État',
-				'time' => 'Temps de trajet',
+				'time' => 'Trajet',
 				'price' => 'Prix'];
 	
 		print_debut_table($columns_array, ['Liens', 'Commentaires'], 'Liste des annonces de '.$get_username_result.'', $current_url, true);
@@ -454,8 +454,17 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			echo('<td>'.$donnees['auteur'].'</td>');
 			echo('<td>'.$donnees['lieu'].'</td>');
 			echo('<td>'.$donnees['departement'].'</td>');
-			echo('<td>'.$donnees['superf_h'].'</td>');
-			echo('<td>'.$donnees['superf_t'].'</td>');
+			
+			if($donnees['superf_h'] != 1)
+				echo('<td>'.$donnees['superf_h'].'</td>');
+			else
+				echo('<td class="unknown">Inconnue</td>');
+			
+			if($donnees['superf_t'] != 1)
+				echo('<td>'.$donnees['superf_t'].'</td>');
+			else
+				echo('<td class="unknown">Inconnue</td>');
+			
 			echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
 			if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
 			else echo('<td>'.$hours.'h'.$minutes.'</td>');
@@ -576,7 +585,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', 0, 65500, 50);
 	echo('<br />');
 	print_option_select($inf_sup_array, 'habit', 'État', 0, 5, 1);
-	print_option_select($inf_sup_array, 'time', 'Temps de trajet', 0, 250, 10);
+	print_option_select($inf_sup_array, 'time', 'Trajet', 0, 250, 10);
 	print_option_select($inf_sup_array, 'price', 'Prix', 0, 999, 10);
 	echo('<br />');
 	print_option_select($inf_sup_array, 'note', 'Note', 0, 5, 1);
