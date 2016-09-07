@@ -77,13 +77,11 @@ include('include/config.php');
 													$id_annonce = $annonce['id'];
 													$get_id->closeCursor();
 													
-													$req = $bdd->prepare('INSERT INTO notes(auteur, annonce, value) VALUES(:auteur, :annonce; :value)');
+													$req_note = $bdd->prepare('INSERT INTO notes(auteur, annonce, value) VALUES(:auteur, :annonce, :value)');
+													$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $note));
+													$req_note->closeCursor();
 													
-													$req->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $note));
-													
-													$req->closeCursor();
-													
-													echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué !</p>');
+													echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué ! Note = '.$note.', id_annonce='.$id_annonce.'</p>');
 												}
 												
 												else {
