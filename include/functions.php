@@ -118,7 +118,7 @@ function select_annonce() {
 	global $bdd;
 	$reponse = $bdd->query('SELECT id, price,'.format_date().', auteur, lieu FROM annonces');
 	
-	echo('<form action="#" method="get"><p>');
+	echo('<form accept-charset="utf-8" action="#" method="get"><p>');
 	echo('<select name="annonce">');
 	
 	while($annonces=$reponse->fetch()) {
@@ -132,7 +132,7 @@ function select_annonce() {
 
 function print_form_new_annonce($params) {
 	echo('
-		<form action="#form" method="post" name="new_announce" id="new_announce">
+		<form accept-charset="utf-8" action="#form" method="post" name="new_announce" id="new_announce">
 			<p name="form" id="form">
 			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
 			<label for="depart">Département :</label><input type="text" name="depart" id="depart" value="'.$params['depart'].'"/><br />
@@ -326,7 +326,7 @@ function print_all_annonces($current_page, $current_url, $sort_array, $isSorted)
 	if($current_url['order'] != 'note') {
 		$reponse_query .= ' ORDER BY '.$current_url['order'].'';
 		
-		if($current_url['reverse'] == "true" || ($current_url['order'] == 'id' && !isset($_GET['value_date']))) $reponse_query .= ' DESC';
+		if($current_url['reverse'] == "true" || ($current_url['order'] == 'id' && (!isset($_GET['value_date']) || isset($_GET['orderComments'])))) $reponse_query .= ' DESC';
 		
 		$reponse = $bdd->query($reponse_query);
 		
@@ -482,6 +482,8 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			foreach($sort_array as $label => $value) {
 				$string_params .= $label.'='.$value.'&amp;';
 			}
+			
+			$string_params .= '#comments';
 				
 			echo('<td><a href="'.append_sid($current_page, $string_params).'">Commentaires</a></td></tr>');
 		break;
@@ -506,7 +508,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 		break;
 		
 		default:
-			echo('<p class=error>Mauvais paramètre what dans print_data().</p>');
+			echo('<p class="error">Mauvais paramètre what dans print_data().</p>');
 		break;
 	}
 }
@@ -532,7 +534,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, false);
 		echo('</tr></table></div>');
 		
-		echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
+		echo('<h3 id="comments">Commentaire numéro '.$donnees['id'].'</h3>');
 		echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
 		echo('<p id="content">'.$donnees['comment'].'</p>');
 		
@@ -543,7 +545,11 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		}
 	}
 	
-	else echo('<h1>Pas de commentaire pour cette annonce !</h1>');
+	else {
+		echo('<h1 id="comments">Pas de commentaire pour cette annonce !</h1>');
+		
+		print_notation($current_url['annonce']);
+	}
 	$reponse->closeCursor();
 }
 
@@ -552,7 +558,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
-	echo('<form action="#" method="get" id="form_sort_annonce">');
+	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce">');
 	echo('<p><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
@@ -647,12 +653,20 @@ function print_liste($what) {
 function get_note($annonce) {
 	global $bdd, $user, $request;
 	
-	$get_notes = $bdd->query('SELECT * FROM notes WHERE annonce = '.$annonce.'');
+	$int_annonce = intval($annonce);
+
+	$get_notes = $bdd->query('SELECT * FROM notes WHERE annonce = '.$int_annonce.'');
 	$notes_array = [];
 	
-	while($notes = $get_notes->fetch()) {
-		array_push($notes_array, $notes['value']);
+	if($get_notes) {
+		while($notes = $get_notes->fetch()) {
+			array_push($notes_array, $notes['value']);
+		}
+
+		$get_notes->closeCursor();
 	}
+
+	else {echo('<p class="error">Invalid annonce value in get_note()</p>'); return -1;}
 	
 	if(!empty($notes_array)) return array_sum($notes_array) / count($notes_array);
 	else return 0;
@@ -670,7 +684,7 @@ function print_notation($annonce) {
 		$user_note = $notes['value'];
 		
 		if(!isset($_POST['modify_note'])) {
-			echo('<form action="#" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
+			echo('<form accept-charset="utf-8" action="#" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
 			echo('<input type="submit" value="Modifier ce vote" name="modify_note" />');
 			echo('</p></form>');
 		}
@@ -685,7 +699,7 @@ function print_notation($annonce) {
 	
 	else {
 		if(!isset($_POST['value_note_submit'])) {
-			echo('<form action="#" method="post"><p>');
+			echo('<form accept-charset="utf-8" action="#" method="post"><p>');
 			echo('<label for="note_option">Note :</label>');
 			echo('<select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');

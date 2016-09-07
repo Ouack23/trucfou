@@ -7,8 +7,11 @@ include('include/config.php');?>
 		<title>Nouveau commentaire</title>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
+		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 		<script src="include/xbbcode.js"></script>
-		<script src="include/BBcode.js"></script>
+		<script src="include/functions.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	</head>
 	<body>
 		<?php include_content('top');
@@ -29,8 +32,8 @@ include('include/config.php');?>
 					if(!empty($isThereAnnonce)) {
 						//Sélection d'une annonce à commenter
 						if(empty($current_url['annonce']) and !isset($_POST['preview'])) {
-							echo('<p>Sélectionnez une annonce à commenter :</p>');
-
+							echo('<p>Sélectionnez une annonce à commenter</p>');
+							
 							select_annonce();
 						}
 
@@ -49,7 +52,7 @@ include('include/config.php');?>
 								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
 							</div>
 							
-							<form action="#" method="post">
+							<form accept-charset="utf-8" action="#" method="post">
 								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
 								<textarea name="comment"></textarea>
 								<div id="preview">
@@ -68,19 +71,15 @@ include('include/config.php');?>
 							}
 						}
 					}
-					else{echo('<p>Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');}
+					
+					else echo('<p class="error">Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');
 				}
 				
 				//Traitement de la validation
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
-					$req->execute(array(
-						'annonce' => $current_url['annonce'],
-						'auteur' => $user->data['username'],
-						'comment' => $request->variable('comment', '')
-						));
-					echo('<h3>Succès !</h3>');
-					echo('<p>Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
+					$req->execute(array('annonce' => $current_url['annonce'], 'auteur' => $user->data['username'], 'comment' => $request->variable('comment', '')));
+					echo('<p class="success">Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
 				}
 			}
 		echo('</section>');

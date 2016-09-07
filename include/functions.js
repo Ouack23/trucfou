@@ -40,6 +40,9 @@ function doPreview() {
 	var output = document.getElementById("visualPreview");
 	output.innerHTML = result.html;
 	textArea.value = myData;
+	 console.error("Errors", result.error);
+	 console.dir(result.errorQueue);
+	 console.log(result.html);
 }
 
 /* French initialisation for the jQuery UI date picker plugin. */
