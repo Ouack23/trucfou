@@ -18,8 +18,14 @@ include('include/functions.php');
 				<a href="<?php echo(append_sid('forum/index.php')); ?>">Forum</a>. N'hésite plus, rejoins-nous, on est bien !
 			</p>
 			
-			<h1>Prochaine réunion</h1>
-			<p>Veuillez remplir le <mark><a href="https://framadate.org/DkgxR2hLs76mMemG">framazobi</a></mark> pour définir la date de la prochaine réunion.</p>
+			<h2>Prochaine réunion</h2>
+			<p>La prochaine réunion est programmé le <em>15 septembre à l'Annonciade Céleste</em>. L'horaire reste à définir. L'ordre du jour peut être visionné et modifié ci-dessous lorsque vous serez connecté.<br /></p>
+			
+			<?php
+			if($user->data['is_registered'])
+				echo('<iframe name="embed_readwrite" src="https://mypads.framapad.org/p/odj-01-em4t4721?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false" width=900 height=600></iframe>');
+			?>
+			
 		</section>
 		<?php include_content('bottom'); ?>
 	</body>
