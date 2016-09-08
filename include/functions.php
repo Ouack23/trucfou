@@ -744,20 +744,45 @@ function get_note($annonce) {
 function print_available($annonce) {
 	global $bdd, $user, $request;
 	
-	$get_available = $bdd->query('SELECT id, available FROM annonces WHERE id = '.$annonce.'');
+	$get_available = $bdd->query('SELECT id, auteur, available FROM annonces WHERE id = '.$annonce.'');
 	$avail = $get_available->fetch();
 	
 	if($avail) {
 		if($avail['available']) {
 			if(!isset($_POST['unavailable'])) {
-				echo('<form accept-charset="utf-8" action="#" method="post"><p>');
+				echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
 				echo('<input type="submit" value="Déclarer indisponible" name="unavailable"/>');
 				echo('</p><form>');
 			}
 			
 			else {
-				$set_available = $bdd->exec('UPDATE annonces SET available = 0 WHERE id = '.$avail['id'].'');
-				echo('<p class="success">Vous avez déclaré l\'annonce '.$avail['id'].' comme étant indisponible. Rechargez la page pour voir le changement.</p>');
+				$set_unavailable = $bdd->exec('UPDATE annonces SET available = 0 WHERE id = '.$annonce.'');
+				echo('<p class="success">Vous avez déclaré l\'annonce '.$annonce.' comme étant indisponible. Rechargez la page pour voir le changement.</p>');
+			}
+		}
+		
+		else {
+			echo('<p>Cette annonce est déclarée indisponible.</p>');
+			
+			if($avail['auteur'] == $user->data['username']) {
+				if(!isset($_POST['available'])) {
+					if(!isset($_POST['delete'])) {
+						echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
+						echo('<input type="submit" value="Déclarer disponible" name="available"/>&emsp;');
+						echo('<input type="submit" value="Supprimer l\'annonce" name="delete"/>');
+						echo('</p><form>');
+					}
+					
+					else {
+						$delete_annonce = $bdd->exec('DELETE FROM annonces WHERE id='.$annonce.'');
+						echo('<p class="success">Vous avez supprimé l\'annonce '.$annonce.'. Rechargez la page pour voir le changement.</p>');
+					}
+				}
+				
+				else {
+					$set_available = $bdd->exec('UPDATE annonces SET available = 1 WHERE id = '.$annonce.'');
+					echo('<p class="success">Vous avez déclaré l\'annonce '.$annonce.' comme étant disponible. Rechargez la page pour voir le changement.</p>');
+				}
 			}
 		}
 		
@@ -779,7 +804,7 @@ function print_notation($annonce) {
 		$user_note = $notes['value'];
 		
 		if(!isset($_POST['modify_note'])) {
-			echo('<form accept-charset="utf-8" action="#" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
+			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
 			echo('<input type="submit" value="Modifier ce vote" name="modify_note" />');
 			echo('</p></form>');
 		}
@@ -794,7 +819,7 @@ function print_notation($annonce) {
 	
 	else {
 		if(!isset($_POST['value_note_submit'])) {
-			echo('<form accept-charset="utf-8" action="#" method="post"><p>');
+			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
 			echo('<label for="note_option">Note :</label>');
 			echo('<select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');
