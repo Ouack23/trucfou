@@ -184,6 +184,10 @@ textarea {
 	background-color: lightgray;
 }
 
+.unavailable {
+	background-color: darkgray;
+}
+
 input[type=range]{
     border: 1px solid white; 
     width: 100px;
