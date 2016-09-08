@@ -46,91 +46,50 @@ include('include/config.php');
 					$param_array = ['lieu' => $lieu, 'superf_h' => $superf_h, 'superf_t' => $superf_t, 'link' => $link, 'habit' => $habit, 'time' => $time, 'price' => $price, 'depart' => $depart, 'note' => $note];
 					
 					$print_form = false;
-					
-					//Si tous les champs sont remplis
-					if(!empty($lieu) && $superf_h != 0 && $superf_t != 0 && !empty($link) && $habit != -1 && $time != 0 && $price != 0) {
-						if(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $link)) {
-							if(preg_match('#^[a-zA-Z][a-zA-Z- ]+#', $lieu)) {
-								if($time <= $sort_array['max_time']) {
-									if($superf_h <= $sort_array['max_superf_h']) {
-										if($superf_t <= $sort_array['max_superf_t']) {
-											if($price <= $sort_array['max_price']) {
-												if($depart <= $sort_array['max_depart']) {
-													$req = $bdd->prepare('INSERT INTO annonces(lieu, superf_h, superf_t, link, habit, time, price, date, auteur, departement)
-																		VALUES(:lieu, :superf_h, :superf_t, :link, :habit, :time, :price, NOW(), :auteur, :departement)');
-													
-													$req->execute(array(
-														'lieu' => $lieu,
-														'superf_h' => $superf_h,
-														'superf_t' => $superf_t,
-														'link' => $link,
-														'habit' => $habit,
-														'price' => $price,
-														'auteur' => $user->data['username'],
-														'time' => $time,
-														'departement' => $depart));
-													
-													$req->closeCursor();
-													
-													$get_id = $bdd->query('SELECT id, time, price, link, auteur FROM annonces WHERE time = '.$time.' AND price = '.$price.' AND link = \''.$link.'\' AND auteur = \''.$user->data['username'].'\'');
-													$annonce = $get_id->fetch();
-													$id_annonce = $annonce['id'];
-													$get_id->closeCursor();
-													
-													$req_note = $bdd->prepare('INSERT INTO notes(auteur, annonce, value) VALUES(:auteur, :annonce, :value)');
-													$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $note));
-													$req_note->closeCursor();
-													
-													echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué ! Note = '.$note.', id_annonce='.$id_annonce.'</p>');
-												}
-												
-												else {
-													$print_form = true;
-													echo('<p id="form" class="error">Le département doit être inférieur à 96 !</p>');
-												}
-											}
-											
-											else {
-												$print_form = true;
-												echo('<p id="form" class="error">Le prix doit être inférieur à 1000 k€ ! Faut pas déconner !</p>');
-											}
-										}
-										
-										else {
-											$print_form = true;
-											echo('<p id="form" class="error">La superficie du terrain doit être comprise entre 1 et 65536 !');
-										}
-									}
-									
-									else {
-										$print_form = true;
-										echo('<p id="form" class="error">La superficie de la maison doit être comprise entre 1 et 65536 !');
-									}
-									
-								}
-								
-								else{
-									$print_form = true;
-									echo('<p id="form" class="error">Le temps doit être compris entre 1 et 255 inclus !</p>');
-								}
-							}
-							
-							else {
+
+					if(!(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $link) &&
+							preg_match('#^[a-zA-Z][a-zA-Z- ]+#', $lieu) &&
+							$time <= $sort_array['max_time'] && $time >= $sort_array['min_time'] &&
+							$superf_h <= $sort_array['max_superf_h'] && $superf_h >= $sort_array['min_superf_h'] &&
+							$superf_t <= $sort_array['max_superf_t'] && $superf_t >= $sort_array['min_superf_t'] &&
+							$price <= $sort_array['max_price'] && $price >= $sort_array['min_price'] &&
+							$depart <= $sort_array['max_depart'] && $depart >= $sort_array['min_depart'] &&
+							!empty($lieu) && !empty($link) &&
+							$superf_h != 0 && $superf_t != 0 && $time != 0 && $price != 0 &&
+							$habit != -1 && $note != -1)) {
 								$print_form = true;
-								echo('<p id="form" class="error">Le lieu ne doit contenir que des lettres, des tirets et des espaces, et doit commencer par une lettre !</p>');
+								search_error_new_annonce($sort_array, $param_array);
 							}
-						}
-						
-						else{
-							$print_form = true;
-							echo('<p id="form" class="error">Le lien n\'est pas correct !<p>');
-						}
-					}
 					
-					//S'il manque des champs
 					else {
-						$print_form = true;
-						echo('<p id="form" class="error">Il faut remplir tous les champs !</p>');
+						$req = $bdd->prepare('INSERT INTO annonces(lieu, superf_h, superf_t, link, habit, time, price, date, auteur, departement)
+								VALUES(:lieu, :superf_h, :superf_t, :link, :habit, :time, :price, NOW(), :auteur, :departement)');
+						
+						$req->execute(array(
+								'lieu' => $lieu,
+								'superf_h' => $superf_h,
+								'superf_t' => $superf_t,
+								'link' => $link,
+								'habit' => $habit,
+								'price' => $price,
+								'auteur' => $user->data['username'],
+								'time' => $time,
+								'departement' => $depart));
+							
+						$req->closeCursor();
+							
+						$get_id = $bdd->query('SELECT id, time, price, link, auteur FROM annonces WHERE time = '.$time.' AND price = '.$price.' AND link = \''.$link.'\' AND auteur = \''.$user->data['username'].'\'');
+						$annonce = $get_id->fetch();
+						
+						$id_annonce = $annonce['id'];
+						
+						$get_id->closeCursor();
+							
+						$req_note = $bdd->prepare('INSERT INTO notes(auteur, annonce, value) VALUES(:auteur, :annonce, :value)');
+						$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $note));
+						$req_note->closeCursor();
+							
+						echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué !</p>');
 					}
 					
 					//Si une ou plus des valeurs du formulaire sont mauvaises

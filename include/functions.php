@@ -48,7 +48,7 @@ function secure_get() {
 	$sort_array['max_superf_t'] = 65535;
 	$sort_array['max_habit'] = 5;
 	$sort_array['max_time'] = 255;
-	$sort_array['max_price'] = 1000;
+	$sort_array['max_price'] = 100;
 	$sort_array['max_depart'] = 95;
 	$sort_array['max_note'] = 5;
 	
@@ -167,6 +167,33 @@ function print_selected($n, $p) {
 	$possibilities = [0, 1, 2, 3, 4, 5];
 	if(in_array($n, $possibilities) && in_array($p, $possibilities) && $n == $p)
 		return('selected');
+}
+
+function search_error_new_annonce($sort_array, $param_array) {
+	if(empty($param_array['lieu']) || empty($param_array['link']) || $param_array['superf_h'] == 0 || $param_array['superf_t'] == 0 ||
+			$param_array['time'] == 0 || $param_array['price'] == 0 || $param_array['habit'] == -1 || $param_array['note'] == -1)
+		echo('<p id="form" class="error">Il faut remplir tous les champs !</p>');
+	
+	if(!preg_match('#^[a-zA-Z][a-zA-Z- ]+#', $param_array['lieu']))
+		echo('<p id="form" class="error">Le lieu ne doit contenir que des lettres, des tirets et des espaces, et doit commencer par une lettre !</p>');
+	
+	if($param_array['depart'] >= $sort_array['max_depart'] || $param_array['depart'] <= $sort_array['min_depart'])
+		echo('<p id="form" class="error">Le département doit être inférieur à 96 !</p>');
+	
+	if($param_array['superf_h'] >= $sort_array['max_superf_h'] || $param_array['superf_h'] <= $sort_array['min_superf_h'])
+		echo('<p id="form" class="error">La superficie de la maison doit être comprise entre '.$sort_array['min_superf_h'].' et '.$sort_array['max_superf_h'].' !</p>');
+	
+	if($param_array['superf_t'] >= $sort_array['max_superf_t'] || $param_array['superf_t'] <= $sort_array['min_superf_t'])
+		echo('<p id="form" class="error">La superficie du terrain doit être comprise entre '.$sort_array['min_superf_t'].' et '.$sort_array['max_superf_t'].' !</p>');
+	
+	if(!preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $param_array['link']))
+		echo('<p id="form" class="error">Le lien n\'est pas correct !</p>');
+	
+	if($param_array['time'] >= $sort_array['max_time'] || $param_array['time'] <= $sort_array['min_time'])
+		echo('<p id="form" class="error">Le temps doit être compris entre '.$sort_array['min_time'].' et '.$sort_array['max_time'].' inclus !</p>');
+	
+	if($param_array['price'] >= $sort_array['max_price'] || $param_array['price'] <= $sort_array['min_price'])
+		echo('<p id="form" class="error">Le prix doit être compris entre '.$sort_array['min_price'].' et '.$sort_array['max_price'].' k€ !</p>');
 }
 
 function convert_str_nb($h){
