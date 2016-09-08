@@ -136,7 +136,7 @@ function print_form_new_annonce($params) {
 			<p name="form" id="form">
 			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
 			<label for="depart">Département :</label><input type="text" name="depart" id="depart" value="'.$params['depart'].'"/><br />
-			<label for="superf_h">Superficie intérieure :</label><input type="text" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)<br />
+			<label for="superf_h">Superficie bâtie :</label><input type="text" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)<br />
 			<label for="superf_t">Superficie du terrain :</label><input type="text" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m² (1 si inconnue)<br />
 			<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
 			<label for="time">Temps de trajet depuis Lyon :</label><input type="text" name="time" id="time" value="'.$params['time'].'"/> minutes<br />
@@ -290,7 +290,7 @@ function print_all_annonces($current_page, $current_url, $sort_array, $isSorted)
 			'auteur' => 'Auteur',
 			'lieu' => 'Lieu',
 			'departement' => 'Dpt',
-			'superf_h' => 'Superficie habitable',
+			'superf_h' => 'Superficie bâtie',
 			'superf_t' => 'Superficie du terrain',
 			'habit' => 'État',
 			'time' => 'Trajet',
@@ -402,7 +402,7 @@ function print_single_annonce($current_page, $current_url, $sort_array) {
 	global $bdd;
 
 	if($current_url['annonce'] != 0) {
-		$columns_array = ['Date', 'Auteur', 'Lieu', 'Dpt', 'Superficie habitable', 'Superficie du terrain', 'État', 'Trajet', 'Prix', 'Note', 'Lien'];
+		$columns_array = ['Date', 'Auteur', 'Lieu', 'Dpt', 'Superficie bâtie', 'Superficie du terrain', 'État', 'Trajet', 'Prix', 'Note', 'Lien'];
 		
 		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, true);
 			
@@ -430,7 +430,7 @@ function print_user_annonces($current_page, $current_url, $sort_array) {
 				'date' => 'Date',
 				'auteur' => 'Auteur',
 				'lieu' => 'Lieu',
-				'superf_h' => 'Superficie habitable',
+				'superf_h' => 'Superficie bâtie',
 				'superf_t' => 'Superficie du terrain',
 				'habit' => 'État',
 				'time' => 'Trajet',
