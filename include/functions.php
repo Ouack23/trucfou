@@ -28,7 +28,7 @@ function include_content($where) {
 		break;
 
 		default:
-			echo('<p class="error">Erreur dans l\'argument de la fonction include_content()</p>');
+			echo('<p class="error">Erreur : mauvais paramètre pour la fonction include_content()</p>');
 		break;
 	}
 }
@@ -101,7 +101,7 @@ function print_reverse($whichpage, $criteria, $current_url) {
 			$possibilities = '';
 			$orderName = '';
 			$reverseName = '';
-			echo('<p class="error">Erreur dans print_reverse : $whichpage ne vaut ni annonces ni comments</p>');
+			echo('<p class="error">Erreur : mauvais paramètre pour print_reverse().</p>');
 		break;
 	}
 	
@@ -111,7 +111,7 @@ function print_reverse($whichpage, $criteria, $current_url) {
 		if($current_url[$orderName] == $criteria) {if($current_url[$reverseName] == 'false') return('true'); else return('false');} else return('false');
 	}
 	
-	else {echo('<p class="error">Erreur : mauvaise URL empêche la bonne exécution de print_reverse() !</p>');}
+	else echo('<p class="error">Erreur : mauvaise URL empêche la bonne exécution de print_reverse() !</p>');
 }
 
 function select_annonce() {
