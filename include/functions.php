@@ -497,7 +497,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			else echo('<td>'.$hours.'h'.$minutes.'</td>');
 			echo('<td>'.$donnees['price'].' k€</td>');
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.$note.'">'.$note.'</td>');
+			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
 				
 			$string_params = 'annonce='.$donnees['id'].'&amp;comments=true&amp;';
@@ -533,7 +533,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			else echo('<td>'.$hours.'h'.$minutes.'</td>');
 			echo('<td>'.$donnees['price'].' k€</td>');
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.$note.'">'.$note.'</td>');
+			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
 		break;
 		
@@ -549,12 +549,12 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			echo('<td>'.$donnees['departement'].'</td>');
 			echo('<td>'.$donnees['superf_h'].'</td>');
 			echo('<td>'.$donnees['superf_t'].'</td>');
-			echo('<td class="habit'.$donnees['habit'].'">'.$donnees['habit'].'</td>');
+			echo('<td class="habit'.floor($donnees['habit']).'">'.$donnees['habit'].'</td>');
 			if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
 			else echo('<td>'.$hours.'h'.$minutes.'</td>');
 			echo('<td>'.$donnees['price'].' k€</td>');
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.$note.'">'.$note.'</td>');
+			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
 			
 			$string_params = 'annonce='.$donnees['id'].'&amp;comments=true&amp;';
