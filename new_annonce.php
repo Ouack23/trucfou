@@ -7,6 +7,7 @@ include('include/config.php');
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
 		<link rel="stylesheet" href="style.css" />
+		<link rel="icon" type="image/ico" href="include/images/favicon.ico" />
 	</head>
 	<body>
 		<?php include_content('top'); ?>
