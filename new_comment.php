@@ -12,7 +12,7 @@ include('include/config.php');?>
 		<script src="include/xbbcode.js"></script>
 		<script src="include/functions.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<link rel="icon" type="image/ico" href="include/images/favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
 		<?php include_content('top');

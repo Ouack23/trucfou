@@ -6,7 +6,7 @@ include('include/functions.php');
 		<meta charset="utf-8" />
 		<title>Un projet de malade</title>
 		<link rel="stylesheet" href="style.css" />
-		<link rel="icon" type="image/ico" href="include/images/favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
 		<?php include_content('top'); ?>
