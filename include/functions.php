@@ -644,6 +644,10 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, false);
 		echo('</tr></table></div>');
 		
+		echo('<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post"><p>');
+		echo('<input type="submit" name="new_comment" value="Nouveau commentaire" />');
+		echo('</p></form>');
+		
 		echo('<h3 id="comments">Commentaire numéro '.$donnees['id'].'</h3>');
 		echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
 		echo('<p id="content">'.$donnees['comment'].'</p>');
@@ -827,7 +831,7 @@ function print_available($annonce) {
 			if(!isset($_POST['unavailable'])) {
 				echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
 				echo('<input type="submit" value="Déclarer indisponible" name="unavailable"/>');
-				echo('</p><form>');
+				echo('</p></form>');
 			}
 			
 			else {
