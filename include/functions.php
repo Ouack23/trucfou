@@ -850,6 +850,9 @@ function print_available($annonce) {
 					
 					else {
 						$delete_annonce = $bdd->exec('DELETE FROM annonces WHERE id='.$annonce.'');
+						$delete_comments = $bdd->exec('DELETE FROM comments WHERE annonce='.$annonce.'');
+						$delete_notes = $bdd->exec('DELETE FROM notes WHERE annonce='.$annonce.'');
+						
 						echo('<p class="success">Vous avez supprimé l\'annonce '.$annonce.'. Rechargez la page pour voir le changement.</p>');
 					}
 				}
