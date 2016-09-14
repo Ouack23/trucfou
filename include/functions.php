@@ -291,12 +291,12 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	echo('</tr>');
 	
 	if($isAnnonce) {
-		$string_params = '';
 		$columns = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
 		
 		echo('<tr>');
 		
 		foreach($columns as $c => $n) {
+			$string_params = '';
 			
 			foreach($current_url as $label => $value) {
 				if($label == 'order') $string_params .= 'order='.$c.'&amp;';
