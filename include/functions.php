@@ -737,7 +737,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 	
 	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
 	
-	if($current_url['reverse'] == 'true')
+	if($current_url['reverseComments'] == 'true')
 		$reponse_query .= ' DESC';
 			
 	$reponse = $bdd->query($reponse_query);
