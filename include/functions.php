@@ -245,41 +245,75 @@ function get_username($user_id) {
 function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $isAnnonce) {
 	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
 	$isFirst = true;
+	$add_superf = true;
 	
 	foreach($sort_columns_array as $column_bdd => $column_name) {
-		if($isFirst) {
-			echo('<td class="left">');
-			$isFirst = false;
-		}
-		else echo('<td>');
-		
-		$string_params = '';
-		
-		foreach($current_url as $label => $value) {
-			if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
-			elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
-			elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
-			else $string_params .= $label.'='.$value.'&amp;';
+		if(($column_bdd == 'superf_h' || $column_bdd == 'superf_t') && $add_superf) {
+			echo('<th colspan="2">Superficies</th>');
+			$add_superf = false;
 		}
 		
-		foreach($sort_array as $label => $value) {
-			$string_params .= $label.'='.$value.'&amp;';
+		if($column_bdd != 'superf_t' && $column_bdd != 'superf_h') {
+			if($isFirst) {
+				echo('<th class="left" rowspan="2">');
+				$isFirst = false;
+			}
+			
+			else echo('<th rowspan = "2">');
+			
+			$string_params = '';
+			
+			foreach($current_url as $label => $value) {
+				if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
+				elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
+				elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
+				else $string_params .= $label.'='.$value.'&amp;';
+			}
+			
+			foreach($sort_array as $label => $value) {
+				$string_params .= $label.'='.$value.'&amp;';
+			}
+			
+			echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></th>');
 		}
-		
-		echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></td>');
 	}
 	
 	foreach($other_columns_array as $other_column_name) {
 		if($isFirst) {
-			echo('<td class="left">');
+			echo('<th class="left" rowspan="2">');
 			$isFirst = false;
 		}
-		else echo('<td>');
+		else echo('<th rowspan="2">');
 		
-		echo($other_column_name.'</td>');
+		echo($other_column_name.'</th>');
 	}
 	
 	echo('</tr>');
+	
+	if($isAnnonce) {
+		$string_params = '';
+		$columns = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
+		
+		echo('<tr>');
+		
+		foreach($columns as $c => $n) {
+			
+			foreach($current_url as $label => $value) {
+				if($label == 'order') $string_params .= 'order='.$c.'&amp;';
+				elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $c, $current_url).'&amp;';
+				elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $c, $current_url).'&amp;';
+				else $string_params .= $label.'='.$value.'&amp;';
+			}
+				
+			foreach($sort_array as $label => $value) {
+				$string_params .= $label.'='.$value.'&amp;';
+			}
+			
+			echo('<th><a href="'.append_sid($current_page, $string_params).'">'.$n.'</a></th>');
+		}
+		
+		echo('</tr>');
+	}
 }
 
 function print_all_annonces($current_page, $current_url, $sort_array) {

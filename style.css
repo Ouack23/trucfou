@@ -96,7 +96,7 @@ nav ul li a {
 	text-align: center;
 }
 
-.top td {
+.top th {
 	border-top: 2px solid black;
 	font-size: 1.3em;
 }
@@ -107,7 +107,7 @@ nav ul li a {
 	border-right: 2px solid black;
 }
 
-td {
+td, th {
 	border-bottom: 2px solid black;
 	border-right: 2px solid black;
 	margin: 10px;
