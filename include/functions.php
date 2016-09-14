@@ -702,15 +702,15 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	echo('<label for="sort_departement">Département</label>');
 	echo('<select id="sort_departement" name="sort_departement">');
 	print_liste('departement');
-	echo('</select><br />');
+	echo('</select>');
 	
 	$get_max = $bdd->query('SELECT MAX(superf_h) AS superf_h, MAX(superf_t) AS superf_t, MAX(time) AS time, MAX(price) AS price FROM annonces');
 	$max = $get_max->fetch();
 	$get_max->closeCursor();
 	
 	print_option_select($inf_sup_array, 'superf_h', 'Superficie bâtie', $sort_array['min_superf_h'], $max['superf_h'], 50);
-	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', $sort_array['min_superf_t'], $max['superf_t'], 50);
 	echo('<br />');
+	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', $sort_array['min_superf_t'], $max['superf_t'], 50);
 	print_option_select($inf_sup_array, 'habit', 'État', $sort_array['min_habit'], $sort_array['max_habit'], 1);
 	print_option_select($inf_sup_array, 'time', 'Trajet', $sort_array['min_time'], $max['time'], 10);
 	print_option_select($inf_sup_array, 'price', 'Prix', $sort_array['min_price'], $max['price'], 10);

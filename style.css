@@ -225,7 +225,7 @@ output {
 }
 
 #form_sort_annonce {
-	width: 1200px;
+	width: 100%;
 }
 
 #form_sort_annonce label {
