@@ -282,7 +282,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	echo('</tr>');
 }
 
-function print_all_annonces($current_page, $current_url, $sort_array, $isSorted) {
+function print_all_annonces($current_page, $current_url, $sort_array) {
 	global $bdd;
 	
 	$what = 'all_annonces';
@@ -382,7 +382,7 @@ function build_annonce_query($reponse_query, $have_to_add_WHERE, $have_to_add_AN
 			if($have_to_add_AND) $reponse_query .= ' AND';
 			else $have_to_add_AND = true;
 	
-			$reponse_query .= ' '.$s.' = \''.$sort_array[$s].'\'';
+			$reponse_query .= ' '.$s.' = \''.$replaced = str_replace('\'', '\\\'', htmlspecialchars($sort_array[$s])).'\'';
 		}
 	}
 	
@@ -615,6 +615,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 				
 			echo('<td><a href="'.append_sid($current_page, $string_params).'">Détails</a></td></tr>');
 		break;
+		
 		default:
 			echo('<p class="error">Mauvais paramètre what dans print_data().</p>');
 		break;

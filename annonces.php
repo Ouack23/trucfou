@@ -25,7 +25,7 @@ include("include/config.php");?>
 				
 				print_sort_form($current_page, $current_url, $sort_array);
 				
-				print_all_annonces($current_page, $current_url, $sort_array, isset($_GET['value_date']));
+				print_all_annonces($current_page, $current_url, $sort_array);
 				
 				//Si on veut afficher les commentaires
 				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true')

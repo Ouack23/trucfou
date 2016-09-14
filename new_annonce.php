@@ -25,13 +25,13 @@ include('include/config.php');
 				
 				else {
 					$lieu = $request->variable('lieu', '');
-					$superf_h = $request->variable('superf_h', 0);
-					$superf_t = $request->variable('superf_t', 0);
+					$superf_h = $request->variable('superf_h', $sort_array['min_superf_h']);
+					$superf_t = $request->variable('superf_t', $sort_array['min_superf_t']);
 					$link = $request->variable('link', '');
 					$habit = $request->variable('habit', '');
-					$time = $request->variable('time', 0);
-					$price = $request->variable('price', 0.0);
-					$depart = $request->variable('depart', 0);
+					$time = $request->variable('time', $sort_array['min_time']);
+					$price = $request->variable('price', $sort_array['min_price']);
+					$depart = $request->variable('depart', $sort_array['min_depart']);
 					$note = $request->variable('note', '');
 					
 					$habit = convert_str_nb($habit);
