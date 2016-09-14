@@ -242,77 +242,153 @@ function get_username($user_id) {
 	else {$get_username->closeCursor(); return('');}
 }
 
-function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $isAnnonce) {
+function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $what) {
 	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
-	$isFirst = true;
+	$is_first = true;
 	$add_superf = true;
+	$superf_string_cmp = 'Superficie';
+	$superf_string_print = 'Superficies';
 	
-	foreach($sort_columns_array as $column_bdd => $column_name) {
-		if(($column_bdd == 'superf_h' || $column_bdd == 'superf_t') && $add_superf) {
-			echo('<th colspan="2">Superficies</th>');
-			$add_superf = false;
-		}
-		
-		if($column_bdd != 'superf_t' && $column_bdd != 'superf_h') {
-			if($isFirst) {
-				echo('<th class="left" rowspan="2">');
-				$isFirst = false;
+	switch($what) {
+		case 'annonces':
+			foreach($sort_columns_array as $column_bdd => $column_name) {
+				if($column_bdd == 'superf_h' || $column_bdd == 'superf_t') {
+					if($add_superf) {
+						echo('<th colspan="2">Superficies</th>');
+						$add_superf = false;
+					}
+				}
+				
+				else {
+					if($is_first) {
+						echo('<th class="left" rowspan="2">');
+						$is_first = false;
+					}
+						
+					else echo('<th rowspan="2">');
+						
+					$string_params = '';
+						
+					foreach($current_url as $label => $value) {
+						if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
+						elseif($label == 'reverse') $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
+						else $string_params .= $label.'='.$value.'&amp;';
+					}
+						
+					foreach($sort_array as $label => $value) {
+						$string_params .= $label.'='.$value.'&amp;';
+					}
+						
+					echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></th>');
+				}
 			}
 			
-			else echo('<th rowspan = "2">');
-			
-			$string_params = '';
-			
-			foreach($current_url as $label => $value) {
-				if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
-				elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
-				elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
-				else $string_params .= $label.'='.$value.'&amp;';
+			foreach($other_columns_array as $other_column_name) {				
+				echo('<th rowspan="2">'.$other_column_name.'</th>');
 			}
 			
-			foreach($sort_array as $label => $value) {
-				$string_params .= $label.'='.$value.'&amp;';
+			echo('</tr>');
+			
+			$superf_array = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
+		
+			echo('<tr>');
+		
+			foreach($superf_array as $c => $n) {
+				$string_params = '';
+				
+				foreach($current_url as $label => $value) {
+					if($label == 'order') $string_params .= 'order='.$c.'&amp;';
+					elseif($label == 'reverse') $string_params .= 'reverse='.print_reverse('annonces', $c, $current_url).'&amp;';
+					else $string_params .= $label.'='.$value.'&amp;';
+				}
+		
+				foreach($sort_array as $label => $value) {
+					$string_params .= $label.'='.$value.'&amp;';
+				}
+					
+				echo('<th><a href="'.append_sid($current_page, $string_params).'">'.$n.'</a></th>');
 			}
+
+			echo('</tr>');
+		break;
+		
+		case 'single_annonce':
+			$have_to_print_superf_string = true;
 			
-			echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></th>');
-		}
-	}
-	
-	foreach($other_columns_array as $other_column_name) {
-		if($isFirst) {
-			echo('<th class="left" rowspan="2">');
-			$isFirst = false;
-		}
-		else echo('<th rowspan="2">');
-		
-		echo($other_column_name.'</th>');
-	}
-	
-	echo('</tr>');
-	
-	if($isAnnonce) {
-		$columns = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
-		
-		echo('<tr>');
-		
-		foreach($columns as $c => $n) {
-			$string_params = '';
+			echo('<tr class="top">');
 			
-			foreach($current_url as $label => $value) {
-				if($label == 'order') $string_params .= 'order='.$c.'&amp;';
-				elseif($label == 'reverse' && $isAnnonce) $string_params .= 'reverse='.print_reverse('annonces', $c, $current_url).'&amp;';
-				elseif($label == 'reverseComments' && !$isAnnonce) $string_params .= 'reverseComments='.print_reverse('annonces', $c, $current_url).'&amp;';
-				else $string_params .= $label.'='.$value.'&amp;';
+			foreach($other_columns_array as $other_column_name) {
+				if($is_first) {
+					echo('<th rowspan="2" class="left">'.$other_column_name.'</th>');
+					$is_first = false;
+				}
+				
+				elseif(substr_count($other_column_name, $superf_string_cmp) != 0) {
+					if($have_to_print_superf_string) {
+						echo('<th colspan="2">'.$superf_string_print.'</th>');
+						$have_to_print_superf_string = false;
+					}
+				}
+				
+				else echo('<th rowspan="2">'.$other_column_name.'</th>');
 			}
 				
-			foreach($sort_array as $label => $value) {
-				$string_params .= $label.'='.$value.'&amp;';
+			echo('</tr>');
+			
+			$superf_array = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
+			
+			echo('<tr>');
+			
+			foreach($superf_array as $c => $n) {
+				$string_params = '';
+			
+				foreach($current_url as $label => $value) {
+					if($label == 'order') $string_params .= 'order='.$c.'&amp;';
+					elseif($label == 'reverse') $string_params .= 'reverse='.print_reverse('annonces', $c, $current_url).'&amp;';
+					else $string_params .= $label.'='.$value.'&amp;';
+				}
+			
+				foreach($sort_array as $label => $value) {
+					$string_params .= $label.'='.$value.'&amp;';
+				}
+					
+				echo('<th>'.$n.'</th>');
 			}
 			
-			echo('<th><a href="'.append_sid($current_page, $string_params).'">'.$n.'</a></th>');
-		}
+			echo('</tr>');
+		break;
 		
-		echo('</tr>');
+		case 'comments':
+			foreach($sort_columns_array as $column_bdd => $column_name) {
+				if($is_first) {
+					echo('<th class="left">');
+					$is_first = false;
+				}
+		
+				else echo('<th>');
+		
+				$string_params = '';
+		
+				foreach($current_url as $label => $value) {
+					if($label == 'orderComments') $string_params .= 'orderComments='.$column_bdd.'&amp;';
+					elseif($label == 'reverseComments') $string_params .= 'reverseComments='.print_reverse('comments', $column_bdd, $current_url).'&amp;';
+					else $string_params .= $label.'='.$value.'&amp;';
+				}
+		
+				foreach($sort_array as $label => $value) {
+					$string_params .= $label.'='.$value.'&amp;';
+				}
+				
+				$string_params .= '#comments';
+		
+				echo('<a href="'.append_sid($current_page, $string_params).'">'.$column_name.'</a></th>');
+			}
+			echo('</tr>');
+		break;
+		
+		default:
+			echo('<p class="error">Mauvais paramètre what dans print_debut_table() : '.$what.'</p>');
+		break;
 	}
 }
 
@@ -334,7 +410,7 @@ function print_all_annonces($current_page, $current_url, $sort_array) {
 			'note' => 'Note',
 			'comments' => 'Comms'];
 	
-	print_debut_table($columns_array, ['Lien', 'Détails'], 'Liste des Annonces', $current_url, $sort_array, true);
+	print_debut_table($columns_array, ['Lien', 'Détails'], 'Liste des Annonces', $current_url, $sort_array, 'annonces');
 	
 	$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, departement, available FROM annonces';
 	
@@ -354,7 +430,7 @@ function print_single_annonce($current_page, $current_url, $sort_array) {
 	if($current_url['annonce'] != 0) {
 		$columns_array = ['Date', 'Auteur', 'Lieu', 'Dpt', 'Superficie bâtie', 'Superficie du terrain', 'État', 'Trajet', 'Prix', 'Note', 'Lien'];
 		
-		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, true);
+		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, 'single_annonce');
 			
 		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, departement, superf_h, superf_t, price, link, habit, time, available FROM annonces WHERE id = '.$current_url['annonce'].'';
 		$reponse = $bdd->query($reponse_query);
@@ -388,7 +464,7 @@ function print_user_annonces($current_page, $current_url, $sort_array) {
 			'note' => 'Note',
 			'comments' => 'Comms'];
 	
-	print_debut_table($columns_array, ['Liens', 'Détails'], 'Liste des annonces de '.$username.'', $current_url, $sort_array, true);
+	print_debut_table($columns_array, ['Liens', 'Détails'], 'Liste des annonces de '.$username.'', $current_url, $sort_array, 'annonces');
 	
 	$initial_query = 'SELECT id, '.format_date().', auteur, lieu, departement, superf_h, superf_t, price, link, habit, time, available FROM annonces WHERE auteur = \''.$username.'\'';
 	
@@ -676,7 +752,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		
 		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
 		
-		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, false);
+		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, 'comments');
 		echo('</tr></table></div>');
 		
 		echo('<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post"><p>');
