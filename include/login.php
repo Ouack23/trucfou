@@ -18,9 +18,7 @@
 		<form accept-charset="utf-8" action="<?php echo(append_sid('forum/ucp.php', 'mode=logout', true, $user->session_id)); ?>" method=post>
 			<p><input type="submit" name="logout" value="Logout" /></p>
 		</form>
-		<form accept-charset="utf-8" action="new_comment.php" method=post>
-			<p><input type="submit" value="Nouveau commentaire" /></p>
-		</form>
+		
 		<form accept-charset="utf-8" action="new_annonce.php" method=post>
 			<p><input type="submit" value="Nouvelle annonce" /></p>
 		</form>
