@@ -664,6 +664,10 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		
 		print_notation($current_url['annonce']);
 		print_available($current_url['annonce']);
+		
+		echo('<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post"><p>');
+		echo('<input type="submit" name="new_comment" value="Nouveau commentaire" />');
+		echo('</p></form>');
 	}
 	$reponse->closeCursor();
 }
