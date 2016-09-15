@@ -386,6 +386,20 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 			echo('</tr>');
 		break;
 		
+		case 'other':
+			echo('<tr class="top">');
+			
+			foreach($other_columns_array as $c) {
+				if($is_first) {
+					echo('<th class="left">'.$c.'</th>');
+					$is_first = false;
+				}
+				else echo('<th>'.$c.'</th>');
+			}
+			
+			echo('</tr>');
+		break;
+		
 		default:
 			echo('<p class="error">Mauvais paramètre what dans print_debut_table() : '.$what.'</p>');
 		break;
