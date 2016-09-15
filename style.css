@@ -214,7 +214,13 @@ output {
 }
 
 #form_sort_annonce {
-	width: 100%;
+	width: 90%;
+	margin: auto;
+}
+
+#form_sort_annonce * {
+	tex-align: center;
+	margin-auto;
 }
 
 #form_sort_annonce label {
@@ -224,4 +230,7 @@ output {
 
 #form_sort_annonce input[type=submit] {
 	font-weight: bold;
+	background-color: lightgreen;
+	margin: auto;
+	text-align: center;
 }
