@@ -7,12 +7,17 @@
 			if($user->data['is_registered']) {
 				echo('<li><a href="'.append_sid('listeCR.php').'">Comptes-Rendus</a></li>');
 				echo('<li><a href="'.append_sid('annonces.php', 'reverse=true').'">Annonces</a></li>');
-				echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
 				echo('<li><a href="'.append_sid('user.php', 'reverse=true').'">Mes annonces</a></li>');
+				echo('<li><a href="'.append_sid('new_annonce.php').'">Nouvelle annonce</a></li>');
+				echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
+				echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=logout', true, $user->session_id).'">Déconnexion</a></li>');
 				
 				if($user->data['username'] == 'Belette')
 					echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
 			}
+			
+			else
+				echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=register', true, $user->session_id).'">Inscription</a></li>');
 			?>
 		</ul>
 </nav>

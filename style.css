@@ -37,28 +37,18 @@ nav ul li a {
 #login {
 	float: right;
 	position: fixed;
-	right: 50px;
-	top: 10px;
+	right: 20px;
+	top: 20px;
 	width: auto;
 	text-align: center;
 	border: 2px solid black;
 	padding: 5px;
 }
 
-#login label {
-	float: left;
-	width: 100px;
-	margin-top: 5px;
-}
-
 #new_announce label {
 	float: left;
 	width: 290px;
 	margin-top: 15px;
-}
-
-#login input {
-	margin-top: 5px;
 }
 
 #new_announce input {
@@ -75,7 +65,6 @@ nav ul li a {
 
 #main {
 	border: 1px solid grey;
-	margin-right: 260px;
 	margin-top: 50px;
 	padding: 20px;
 	min-height: 650px;
