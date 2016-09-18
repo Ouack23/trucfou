@@ -32,14 +32,11 @@ function insertBalise(balise) {
 }
 
 function doPreview() {
-	var div = document.getElementById("invisiblePreview");
-	var myData = div.textContent;
-	var textArea = document.getElementsByName("comment")[0];
+	var myData = document.getElementById("comment").value;
 	console.log(myData);
-	var result = XBBCODE.process({text: myData, removeMisalignedTags: true, addInLineBreaks: true});
+	var result = XBBCODE.process({text: myData, removeMisalignedTags: false, addInLineBreaks: false});
 	var output = document.getElementById("visualPreview");
 	output.innerHTML = result.html;
-	textArea.value = myData;
 	console.error("Errors", result.error);
 	console.dir(result.errorQueue);
 	console.log(result.html);

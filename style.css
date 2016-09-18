@@ -115,13 +115,6 @@ td, th {
 	width: 1000px;
 }
 
-#preview {
-	float: left;
-	position: absolute;
-	left: 20px;
-	top: 400px;
-}
-
 #visualPreview {
 	display: block;
 	width: 80%;

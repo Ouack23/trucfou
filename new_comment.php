@@ -52,24 +52,15 @@ include('include/config.php');?>
 								<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
 								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
 							</div>
-							
+							<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> :<br /></p>
 							<form accept-charset="utf-8" action="#" method="post">
-								<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> : <br /></p>
-								<textarea name="comment"></textarea>
-								<div id="preview">
-									<p><input type="submit" name="preview" value="Prévisualiser" /><br />
-									<input type="submit" name="submit" value="Valider" />
-									<input type="text" name="annonce" value="<?php echo($current_url['annonce']); ?>" style="display: none;" /></p>
-								</div>
+								<textarea name="comment" id="comment"></textarea>
+								<p><input type="submit" name="submit" value="Valider" />
+								<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
 							</form>
+							<p><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
+							<p id="visualPreview"></p>
 							<?php
-							if(isset($_POST['preview'])) {
-								echo('<div id="invisiblePreview" style="display: none;">');
-								echo($request->variable('comment', ''));
-								echo('</div>');
-								echo('<p id="visualPreview"></p>');
-								echo('<script>doPreview();</script>');
-							}
 						}
 					}
 					
