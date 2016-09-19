@@ -206,6 +206,10 @@ output {
 	font-size: 80%;
 }
 
+.center {
+	text-align: center;
+}
+
 #form_sort_annonce {
 	width: 90%;
 	margin: auto;
