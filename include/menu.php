@@ -11,7 +11,7 @@
 				echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
 				echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=logout', true, $user->session_id).'">Déconnexion</a></li>');
 				
-				if($user->data['username'] == 'Belette')
+				if($user->data['username'] == 'Belette' && $_SERVER['HTTP_HOST'] == 'localhost')
 					echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
 			}
 			
