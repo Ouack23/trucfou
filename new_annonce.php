@@ -49,7 +49,7 @@ include('include/config.php');
 					$print_form = false;
 
 					if(!(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $link) &&
-							preg_match('#^[a-zA-Z][a-zA-Z- ]+#', $lieu) &&
+							preg_match('#^[A-Z][a-zA-Z- ]+#', $lieu) &&
 							$time <= $sort_array['max_time'] && $time >= $sort_array['min_time'] &&
 							$superf_h <= $sort_array['max_superf_h'] && $superf_h >= $sort_array['min_superf_h'] &&
 							$superf_t <= $sort_array['max_superf_t'] && $superf_t >= $sort_array['min_superf_t'] &&

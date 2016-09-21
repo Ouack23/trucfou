@@ -174,8 +174,8 @@ function search_error_new_annonce($sort_array, $param_array) {
 			$param_array['time'] == 0 || $param_array['price'] == 0 || $param_array['habit'] == -1 || $param_array['note'] == -1)
 		echo('<p id="form" class="error">Il faut remplir tous les champs !</p>');
 	
-	if(!preg_match('#^[a-zA-Z][a-zA-Z- ]+#', $param_array['lieu']))
-		echo('<p id="form" class="error">Le lieu ne doit contenir que des lettres, des tirets et des espaces, et doit commencer par une lettre !</p>');
+	if(!preg_match('#^[A-Z][a-zA-Z- ]+#', $param_array['lieu']))
+		echo('<p id="form" class="error">Le lieu ne doit contenir que des lettres, des tirets et des espaces, et doit commencer par une lettre majuscule !</p>');
 	
 	if($param_array['depart'] >= $sort_array['max_depart'] || $param_array['depart'] <= $sort_array['min_depart'])
 		echo('<p id="form" class="error">Le département doit être inférieur à 96 !</p>');
