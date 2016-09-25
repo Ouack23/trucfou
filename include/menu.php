@@ -20,10 +20,10 @@
 				echo('<li><a href="'.append_sid('new_annonce.php').'">Nouvelle annonce</a></li>');
 				
 				if(!$is_localhost) {
-					echo('<li><a href="'.append_sid('booked/index.php').'">Calendrier</a></li>');
+					echo('<li><a href="'.append_sid('booked/Web/?').'">Calendrier</a></li>');
 					
 					if($is_admin || $is_in_GdT)
-						echo('<li><a href="'.append_sid('survey/admin/').'">Admin Sondages</a></li>');
+						echo('<li><a href="'.append_sid('survey/index.php/admin/authentication/sa/login').'">Admin Sondages</a></li>');
 				}
 				
 				echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
