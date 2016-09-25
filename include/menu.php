@@ -20,7 +20,6 @@
 				echo('<li><a href="'.append_sid('new_annonce.php').'">Nouvelle annonce</a></li>');
 				
 				if(!$is_localhost) {
-					echo('<li><a href="'.append_sid('survey/index.php').'">Sondages</a></li>');
 					echo('<li><a href="'.append_sid('booked/index.php').'">Calendrier</a></li>');
 					
 					if($is_admin || $is_in_GdT)
