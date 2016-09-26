@@ -409,7 +409,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 function print_statistics($current_page, $current_url, $sort_array, $what) {
 	global $bdd;
 	
-	$other_columns_array = ['Catégorie', 'Premier Quartile', 'Médiane', 'Troisième quartile', 'Moyenne'];
+	$other_columns_array = ['Catégorie', 'Quartile 1', 'Médiane', 'Quartile 3', 'Moyenne'];
 	
 	print_debut_table([], $other_columns_array, 'Statistiques des annonces', $current_url, $sort_array, 'other');
 	
@@ -417,7 +417,7 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 	
 	foreach($rows as $n => $c) {
 		if($c != 'note') {
-			$get_moy = $bdd->query('SELECT avg('.$c.') AS MOY FROM annonces');
+			$get_moy = $bdd->query('SELECT AVG('.$c.') AS MOY FROM annonces');
 			$moy = $get_moy->fetch()['MOY'];
 			$get_moy->closeCursor();
 			

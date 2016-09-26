@@ -25,13 +25,13 @@ include("include/config.php");?>
 				
 				print_sort_form($current_page, $current_url, $sort_array);
 				
-				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
-				
 				print_all_annonces($current_page, $current_url, $sort_array);
 				
 				//Si on veut afficher les commentaires
 				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true')
 					print_comments_annonce($current_page, $current_url, $sort_array);
+				
+				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
 			} ?>
 		</section>
 		<?php include_content("bottom"); ?>
