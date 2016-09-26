@@ -25,6 +25,8 @@ include("include/config.php");?>
 				
 				print_sort_form($current_page, $current_url, $sort_array);
 				
+				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
+				
 				print_all_annonces($current_page, $current_url, $sort_array);
 				
 				//Si on veut afficher les commentaires

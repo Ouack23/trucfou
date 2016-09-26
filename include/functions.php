@@ -406,6 +406,107 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	}
 }
 
+function print_statistics($current_page, $current_url, $sort_array, $what) {
+	global $bdd;
+	
+	$other_columns_array = ['Catégorie', 'Premier Quartile', 'Médiane', 'Troisième quartile', 'Moyenne'];
+	
+	print_debut_table([], $other_columns_array, 'Statistiques des annonces', $current_url, $sort_array, 'other');
+	
+	$rows = ['Prix' => 'price', 'Trajet' => 'time', 'Superficie Bâtie' => 'superf_h', 'Superficie Terrain' => 'superf_t', 'État' => 'habit', 'Note' => 'note'];
+	
+	foreach($rows as $n => $c) {
+		if($c != 'note') {
+			$get_moy = $bdd->query('SELECT avg('.$c.') AS MOY FROM annonces');
+			$moy = $get_moy->fetch()['MOY'];
+			$get_moy->closeCursor();
+			
+			$get_values = $bdd->query('SELECT '.$c.' FROM annonces');
+			
+			$values = [];
+			
+			while($data = $get_values->fetch()[$c]) {
+				array_push($values, $data);
+			}
+			
+			$get_values->closeCursor();
+		}
+		
+		elseif($c == 'note') {
+			$get_moy = $bdd->query('SELECT avg(value) AS MOY FROM notes');
+			$moy = $get_moy->fetch()['MOY'];
+			$get_moy->closeCursor();
+			
+			$get_values = $bdd->query('SELECT value FROM notes');
+			
+			$values = [];
+			
+			while($data = $get_values->fetch()['value']) {
+				array_push($values, $data);
+			}
+			
+			$get_values->closeCursor();
+		}
+		
+		echo('<tr><td class="left">'.$n.'</td>');
+		echo('<td>'.calcul_quartile($values, 1).'</td>');
+		echo('<td>'.calcul_quartile($values, 2).'</td>');
+		echo('<td>'.calcul_quartile($values, 3).'</td>');
+		echo('<td>'.$moy.'</td></tr>');
+	}
+	
+	echo('</table></div>');
+}
+
+function calcul_quartile($t, $int) {
+	sort($t);
+	$count = count($t);
+	
+	switch($int) {
+		case 1:
+			$val = floor(($count-1)/4);
+				
+			if($count % 2) $median = $t[$val];
+				
+			else {
+				$low = $t[$val];
+				$high = $t[$val+1];
+				$median = (($low+$high)/4);
+			}
+		break;
+		
+		case 2:
+			$val = floor(($count-1)/2);
+			
+			if($count % 2) $median = $t[$val];
+			
+			else {
+				$low = $t[$val];
+				$high = $t[$val+1];
+				$median = (($low+$high)/2);
+			}
+		break;
+		
+		case 3:
+			$val = floor(($count-1)*3/4);
+			
+			if($count % 2) $median = $t[$val];
+			
+			else {
+				$low = $t[$val];
+				$high = $t[$val+1];
+				$median = (3*($low+$high)/4);
+			}
+		break;
+		
+		default:
+			echo('<p class="error">Mauvaise valeur int dans calcul_quartile()</p>');
+		break;
+	}
+		
+	return $median;
+}
+
 function print_all_annonces($current_page, $current_url, $sort_array) {
 	global $bdd;
 	
@@ -656,7 +757,8 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			echo('<td>'.$donnees['price'].' k€</td>');
 			
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
+			if($note == 10) echo('<td class="unnoted"> - </td>');
+			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			
 			echo('<td>'.get_comments($donnees['id']).'</td>');
 			
@@ -683,19 +785,31 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			
 			if($donnees['available']) echo('<tr>');
 			else  echo('<tr class="unavailable">');
+			
 			echo('<td class="left">'.$donnees['date'].'</td>');
+			
 			echo('<td>'.$donnees['auteur'].'</td>');
+			
 			echo('<td>'.$donnees['lieu'].'</td>');
+			
 			echo('<td>'.$donnees['departement'].'</td>');
+			
 			echo('<td>'.$donnees['superf_h'].'</td>');
+			
 			echo('<td>'.$donnees['superf_t'].'</td>');
+			
 			echo('<td class="habit'.floor($donnees['habit']).'">'.$donnees['habit'].'</td>');
+			
 			if($hours == 0) echo('<td>'.$minutes.' min</td>');
 			elseif($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
 			else echo('<td>'.$hours.'h'.$minutes.'</td>');
+			
 			echo('<td>'.$donnees['price'].' k€</td>');
+			
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
+			if($note == 10) echo('<td class="unnoted"> - </td>');
+			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
+			
 			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
 		break;
 		
@@ -704,13 +818,20 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			$hours = ($donnees['time'] - $minutes)/60;
 			
 			if($donnees['available']) echo('<tr>');
-			else  echo('<tr class="unavailable">');
+			else echo('<tr class="unavailable">');
+			
 			echo('<td class="left">'.$donnees['id'].'</td>');
+			
 			echo('<td>'.$donnees['date'].'</td>');
+			
 			echo('<td>'.$donnees['lieu'].'</td>');
+			
 			echo('<td>'.$donnees['departement'].'</td>');
+			
 			echo('<td>'.$donnees['superf_h'].'</td>');
+			
 			echo('<td>'.$donnees['superf_t'].'</td>');
+			
 			echo('<td class="habit'.floor($donnees['habit']).'">'.$donnees['habit'].'</td>');
 			
 			if($minutes < 10) echo('<td>'.$hours.'h0'.$minutes.'</td>');
@@ -719,7 +840,8 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			echo('<td>'.$donnees['price'].' k€</td>');
 			
 			$note = get_note($donnees['id']);
-			echo('<td class="habit'.floor($note).'">'.$note.'</td>');
+			if($note == 10) echo('<td class="unnoted"> - </td>');
+			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			
 			echo('<td>'.get_comments($donnees['id']).'</td>');
 			
@@ -921,7 +1043,7 @@ function get_note($annonce) {
 	}
 	
 	if(!empty($values_array)) return array_sum($values_array) / count($values_array);
-	else return 0;
+	else return 10;
 }
 
 function get_comments($annonce) {

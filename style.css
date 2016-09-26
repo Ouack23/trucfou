@@ -162,7 +162,7 @@ textarea {
 	background-color: greenyellow;
 }
 
-.unknown {
+.unknown, .unnoted {
 	background-color: lightgray;
 }
 
