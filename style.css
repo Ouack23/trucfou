@@ -5,6 +5,7 @@
 
 body {
 	padding: 10px;
+	background-color: #778899;
 }
 
 nav {
@@ -68,6 +69,7 @@ nav ul li a {
 	margin-top: 50px;
 	padding: 20px;
 	min-height: 650px;
+	background-color: lightgray;
 }
 
 #main iframe {
@@ -83,6 +85,7 @@ nav ul li a {
 	margin: auto;
 	border-collapse: collapse;
 	text-align: center;
+	background-color: white;
 }
 
 .top th {
