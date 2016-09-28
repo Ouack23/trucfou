@@ -463,39 +463,15 @@ function calcul_quartile($t, $int) {
 	$count = count($t);
 	
 	switch($int) {
-		case 1:
-			$val = floor(($count-1)/4);
-				
-			if($count % 2) $median = $t[$val];
-				
-			else {
-				$low = $t[$val];
-				$high = $t[$val+1];
-				$median = (($low+$high)/4);
-			}
-		break;
-		
-		case 2:
-			$val = floor(($count-1)/2);
+		case 1 || 2 || 3:
+			$val = floor(($count - 1) * $int / 4);
 			
-			if($count % 2) $median = $t[$val];
+			if(($int % 2 && $count % 4) || (!($int % 2) && $count %2)) $median = $t[$val];
 			
 			else {
 				$low = $t[$val];
 				$high = $t[$val+1];
-				$median = (($low+$high)/2);
-			}
-		break;
-		
-		case 3:
-			$val = floor(($count-1)*3/4);
-			
-			if($count % 2) $median = $t[$val];
-			
-			else {
-				$low = $t[$val];
-				$high = $t[$val+1];
-				$median = (3*($low+$high)/4);
+				$median = ($low + $high) / 2;
 			}
 		break;
 		
@@ -503,7 +479,7 @@ function calcul_quartile($t, $int) {
 			echo('<p class="error">Mauvaise valeur int dans calcul_quartile()</p>');
 		break;
 	}
-		
+	
 	return $median;
 }
 

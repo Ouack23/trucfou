@@ -3,7 +3,7 @@ $host = $request->server('HTTP_HOST', '');
 $is_localhost = $host == 'localhost';
 
 $admin = 'Belette';
-$GdT = ['Éric', 'Buzz', 'Bastien', 'TimRocket', 'Zaza', 'Keks'];
+$GdT = ['Éric', 'Buzz', 'Bastien', 'TimRocket', 'Zaza', 'Keks', 'ratichon'];
 
 $is_admin = $user->data['username'] == $admin;
 $is_in_GdT = in_array($user->data['username'], $GdT);
