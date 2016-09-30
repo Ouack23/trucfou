@@ -132,7 +132,7 @@ function select_annonce() {
 
 function print_form_new_annonce($params) {
 	echo('
-		<form accept-charset="utf-8" action="#form" method="post" name="new_announce" id="new_announce">
+		<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
 			<p name="form" id="form">
 			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
 			<label for="depart">Département :</label><input type="text" name="depart" id="depart" value="'.$params['depart'].'"/><br />
@@ -1128,7 +1128,7 @@ function print_notation($annonce) {
 	else {
 		if(!isset($_POST['value_note_submit'])) {
 			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
-			echo('<label for="note_option">Note :</label>');
+			echo('<label for="note_option">Note : </label>');
 			echo('<select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');
 			echo('<option value="un">1</option>');

@@ -19,18 +19,20 @@ include("include/config.php");?>
 		if(!$user->data['is_registered']) include('include/not_registered.php');
 		
 		else {
-			print_debut_table([], ['N°', 'Date', 'Auteur', 'Titre', 'Lien'], 'Liste des Documents', $current_url, $sort_array, 'other');
+			print_debut_table([], ['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents', $current_url, $sort_array, 'other');
 			$docs_folder = 'include/docs/';
 			$ext = 'pdf';
 			$allowed_exts = 'application/pdf';
+			$categories = ['admin' => 'Administratif', 'CR_gen' => 'Compte-Rendu - Assemblée Générale', 'CR_gdt' => 'Compte-Rendu - Groupe de Travail', 'other' => 'Autre'];
 			
-			$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, enable FROM CR');
-
+			$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR');
+			
 			while($donnees = $reponse->fetch()) {
 				if($donnees['enable'] == 1) {
 					echo('<tr><td class="left">'.$donnees['id'].'</td>');
 					echo('<td>'.$donnees['date'].'</td>');
 					echo('<td>'.$donnees['auteur'].'</td>');
+					echo('<td>'.$categories[$donnees['category']].'</td>');
 					echo('<td>'.$donnees['title'].'</td>');
 					echo('<td><a href="'.append_sid($current_page, 'name='.$donnees['name'].'').'">Visualiser</a></td></tr>');
 				}
@@ -39,19 +41,20 @@ include("include/config.php");?>
 			$reponse->closeCursor();
 			echo('</table></div>');
 			
-			$to_enable = $bdd->query('SELECT id, '.format_date().', auteur, title, name, enable FROM CR WHERE enable = 0');
+			$to_enable = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR WHERE enable = 0');
 			
 			if($user->data['username'] == 'Belette' && $to_enable->fetch()) {
 				$to_enable->closeCursor();
-				print_debut_table([], ['N°', 'Date', 'Auteur', 'Titre', 'Lien', 'Activer', 'Supprimer'], 'Liste des Documents à activer', $current_url, $sort_array, 'other');
+				print_debut_table([], ['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien', 'Activer', 'Supprimer'], 'Liste des Documents à activer', $current_url, $sort_array, 'other');
 			
-				$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, enable FROM CR');
+				$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR');
 			
 				while($donnees = $reponse->fetch()) {
 					if($donnees['enable'] == 0) {
 						echo('<tr><td class="left">'.$donnees['id'].'</td>');
 						echo('<td>'.$donnees['date'].'</td>');
 						echo('<td>'.$donnees['auteur'].'</td>');
+						echo('<td>'.$categories[$donnees['category']].'</td>');
 						echo('<td>'.$donnees['title'].'</td>');
 						echo('<td><a href="'.append_sid($current_page, 'name='.$donnees['name'].'').'">Visualiser</a></td>');
 						echo('<td><a href="'.append_sid($current_page, 'id='.$donnees['id'].'&amp;action=activate').'">Activer</a></td>');
@@ -129,14 +132,13 @@ include("include/config.php");?>
 					
 					echo '<p class="success">Upload Réussi</p>';
 					
-					$req = $bdd->prepare('INSERT INTO CR(date, auteur, title, name, enable) VALUES(NOW(), :auteur, :title, :name, 0)');
+					$req = $bdd->prepare('INSERT INTO CR(date, auteur, category, title, name, enable) VALUES(NOW(), :auteur, :category, :title, :name, 0)');
 					
-					$req->execute(array('auteur' => $user->data['username'], 'title' => $request->variable('title', ''), 'name' => $name));
+					$req->execute(array('auteur' => $user->data['username'], 'category' => $request->variable('category', ''), 'title' => $request->variable('title', ''), 'name' => $name));
 					
 					echo('<p class="success">Base de données mise à jour ! Rechargez la page pour voir votre document.</a></p>');
 					
 					$req->closeCursor();
-		
 				}
 				
 				catch (RuntimeException $e) {
@@ -151,10 +153,18 @@ include("include/config.php");?>
 			}
 			
 			else {
-				echo('<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8"><p>');
+				echo('<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form"><p>');
 				echo('<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />');
 				echo('8 Mo max !.<br />');
 				echo('<label for="document">Fichier à uploader : </label><input type="file" name="document" id="document" /><br />');
+				echo('<label for="category">Catégorie : </label><select name="category" id="category">');
+				
+				foreach($categories as $c => $n) {
+					echo('<option value="'.$c.'">'.$n.'</option>');
+				}
+				
+				echo('</select><br />');
+				
 				echo('<label for="name">Titre du Document : </label><input type="text" name="title" id="title" />');
 				echo('<input type="submit" value="Valider" />');
 				echo('</p></form>');

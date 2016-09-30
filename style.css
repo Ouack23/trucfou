@@ -46,21 +46,21 @@ nav ul li a {
 	padding: 5px;
 }
 
-#new_announce label {
+#form label {
 	float: left;
 	width: 290px;
 	margin-top: 15px;
 }
 
-#new_announce input {
+#form input {
 	margin-top: 15px;
 }
 
-#new_announce input {
+#form input {
 	width: 200px;
 }
 
-#new_announce select {
+#form select {
 	margin-top: 15px;
 }
 
