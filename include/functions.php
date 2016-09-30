@@ -409,7 +409,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 function print_statistics($current_page, $current_url, $sort_array, $what) {
 	global $bdd;
 	
-	$other_columns_array = ['Catégorie', 'Quartile 1', 'Médiane', 'Quartile 3', 'Moyenne'];
+	$other_columns_array = ['Catégorie', 'Min', 'Quartile 1', 'Médiane', 'Quartile 3', 'Max', 'Moyenne'];
 	
 	print_debut_table([], $other_columns_array, 'Statistiques des annonces', $current_url, $sort_array, 'other');
 	
@@ -417,9 +417,13 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 	
 	foreach($rows as $n => $c) {
 		if($c != 'note') {
-			$get_moy = $bdd->query('SELECT AVG('.$c.') AS MOY FROM annonces');
-			$moy = $get_moy->fetch()['MOY'];
-			$get_moy->closeCursor();
+			$get_stats = $bdd->query('SELECT AVG('.$c.') AS MOY, MIN('.$c.') AS MIN, MAX('.$c.') AS MAX FROM annonces');
+			$datas = $get_stats->fetch();
+			$moy = $datas['MOY'];
+			$min = $datas['MIN'];
+			$max = $datas['MAX'];
+			
+			$get_stats->closeCursor();
 			
 			$get_values = $bdd->query('SELECT '.$c.' FROM annonces');
 			
@@ -433,9 +437,12 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 		}
 		
 		elseif($c == 'note') {
-			$get_moy = $bdd->query('SELECT avg(value) AS MOY FROM notes');
-			$moy = $get_moy->fetch()['MOY'];
-			$get_moy->closeCursor();
+			$get_stats = $bdd->query('SELECT AVG(value) AS MOY, MIN(value) AS MIN, MAX(value) AS MAX FROM notes');
+			$datas = $get_stats->fetch();
+			$moy = $datas['MOY'];
+			$min = $datas['MIN'];
+			$max = $datas['MAX'];
+			$get_stats->closeCursor();
 			
 			$get_values = $bdd->query('SELECT value FROM notes');
 			
@@ -449,9 +456,11 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 		}
 		
 		echo('<tr><td class="left">'.$n.'</td>');
+		echo('<td>'.$min.'</td>');
 		echo('<td>'.calcul_quartile($values, 1).'</td>');
 		echo('<td>'.calcul_quartile($values, 2).'</td>');
 		echo('<td>'.calcul_quartile($values, 3).'</td>');
+		echo('<td>'.$max.'</td>');
 		echo('<td>'.$moy.'</td></tr>');
 	}
 	
