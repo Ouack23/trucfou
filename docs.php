@@ -101,7 +101,7 @@ include("include/config.php");?>
 				$file = $request->file('document');
 				
 				try {
-					switch ($file['error']) {
+					switch($file['error']) {
 						case UPLOAD_ERR_OK:
 							break;
 						case UPLOAD_ERR_NO_FILE:
@@ -113,11 +113,11 @@ include("include/config.php");?>
 							throw new RuntimeException('<p class="error">Erreur inconnue !</p>');
 					}
 					
-					if ($file['size'] > $request->variable('MAX_FILE_SIZE', 0))
+					if($file['size'] > $request->variable('MAX_FILE_SIZE', 0))
 						throw new RuntimeException('<p class="error">Fichier trop grand !</p>');
 					
 					$finfo = new finfo(FILEINFO_MIME_TYPE);
-					//if (false === $ext = array_search($finfo->file($file['tmp_name']), array('jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif',),true)) {
+					
 					if ($finfo->file($file['tmp_name']) != $allowed_exts)
 						throw new RuntimeException('<p class="error">Le fichier n\'est pas un PDF !</p>');
 					
@@ -126,9 +126,11 @@ include("include/config.php");?>
 						$path = sprintf('%s%s', $docs_folder, $name);
 					}
 					
-					if (!move_uploaded_file($file['tmp_name'],	$path)) {
+					if(!in_array($request->variable('category', ''), $categories))
+						throw new RuntimeException('<p class="error">Mauvaise catégorie !</p>');
+					
+					if(!move_uploaded_file($file['tmp_name'], $path))
 						throw new RuntimeException('<p class="error">Déplacement impossible !</p>');
-					}
 					
 					echo '<p class="success">Upload Réussi</p>';
 					
@@ -136,7 +138,7 @@ include("include/config.php");?>
 					
 					$req->execute(array('auteur' => $user->data['username'], 'category' => $request->variable('category', ''), 'title' => $request->variable('title', ''), 'name' => $name));
 					
-					echo('<p class="success">Base de données mise à jour ! Rechargez la page pour voir votre document.</a></p>');
+					echo('<p class="success">Base de données mise à jour ! Rechargez la page pour voir votre document.</p>');
 					
 					$req->closeCursor();
 				}
