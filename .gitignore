@@ -1,6 +1,7 @@
 forum/
 include/docs/
 include/config.php
+.metadata
 .project
 .buildpath
 .settings/

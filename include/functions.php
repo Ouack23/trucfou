@@ -1027,7 +1027,7 @@ function get_note($annonce) {
 		return -1;
 	}
 	
-	if(!empty($values_array)) return array_sum($values_array) / count($values_array);
+	if(!empty($values_array)) return round(array_sum($values_array) / count($values_array), 2);
 	else return 10;
 }
 
