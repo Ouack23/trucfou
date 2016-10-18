@@ -747,7 +747,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			
 			echo('<td>'.get_comments($donnees['id']).'</td>');
 			
-			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 				
 			$string_params = 'annonce='.$donnees['id'].'&amp;comments=true&amp;';
 				
@@ -795,7 +795,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			if($note == 10) echo('<td class="unnoted"> - </td>');
 			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			
-			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 		break;
 		
 		case 'user_annonces':
@@ -830,7 +830,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			
 			echo('<td>'.get_comments($donnees['id']).'</td>');
 			
-			echo('<td><a href="'.$donnees['link'].'">Annonce</a></td>');
+			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 			
 			$string_params = 'annonce='.$donnees['id'].'&amp;comments=true&amp;';
 				
