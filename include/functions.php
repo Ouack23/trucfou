@@ -83,6 +83,8 @@ function secure_get() {
 	$sort_array['value_distance'] = $request->variable('value_distance', $sort_array['min_distance']);
 	$sort_array['value_price'] = $request->variable('value_price', $sort_array['min_price']);
 	$sort_array['value_note'] = $request->variable('value_note', $sort_array['min_note']);
+	
+	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'false');
 }
 
 function print_reverse($whichpage, $criteria, $current_url) {
@@ -647,6 +649,18 @@ function build_annonce_query($reponse_query, $have_to_add_WHERE, $have_to_add_AN
 		elseif($sort_array['sort_'.$s.''] != 'sup' && $sort_array['sort_'.$s.''] != 'inf') echo('<p class="error">Mauvais critère pour : '.$s.'</p>');
 	}
 	
+	if($sort_array['hide_disabled'] == 'true') {
+		if($have_to_add_WHERE) {
+			$reponse_query .= ' WHERE';
+			$have_to_add_WHERE = false;
+		}
+		
+		if($have_to_add_AND) $reponse_query .= ' AND';
+		else $have_to_add_AND = true;
+		
+		$reponse_query .= ' available = 1';
+	}
+	
 	return $reponse_query;
 }
 
@@ -973,16 +987,26 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	$get_max->closeCursor();
 	
 	print_option_select($inf_sup_array, 'superf_h', 'Superficie bâtie', $sort_array['min_superf_h'], $max['superf_h'], 50);
-	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', $sort_array['min_superf_t'], $max['superf_t'], 50);
 	echo('<br />');
+	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', $sort_array['min_superf_t'], $max['superf_t'], 50);
 	print_option_select($inf_sup_array, 'habit', 'État', $sort_array['min_habit'], $sort_array['max_habit'], 1);
 	print_option_select($inf_sup_array, 'time', 'Trajet', $sort_array['min_time'], $max['time'], 10);
 	print_option_select($inf_sup_array, 'distance', 'Distance', $sort_array['min_distance'], $max['distance'], 10);
+	echo('<br />');
 	print_option_select($inf_sup_array, 'price', 'Prix', $sort_array['min_price'], $max['price'], 10);
 	print_option_select($inf_sup_array, 'note', 'Note', $sort_array['min_note'], $sort_array['max_note'], 1);
 	
+	echo('<label for="print_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /><br />');
+	
 	echo('<input type="submit" name="sort" id="sort" value="Valider" /></p>');
 	echo('</form>');
+}
+
+function print_checked_enabled_only($sort_array) {
+	if($sort_array['hide_disabled'] == 'true') {
+		return('checked="checked"');
+		echo('zob !');
+	}
 }
 
 function print_option_select($option_array, $name, $label, $min, $max, $step) {
