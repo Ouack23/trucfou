@@ -1005,7 +1005,6 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 function print_checked_enabled_only($sort_array) {
 	if($sort_array['hide_disabled'] == 'true') {
 		return('checked="checked"');
-		echo('zob !');
 	}
 }
 
