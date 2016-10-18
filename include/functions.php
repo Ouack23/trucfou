@@ -253,7 +253,6 @@ function get_username($user_id) {
 }
 
 function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $what) {
-	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
 	$is_first = true;
 	$add_superf = true;
 	$superf_string_cmp = 'Superficie';
@@ -261,6 +260,8 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	
 	switch($what) {
 		case 'annonces':
+			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+			
 			foreach($sort_columns_array as $column_bdd => $column_name) {
 				if($column_bdd == 'superf_h' || $column_bdd == 'superf_t') {
 					if($add_superf) {
@@ -323,6 +324,8 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		break;
 		
 		case 'single_annonce':
+			echo('<h1 id="comments">'.$title.'</h1><div id="table"><table><tr class="top">');
+			
 			$have_to_print_superf_string = true;
 			
 			echo('<tr class="top">');
@@ -340,28 +343,20 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 					}
 				}
 				
+				elseif($other_column_name == 'Note') {
+					echo('<th colspan="2">Note</th>');
+				}
+				
 				else echo('<th rowspan="2">'.$other_column_name.'</th>');
 			}
 				
 			echo('</tr>');
 			
-			$superf_array = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain'];
+			$superf_array = ['superf_h' => 'Bâtie', 'superf_t' => 'Terrain', 'note' => 'Valeur', 'count' => 'Nombre'];
 			
 			echo('<tr>');
 			
 			foreach($superf_array as $c => $n) {
-				$string_params = '';
-			
-				foreach($current_url as $label => $value) {
-					if($label == 'order') $string_params .= 'order='.$c.'&amp;';
-					elseif($label == 'reverse') $string_params .= 'reverse='.print_reverse('annonces', $c, $current_url).'&amp;';
-					else $string_params .= $label.'='.$value.'&amp;';
-				}
-			
-				foreach($sort_array as $label => $value) {
-					$string_params .= $label.'='.$value.'&amp;';
-				}
-					
 				echo('<th>'.$n.'</th>');
 			}
 			
@@ -369,6 +364,8 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		break;
 		
 		case 'comments':
+			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+			
 			foreach($sort_columns_array as $column_bdd => $column_name) {
 				if($is_first) {
 					echo('<th class="left">');
@@ -397,6 +394,8 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		break;
 		
 		case 'other':
+			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+			
 			echo('<tr class="top">');
 			
 			foreach($other_columns_array as $c) {
@@ -554,7 +553,7 @@ function print_single_annonce($current_page, $current_url, $sort_array) {
 		
 		print_debut_table([], $columns_array, 'Description de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, 'single_annonce');
 			
-		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, departement, superf_h, superf_t, price, link, habit, time, available FROM annonces WHERE id = '.$current_url['annonce'].'';
+		$reponse_query = 'SELECT id, '.format_date().', auteur, lieu, departement, superf_h, superf_t, price, link, habit, time, distance, available FROM annonces WHERE id = '.$current_url['annonce'].'';
 		$reponse = $bdd->query($reponse_query);
 		$donnees = $reponse->fetch();
 		
@@ -684,7 +683,7 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 			else echo('<p class="error">Le paramètre reverse de l\'url cloche.</p>');
 			
 			foreach($array_notes as $id => $note) {
-				$get_annonce = $bdd->query('SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, departement, available FROM annonces WHERE id = '.$id.'');
+				$get_annonce = $bdd->query('SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces WHERE id = '.$id.'');
 			
 				$donnees = $get_annonce->fetch();
 			
@@ -712,7 +711,7 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 			else echo('<p class="error">Le paramètre reverse de l\'url cloche.</p>');
 			
 			foreach($array_comments as $id => $comment) {
-				$get_annonce = $bdd->query('SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, departement, available FROM annonces WHERE id = '.$id.'');
+				$get_annonce = $bdd->query('SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces WHERE id = '.$id.'');
 				
 				$donnees = $get_annonce->fetch();
 				
@@ -746,6 +745,8 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 }
 
 function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
+	global $bdd;
+	
 	switch($what) {
 		case 'all_annonces':
 			$minutes = $donnees['time']%60;
@@ -833,6 +834,14 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			$note = get_note($donnees['id']);
 			if($note == 10) echo('<td class="unnoted"> - </td>');
 			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
+			
+			if($note != 10) {
+				$get_notes_count = $bdd->query('SELECT COUNT(value) AS COUNT FROM notes WHERE annonce = '.$donnees['id'].'');
+				$count = $get_notes_count->fetch()['COUNT'];
+				echo('<td>'.$count.'</td>');
+			}
+			
+			else echo('<td>0</td>');
 			
 			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 		break;
