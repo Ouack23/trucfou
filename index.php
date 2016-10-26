@@ -23,9 +23,10 @@ include('include/functions.php');
 			
 			<p></p>
 			
-			<h2>Prochaine réunion</h2>
+			<h2>Prochaine réunion (Novembre 2016)</h2>
 			
-			<p>Remplissez le <a href="https://framadate.org/TNsCagUIBPnns1XT">framadate</a> de la prochaine réunion !</p>
+			<p>Remplissez le <a href="https://framadate.org/reuniongrandgroupe">framadate</a> de la prochaine réunion ! Attention, pensez bien à remplir toutes, les dates, il faut cliquer sur
+			les petites flèches zob pour ne pas en oublier.<strong>DATE LIMITE LE 7 NOVEMBRE</strong></p>
 		</section>
 		<?php include_content('bottom'); ?>
 	</body>
