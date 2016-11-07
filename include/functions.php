@@ -1314,16 +1314,18 @@ function verif_form_new_annonce($sort_array, $param_array) {
 	$print_form = false;
 	
 	if(!(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $param_array['link']) &&
-			preg_match('#^[A-Z][a-zA-Z- ]+#', $param_array['lieu']) &&
-			$param_array['time'] < $sort_array['max_time'] && $param_array['time'] > $sort_array['min_time'] &&
-			$param_array['distance'] < $sort_array['max_distance'] && $param_array['distance'] > $sort_array['min_distance'] &&
-			$param_array['superf_h'] < $sort_array['max_superf_h'] && $param_array['superf_h'] > $sort_array['min_superf_h'] &&
-			$param_array['superf_t'] < $sort_array['max_superf_t'] && $param_array['superf_t'] > $sort_array['min_superf_t'] &&
-			$param_array['price'] < $sort_array['max_price'] && $param_array['price'] > $sort_array['min_price'] &&
-			$param_array['departement'] < $sort_array['max_departement'] && $param_array['departement'] > $sort_array['min_departement'] &&
-			!empty($param_array['lieu']) && !empty($param_array['link']) &&
-			$param_array['superf_h'] != 0 && $param_array['superf_t'] != 0 && $param_array['time'] != 0 && $param_array['price'] != 0 && $param_array['distance'] != 0 &&
-			$param_array['habit'] != -1 && $param_array['note'] != -1)) {
+		preg_match('#^[A-Z][a-zA-Z- ]+#', $param_array['lieu'])			&&
+		$param_array['time']		<= $sort_array['max_time']			&&		$param_array['time'] 		>= $sort_array['min_time']			&&
+		$param_array['distance']	<= $sort_array['max_distance']		&&		$param_array['distance'] 	>= $sort_array['min_distance']		&&
+		$param_array['superf_h']	<= $sort_array['max_superf_h']		&&		$param_array['superf_h'] 	>= $sort_array['min_superf_h']		&&
+		$param_array['superf_t']	<= $sort_array['max_superf_t']		&&		$param_array['superf_t'] 	>= $sort_array['min_superf_t']		&&
+		$param_array['price']		<= $sort_array['max_price']			&&		$param_array['price'] 		>= $sort_array['min_price']			&&
+		$param_array['departement']	<= $sort_array['max_departement']	&&		$param_array['departement'] >= $sort_array['min_departement']	&&
+		$param_array['superf_h']	!= 0								&&		$param_array['superf_t'] 	!= 0								&&
+		$param_array['time']		!= 0								&&		$param_array['price']		!= 0								&&
+		$param_array['distance']	!= 0								&&		$param_array['habit']		!= -1								&&
+		!empty($param_array['lieu'])									&&		!empty($param_array['link'])									&&
+		$param_array['note'] != -1)) {
 				$print_form = true;
 				search_error_new_annonce($sort_array, $param_array);
 			}
