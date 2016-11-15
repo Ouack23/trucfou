@@ -739,8 +739,6 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 			$array_dates = [];
 				
 			while($liste = $list_all_annonces->fetch()) {
-				echo($liste['date']);
-				echo('<br />'.preg_match("#^(\d{2})\/(\d{2})\/(\d{4})$#", $liste['date']).'<br />');
 				$array_dates[$liste['id']] = preg_replace("#^(\d{2})\/(\d{2})\/(\d{4})$#", "$3$2$1", $liste['date']);
 			}
 			
