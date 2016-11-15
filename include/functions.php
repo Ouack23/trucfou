@@ -731,6 +731,37 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 			$list_all_annonces->closeCursor();
 		break;
 		
+		case 'date':
+			if($what == 'user_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces WHERE auteur = \''.$user->data['username'].'\'');
+			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query('SELECT id, '.format_date().' FROM annonces');
+			else echo('<p class="error">Erreur : mauvaise valeur pour $what dans sort_print_annonces()</p>');
+			
+			$array_dates = [];
+				
+			while($liste = $list_all_annonces->fetch()) {
+				echo($liste['date']);
+				echo('<br />'.preg_match("#^(\d{2})\/(\d{2})\/(\d{4})$#", $liste['date']).'<br />');
+				$array_dates[$liste['id']] = preg_replace("#^(\d{2})\/(\d{2})\/(\d{4})$#", "$3$2$1", $liste['date']);
+			}
+			
+			if($current_url['reverse'] == 'false') uasort($array_dates, 'cmp');
+			elseif ($current_url['reverse'] == 'true') uasort($array_dates, 'cmp_reverse');
+			else echo('<p class="error">Le paramètre reverse de l\'url cloche.</p>');
+			
+			foreach($array_dates as $id => $date) {
+				$get_annonce = $bdd->query('SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces WHERE id = '.$id.'');
+				
+				$donnees = $get_annonce->fetch();
+				
+				print_data($donnees, $current_page, $current_url, $sort_array, $what);
+				
+				$get_annonce->closeCursor();
+			}
+				
+			$list_all_annonces->closeCursor();
+				
+		break;
+		
 		default:
 			$reponse_query .= ' ORDER BY '.$current_url['order'].'';
 			
