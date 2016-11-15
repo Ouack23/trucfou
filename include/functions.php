@@ -58,7 +58,7 @@ function secure_get() {
 	$sort_array['min_habit'] = 0;
 	$sort_array['min_time'] = 1;
 	$sort_array['min_distance'] = 1;
-	$sort_array['min_price'] = 0;
+	$sort_array['min_price'] = 0.0;
 	$sort_array['min_departement'] = 1;
 	$sort_array['min_note'] = 0;
 	
@@ -147,7 +147,7 @@ function print_form_new_annonce($params, $sort_array, $action) {
 			<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
 			<label for="time">Temps de trajet depuis Lyon :</label><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/> minutes<br />
 			<label for="distance">Distance de Lyon :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/> km<br />
-			<label for="price">Prix :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)<br />
+			<label for="price">Prix :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)<br />
 			<label for="habit">Combien c\'est habitable en l\'état :</label>
 			<select name="habit" id="habit">
 				<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
@@ -1281,7 +1281,7 @@ function get_new_annonce_param_array($sort_array) {
 	$habit = $request->variable('habit', '');
 	$time = $request->variable('time', $sort_array['min_time']);
 	$distance = $request->variable('distance', $sort_array['min_distance']);
-	$price = $request->variable('price', $sort_array['min_price']);
+	$price = (float)$request->variable('price', $sort_array['min_price']);
 	$departement = $request->variable('departement', $sort_array['min_departement']);
 	$note = $request->variable('note', '');
 	
