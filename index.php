@@ -16,8 +16,9 @@ include('include/functions.php');
 			<h2>Dernières nouvelles</h2>
 			
 			<p>La création d'une association est nécessaire avant d'envisager tout investissement financier. Il nous faut donc définir des <em>statuts</em> et un <em>règlement intérieur</em>.<br /><br />
-			Après l'observation du fait que les discussions en groupe entier à ces sujets étaient bien trop longues, un travail a donc été constitué, autour des personnes suivantes : Keks, Zaza, Bastien, Éric, Koline, TimRocket et Ratich.<br />
-			Ils se sont engagés quant à leur disponibilité et leur travail actif à ces sujets administratifs d'une importance majeure. Leur but est de déblayer au maximum la question avant de soumettre leur premier jet de texte au reste du groupe.</p>
+			Après l'observation du fait que les discussions en groupe entier à ces sujets étaient bien trop longues, un travail a donc été constitué, autour des personnes suivantes : Keks, <s>Zaza</s>, Bastien, <s>Éric</s>, Koline, TimRocket, Ratich, Niko, LeLukas et Belette.<br />
+			Ils se sont engagés quant à leur disponibilité et leur travail actif à ces sujets administratifs d'une importance majeure. Leur but est de déblayer au maximum la question avant de soumettre leur premier jet de texte au reste du groupe.<br />
+			Les comptes rendus des réunions Groupe de Travail sont tous uploadés <a href="http://trucfou.pe.hu/forum/viewforum.php?f=18">ici</a>.</p>
 			
 			<p>Nous devons aussi trouver un <a href="forum/viewtopic.php?f=7&t=3">nom à notre association</a> !<br /></p>
 			
