@@ -24,7 +24,7 @@ include('include/functions.php');
 			
 			<h2>Prochaine réunion Grand Groupe</h2>
 			
-			<p>La prochaine réunion Grand Groupe aura lieu le <strong>Jeudi 1<sup>er</sup> Décembre</strong> à <strong>20h</strong>, dans un lieu qui reste encore à définir. Soyez motivés, tout plein de choses vont être discutaillées !!<br /></p>
+			<p>La prochaine réunion Grand Groupe a eu lieu le <strong>Jeudi 1<sup>er</sup> Décembre</strong> à <strong>20h</strong>, dans un lieu qui reste encore à définir. Soyez motivés, tout plein de choses vont être discutaillées !!<br /></p>
 			
 			<h2>Prochaines réunions Groupe de Travail</h2>
 			
