@@ -279,8 +279,110 @@ h1 {
 }
 
 /********************
-		OTHER
+		FORMS
 ********************/
+
+.posting-form {
+	flex: 0.5;
+	padding: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 1600px) {
+
+	.posting-form {
+		flex: 0.65;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+
+	.posting-form {
+		flex: 0.8;
+	}
+}
+
+@media screen and (max-width: 800px) {
+
+	.posting-form {
+		flex: 1;
+	}
+}
+
+#form {
+	margin: 0;
+	padding: 0;
+}
+
+#form label {
+	float: left;
+	text-align: right;
+	width: 290px;
+	margin: 0 10px;
+	margin-top: 15px;
+	color: #132739;
+}
+
+#form input {
+	margin-top: 15px;
+	width: 200px;
+}
+
+#form select {
+	margin-top: 15px;
+}
+
+/* Responsive */
+@media screen and (max-width: 800px) {
+
+	#form label {
+		width: 250px;
+	}
+
+	#form input {
+		width: 120px;
+	}
+}
+
+@media screen and (max-width: 640px) {
+
+	#form {
+		text-align: center;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		padding: 0;
+	}
+
+	#form label, #form span.form-entry {
+		display: block;
+		text-align: center;
+		margin: 0;
+	}
+
+	#form label {
+		width: 100%;
+	}
+
+	#form span.form-entry {
+		width: 50%;
+		margin: 0 auto;
+		text-align: left;
+	}
+
+	#form select {
+		width: 50px;
+		margin: 0 auto;
+		margin-top: 10px;
+	}
+}
+
+.form {
+	color: #5c6d75;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
 
 span.submit-container {
 	display: block;
@@ -303,6 +405,10 @@ input.submit-button:hover {
 	background-color: #374d61;
 	color: #92a2a9;
 }
+
+/********************
+		OTHER
+********************/
 
 #table table{
 	margin: auto;

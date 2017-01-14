@@ -152,7 +152,7 @@ include("include/config.php");?>
 			if(!isset($_POST['newdoc'])) {
 				echo('
 					<div class="flex-container">
-						<div class="box offers">
+						<div class="box posting-form">
 							<form method="post" action="#" accept-charset="utf-8">
 								<p class="center">
 									<span class="submit-container"><input class="submit-button" type="submit" value="Poster un nouveau document" name="newdoc"/></span>
@@ -166,12 +166,11 @@ include("include/config.php");?>
 			else {
 				echo('
 					<div class="flex-container">
-						<div class="box offers">
+						<div class="box posting-form">
 							<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
 								<p>
 									<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
-									8 Mo max !<br />
-									<label for="document">Fichier à uploader : </label><input type="file" name="document" id="document" /><br />
+									<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
 									<label for="category">Catégorie : </label><select name="category" id="category">
 										');
 										foreach($categories as $c => $n) {
@@ -180,7 +179,7 @@ include("include/config.php");?>
 										echo ('
 									</select><br />
 
-									<label for="name">Titre du Document : </label><input type="text" name="title" id="title" />
+									<label for="name">Titre du document : </label><input type="text" name="title" id="title" />
 
 									<span class="submit-container"><input class="submit-button" type="submit" value="Valider" /></span>
 								</p>
