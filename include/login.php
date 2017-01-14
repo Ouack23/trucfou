@@ -1,5 +1,6 @@
 ﻿<?php
-if(!$user->data['is_registered']) { ?>
+	if(!$user->data['is_registered']) {
+?>
 	<section id="login">
 		<form accept-charset="utf-8" action="<?php echo(append_sid('forum/ucp.php', 'mode=login', true, $user->session_id)); ?>" method="post">
 			<p>
@@ -9,6 +10,7 @@ if(!$user->data['is_registered']) { ?>
 				<input type="hidden" name="redirect" value="../index.php" />
 			</p>
 		</form>
-</section>
+	</section>
 <?php
-} ?>
+	}
+?>
