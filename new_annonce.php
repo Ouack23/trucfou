@@ -103,11 +103,11 @@ function print_form_new_offer($params, $sort_array, $action) {
 								$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $param_array['note']));
 								$req_note->closeCursor();
 									
-								echo('<div><p class="box msg-box"><i class="success fa fa-check fa-fw"></i> L\'annonce a bien été ajoutée, bien joué !</p></div>');
+								echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> L\'annonce a bien été ajoutée, bien joué !</p></div>');
 							}
 						
 							else {
-								echo('<div><p class="box msg-box"><i class="error fa fa-cross fa-fw"></i> Au moins une erreur est survenue</p></div>');
+								echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Au moins une erreur est survenue</p></div>');
 								print_form_new_offer($param_array, $sort_array, $action);
 							}
 						}
@@ -179,26 +179,26 @@ function print_form_new_offer($params, $sort_array, $action) {
 												$update_note->closeCursor();
 											}
 											
-											echo('<p class="success">Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p>');
+											echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p></div>');
 										}
 										
-										else echo('<p class="error">Aucun changement apporté à l\'annonce !</p>');
+										else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Aucun changement apporté à l\'annonce !</p></div>');
 									}
 								}
 								
-								else echo('<p class="error">Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p>');
+								else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p></div>');
 								
 								$get_annonce->closeCursor();
 							}
 							
-							else echo('<p class="error">Cette annonce n\'existe pas ou plus !</p>');
+							else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Cette annonce n\'existe pas ou plus !</p></div>');
 						}
 						
-						else echo('<p class="error">Pas d\'annonce à modifier !</p>');
+						else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à modifier !</p></div>');
 					break;
 					
 					default:
-						echo('<p class="error">Mauvaise valeur de action dans l\'url.</p>');
+						echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Mauvaise valeur de action dans l\'url.</p></div>');
 					break;
 				}
 			} ?>
