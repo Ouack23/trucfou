@@ -6,7 +6,7 @@ include("include/config.php");?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - <?php echo($user->data['username']); ?></title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="css/style.css" />
 		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 		<script src="include/functions.js"></script>

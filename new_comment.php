@@ -5,7 +5,7 @@ include('include/config.php');?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouveau commentaire</title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

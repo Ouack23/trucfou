@@ -130,7 +130,7 @@ nav ul li a:hover {
 	text-align: center;
 }
 
-.main-title {
+h1 {
 	margin: 15px;
 	font-size: 1.7em;
 	color: #25394c;
@@ -264,27 +264,31 @@ nav ul li a:hover {
 	padding: 5px;
 }
 
-#form label {
-	float: left;
-	width: 290px;
-	margin-top: 15px;
-}
-
-#form input {
-	margin-top: 15px;
-}
-
-#form input {
-	width: 200px;
-}
-
-#form select {
-	margin-top: 15px;
-}
-
 /********************
 		OTHER
 ********************/
+
+span.submit-container {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+input.submit-button {
+	font-weight: bold;
+	padding: 5px;	
+	font-size: 1.1em;
+	margin: 10px auto;
+	border-radius: 3px;
+	color: #6b8089;
+	border: none;
+	background-color: #25394c;
+}
+
+input.submit-button:hover {
+	background-color: #374d61;
+	color: #92a2a9;
+}
 
 #table table{
 	margin: auto;

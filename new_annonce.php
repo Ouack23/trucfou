@@ -1,12 +1,56 @@
 <?php
 include('include/functions.php');
 include('include/config.php');
+
+function print_form_new_offer($params, $sort_array, $action) {
+	echo('
+		<div class="flex-container">
+			<div class="box offers">
+				<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
+					<p class="form">
+					<label for="lieu">Lieu :</label><span class="form-entry"><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/></span><br />
+					<label for="departement">Département :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_departement'].'" max="'.$sort_array['max_departement'].'" name="departement" id="departement" value="'.$params['departement'].'"/></span><br />
+					<label for="superf_h">Superficie bâtie :</label><span class="form-entry"><input type="number" min="'.$sort_array['superf_h'].'" max="'.$sort_array['max_superf_h'].'" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)</span><br />
+					<label for="superf_t">Superficie du terrain :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_superf_t'].'" max="'.$sort_array['max_superf_t'].'" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m² (1 si inconnue)</span><br />
+					<label for="link">Lien de l\'annonce :</label><span class="form-entry"><input type="text" name="link" id="link" value="'.$params['link'].'"/></span><br />
+					<label for="time">Temps de trajet depuis Lyon :</label><span class="form-entry"><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/> minutes</span><br />
+					<label for="distance">Distance de Lyon :</label><span class="form-entry"><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/> km</span><br />
+					<label for="price">Prix :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)</span><br />
+					<label for="habit">Combien c\'est habitable en l\'état :</label><span class="form-entry">
+					<select name="habit" id="habit">
+						<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
+						<option value="un" '.print_selected($params['habit'], 1).'>1</option>
+						<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
+						<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
+						<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
+						<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
+					</select> sur 5</span><br />
+					<label for="note">Ta note pour cette annonce :</label><span class="form-entry">
+					<select name="note" id="note">
+						<option value="zero" '.print_selected($params['note'], 0).'>0</option>
+						<option value="un" '.print_selected($params['note'], 1).'>1</option>
+						<option value="deux" '.print_selected($params['note'], 2).'>2</option>
+						<option value="trois" '.print_selected($params['note'], 3).'>3</option>
+						<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
+						<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
+					</select> sur 5</span><br />
+
+					<span class="submit-container"><input class="submit-button" type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
+
+					</p>
+				</form>
+			</div>
+		</div>'
+	);
+}
+
 ?>
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/offers.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
@@ -24,7 +68,7 @@ include('include/config.php');
 					case 'create':
 						echo('<h1>Poster une nouvelle annonce</h1>');
 						
-						if(!isset($_POST['Valider'])) print_form_new_annonce([], $sort_array, $action);
+						if(!isset($_POST['Valider'])) print_form_new_offer([], $sort_array, $action);
 						
 						else {
 							$param_array = get_new_annonce_param_array($sort_array);
@@ -63,7 +107,7 @@ include('include/config.php');
 						
 							else {
 								echo('<p class="error">Au moins une erreur est survenue</p>');
-								print_form_new_annonce($param_array, $sort_array, $action);
+								print_form_new_offer($param_array, $sort_array, $action);
 							}
 						}
 					break;
@@ -83,7 +127,7 @@ include('include/config.php');
 									$annonce['note'] = get_user_note($annonce_id, $user->data['username']);
 									
 									if(!isset($_POST['Valider'])) {
-										print_form_new_annonce($annonce, $sort_array, $action);
+										print_form_new_offer($annonce, $sort_array, $action);
 									}
 										
 									else {

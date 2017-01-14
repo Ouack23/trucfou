@@ -136,6 +136,7 @@ function select_annonce() {
 	echo('<input type="submit" value="Valider" /></p></form>');
 }
 
+// Deprecated
 function print_form_new_annonce($params, $sort_array, $action) {
 	echo('
 		<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">

@@ -6,7 +6,7 @@ include("include/config.php");?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - Documents</title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="css/style.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	
@@ -150,7 +150,7 @@ include("include/config.php");?>
 			
 			if(!isset($_POST['newdoc'])) {
 				echo('<form method="post" action="#" accept-charset="utf-8"><p class="center">');
-				echo('<input type="submit" value="Poster un nouveau document" name="newdoc"/>');
+				echo('<span class="submit-container"><input class="submit-button" type="submit" value="Poster un nouveau document" name="newdoc"/></span>');
 				echo('</p></form>');
 			}
 			
@@ -168,7 +168,7 @@ include("include/config.php");?>
 				echo('</select><br />');
 				
 				echo('<label for="name">Titre du Document : </label><input type="text" name="title" id="title" />');
-				echo('<input type="submit" value="Valider" />');
+				echo('<span class="submit-container"><input class="submit-button" type="submit" value="Valider" /></span>');
 				echo('</p></form>');
 			}
 			
