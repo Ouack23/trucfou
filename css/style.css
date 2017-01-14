@@ -159,6 +159,20 @@ h1 {
 	border-radius: 7px;
 }
 
+.msg-box {
+	font-style: italic;
+	font-size: 1.3em;
+	flex: 0.6;
+}
+
+.msg-box .success {
+	color: #27ae60;
+}
+
+.msg-box .error {
+	color: #e74c3c;
+}
+
 /* Responsive */
 @media screen and (max-width: 480px) {
 
@@ -340,14 +354,6 @@ textarea {
 	width: 80%;
 	height: 60%;
 	margin: auto;
-}
-
-.error {
-	color: red;
-}
-
-.success {
-	color: green;
 }
 
 /************************

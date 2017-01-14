@@ -6,6 +6,7 @@ include("include/config.php");?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - Documents</title>
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>

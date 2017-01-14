@@ -49,6 +49,7 @@ function print_form_new_offer($params, $sort_array, $action) {
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="css/offers.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -102,11 +103,11 @@ function print_form_new_offer($params, $sort_array, $action) {
 								$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $param_array['note']));
 								$req_note->closeCursor();
 									
-								echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué !</p>');
+								echo('<div><p class="box msg-box"><i class="success fa fa-check fa-fw"></i> L\'annonce a bien été ajoutée, bien joué !</p></div>');
 							}
 						
 							else {
-								echo('<p class="error">Au moins une erreur est survenue</p>');
+								echo('<div><p class="box msg-box"><i class="error fa fa-cross fa-fw"></i> Au moins une erreur est survenue</p></div>');
 								print_form_new_offer($param_array, $sort_array, $action);
 							}
 						}
