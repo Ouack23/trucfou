@@ -7,3 +7,4 @@ include/config.php
 .settings/
 phpmyadmin
 /TODO
+index.html
