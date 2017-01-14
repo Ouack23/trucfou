@@ -24,13 +24,18 @@ body {
 	padding: 0;
 	font-family: Tahoma, Geneva, sans-serif;
 	color: #132739;
+	background-color: #6b8089;
 }
 
 header {
 	margin: 0;
 	padding: 0;
-	display: none;
+	display: none;	/* Delete this line in case you add content to the header */
 }
+
+/********************
+		MENU
+********************/
 
 nav {
 	display: block;
@@ -44,6 +49,15 @@ nav {
     font-weight: bold;
     text-align: center;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+
+	nav {
+		position: relative;
+		top: -20px;
+	}
 }
 
 nav ul {
@@ -66,10 +80,22 @@ nav ul li a {
     line-height: 40px;
 }
 
+/* Responsive */
+@media screen and (max-width: 480px) {
+
+	nav ul li, nav ul li a {
+		display: block;
+	}
+}
+
 nav ul li a:hover {
 	background-color: #374d61;
 	color: #92a2a9;
 }
+
+/***********************
+		CONTENT
+***********************/
 
 #main {
 	margin: 0;
@@ -77,6 +103,22 @@ nav ul li a:hover {
 	padding: 10px;
 	min-height: 650px;
 	background-color: #6b8089;
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+
+	#main {
+		margin-top: -15px;
+	}
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+
+	#main {
+		padding: 5px;
+	}
 }
 
 #main iframe {
@@ -100,6 +142,7 @@ nav ul li a:hover {
 	justify-content: space-around;
 }
 
+/* Responsive */
 @media screen and (max-width: 1024px) {
 
 	.flex-container {
@@ -114,6 +157,15 @@ nav ul li a:hover {
 	padding: 20px;
 	margin: 10px;
 	border-radius: 7px;
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+
+	.box {
+		padding: 15px;
+		margin: 5px;
+	}
 }
 
 .box h2 {
@@ -141,6 +193,10 @@ nav ul li a:hover {
 	text-align: center;
 }
 
+/**********************
+		EVENTS
+**********************/
+
 .event {
 	margin : 0;
 	margin-top: 20px;
@@ -162,6 +218,7 @@ nav ul li a:hover {
 	font-weight: bold;
 }
 
+/* Responsive */
 @media screen and (max-width: 640px) {
 
 	.event ul.event-titre {
@@ -192,6 +249,10 @@ nav ul li a:hover {
 	padding: 20px;
 }
 
+/********************
+		LOGIN
+********************/
+
 #login {
 	float: right;
 	position: fixed;
@@ -220,6 +281,10 @@ nav ul li a:hover {
 #form select {
 	margin-top: 15px;
 }
+
+/********************
+		OTHER
+********************/
 
 #table table{
 	margin: auto;
@@ -280,6 +345,10 @@ textarea {
 .success {
 	color: green;
 }
+
+/************************
+		NOTATION
+************************/
 
 .habit0 {
 	background-color: red;
