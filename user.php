@@ -1,6 +1,9 @@
 <?php
-include("include/functions.php");
-include("include/config.php");?>
+include_once("include/functions.php");
+include_once("include/config.php");
+include_once("include/header_footer.php");
+include_once("include/phpBB.php");
+?>
 
 <html>
 	<head>
@@ -16,7 +19,7 @@ include("include/config.php");?>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-		<?php include_content("top"); ?>
+		<?php add_header(); ?>
 		<section id="main">
 			<?php
 			if(!$user->data['is_registered']) include('include/not_registered.php');
@@ -34,6 +37,6 @@ include("include/config.php");?>
 					print_comments_annonce($current_page, $current_url, $sort_array);
 			} ?>
 		</section>
-		<?php include_content("bottom"); ?>
+		<?php add_footer(); ?>
 	</body>
 </html>

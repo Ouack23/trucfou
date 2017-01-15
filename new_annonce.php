@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 include('include/functions.php');
 include('include/config.php');
 
@@ -44,6 +45,12 @@ function print_form_new_offer($params, $sort_array, $action) {
 	);
 }
 
+=======
+	include_once('include/phpBB.php');
+	include_once('include/new_annonce_functions.php');
+	include_once('include/config.php');
+	include_once('include/header_footer.php');
+>>>>>>> The Big Refactor
 ?>
 <html>
 	<head>
@@ -56,7 +63,7 @@ function print_form_new_offer($params, $sort_array, $action) {
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-		<?php include_content('top'); ?>
+		<?php add_header(); ?>
 		<section id="main">	
 			<?php
 			
@@ -204,6 +211,6 @@ function print_form_new_offer($params, $sort_array, $action) {
 				}
 			} ?>
 		</section>
-		<?php include_content('bottom'); ?>
+		<?php add_footer(); ?>
 	</body>
 </html>
