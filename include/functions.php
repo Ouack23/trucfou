@@ -18,7 +18,6 @@ function include_content($where) {
 	global $phpbb_root_path, $phpEx, $config, $user, $auth, $cache, $template, $request, $session;
 	switch($where) {
 		case 'top':
-			include('include/login.php');
 			include('header.php');
 			include('menu.php');
 		break;

@@ -49,6 +49,7 @@ nav {
     font-weight: bold;
     text-align: center;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    z-index: 5;
 }
 
 /* Responsive */
@@ -56,7 +57,6 @@ nav {
 
 	nav {
 		position: relative;
-		top: -20px;
 	}
 }
 
@@ -78,6 +78,8 @@ nav ul li a {
     display: inline-block;
     padding: 0 10px;
     line-height: 40px;
+    background: transparent;
+    transition: all 200ms ease;
 }
 
 /* Responsive */
@@ -99,7 +101,7 @@ nav ul li a:hover {
 
 #main {
 	margin: 0;
-	margin-top: 15px;
+	margin-top: 40px;
 	padding: 10px;
 	min-height: 650px;
 	background-color: #6b8089;
@@ -109,7 +111,7 @@ nav ul li a:hover {
 @media screen and (max-width: 1024px) {
 
 	#main {
-		margin-top: -15px;
+		margin-top: 0px;
 	}
 }
 
@@ -264,21 +266,6 @@ h1 {
 }
 
 /********************
-		LOGIN
-********************/
-
-#login {
-	float: right;
-	position: fixed;
-	right: 20px;
-	top: 20px;
-	width: auto;
-	text-align: center;
-	border: 2px solid black;
-	padding: 5px;
-}
-
-/********************
 		FORMS
 ********************/
 
@@ -323,13 +310,26 @@ h1 {
 	color: #132739;
 }
 
-#form input {
+input, textarea, select {
 	margin-top: 15px;
+	padding: 2px;
+	color: #132739;
+	background: #6b8089;
+	border-radius: 4px;
+	border: none;
+	transition: all 200ms ease;
+}
+
+input:focus, textarea:focus, select:focus {
+	background: #92a2a9;
+}
+
+input {
 	width: 200px;
 }
 
-#form select {
-	margin-top: 15px;
+select {
+	background: #000;
 }
 
 /* Responsive */
@@ -395,9 +395,7 @@ input.submit-button {
 	padding: 5px;	
 	font-size: 1.1em;
 	margin: 10px auto;
-	border-radius: 3px;
 	color: #6b8089;
-	border: none;
 	background-color: #25394c;
 }
 
@@ -405,6 +403,75 @@ input.submit-button:hover {
 	background-color: #374d61;
 	color: #92a2a9;
 }
+
+/********************
+		LOGIN
+********************/
+
+#login-frame {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	z-index: 10;
+	display: none;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.login-box {
+	width: 350px;
+	height: 200px;
+	margin: 10% auto;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #6b8089;
+}
+
+.login-box form {
+	margin: 0;
+	padding: 0;
+}
+
+.login-box p {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-box label, .login-box input {
+	margin: 0;
+	padding: 10px 10px;
+}
+
+.login-box label {
+	color: #25394c;
+	text-align: right;
+	width: 45%;
+}
+
+.login-box input {
+	background-color: rgba(255, 255, 255, 0.4);
+	color: #6b8089;
+	width: 45%;
+}
+
+.login-box input:hover, .login-box input:focus {
+	background-color: rgba(255, 255, 255, 0.7);
+	color: #92a2a9;
+}
+
+.login-box input.login-submit {
+	font-weight: bold;
+	font-size: 1em;
+	margin: 10px;
+}
+
 
 /********************
 		OTHER
