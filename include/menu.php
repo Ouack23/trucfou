@@ -41,7 +41,7 @@ if($user->data['is_registered']) {
 				<p>
 					<label for="username">Identifiant : </label><input type="text" name="username" id="username" size="10" title="Username" /><br />
 					<label for="password">Mot de passe : </label><input type="password" name="password" id="password" size="10" title="Password" /><br />
-					<input class="login-submit" type="submit" name="login" value="Connexion" />
+					<input class="submit-button" type="submit" name="login" value="Connexion" />
 					<input type="hidden" name="redirect" value="../index.php" />
 				</p>
 			</form>
