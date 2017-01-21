@@ -396,7 +396,7 @@ input.submit-button:hover {
 	#form select, #form input, #form textarea {
 		display: inline-block;
 		position: absolute;
-		padding: 8px 0;
+		padding: 8px;
 		left: 50%;
 		width: 40%;
 	}
