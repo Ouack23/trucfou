@@ -6,6 +6,7 @@ include('include/config.php');?>
 		<meta charset="utf-8" />
 		<title>Nouveau commentaire</title>
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>

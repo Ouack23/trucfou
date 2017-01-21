@@ -32,10 +32,9 @@ if($user->data['is_registered']) {
 		echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
 } else {
 
-	echo('
-	<li><a href="'.append_sid('forum/ucp.php', 'mode=register', true, $user->session_id).'">Inscription</a></li>
-	<li><a href="#" id="connexion-link">Connexion</a></li>
-	<section id="login-frame" class="hidden">
+	echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=register', true, $user->session_id).'">Inscription</a></li>');
+	echo('<li><a href="#" id="connexion-link">Connexion</a></li>');
+	echo('<section id="login-frame" class="hidden">
 		<div class="box login-box">
 			<form accept-charset="utf-8" action="'.append_sid('forum/ucp.php', 'mode=login', true, $user->session_id).'" method="post">
 				<p>

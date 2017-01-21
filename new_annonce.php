@@ -50,6 +50,7 @@ function print_form_new_offer($params, $sort_array, $action) {
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
