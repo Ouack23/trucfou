@@ -15,7 +15,7 @@ function print_form_new_offer($params, $sort_array, $action) {
 					<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
 					<label for="time">Temps de trajet depuis Lyon (en mn) :</label><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/><br />
 					<label for="distance">Distance de Lyon (en km) :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/><br />
-					<label for="price">Prix (en k€, genre 66.666) :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/><br />
+					<label for="price">Prix (en k€, genre 66,666) :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/><br />
 					<label for="habit">Combien c\'est habitable en l\'état :</label>
 					<select name="habit" id="habit">
 						<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
