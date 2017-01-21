@@ -3,8 +3,10 @@
 theme color : #5c974c;
 lighter : #669c57;
 lighter+ : #70a762;
-darker : #3e6932;
-darker+: #2f4f26;
+darker : #538b46;
+darker+ : #497a3d;
+darker++ : #3e6932;
+darker+++: #2f4f26;
 
 grey : #999999;
 grey2 : #bdbdbb;
@@ -145,7 +147,7 @@ nav ul li a:hover {
 
 h1 {
 	margin: 15px;
-	font-size: 1.9em;
+	font-size: 2.2em;
 	color: #5c974c;
 	font-family: Ubuntu, sans-serif;
 }
@@ -251,13 +253,14 @@ h1 {
 .event {
 	margin : 0;
 	margin-top: 20px;
-	background-color: #999999;
+	background-color: #cccccc;
 }
 
 .event ul.event-titre {
-	background-color: rgba(37, 57, 76, 0.2);
 	margin: 0;
 	padding: 0;
+	background-color: #5c974c;
+	color: #2f4f26;
 	display: flex;
 	flex-flow: row nowrap;
 	list-style: none;
@@ -282,7 +285,7 @@ h1 {
 }
 
 .event ul.event-titre li.event-quand {
-	background-color: rgba(37, 57, 76, 0.3);
+	background-color: #538b46;
 }
 
 .event ul.event-titre li.event-quoi {
@@ -291,8 +294,7 @@ h1 {
 
 .event ul.event-titre li.event-ou {
 	font-weight: normal;
-	background-color: rgba(255, 255, 255, 0.2);
-	color: #70a762;
+	background-color: #70a762;
 }
 
 .event p {
@@ -331,28 +333,15 @@ h1 {
 	}
 }
 
-#form {
-	margin: 0;
-	padding: 0;
-}
-
-#form label {
-	float: left;
-	text-align: right;
-	width: 290px;
-	margin: 0 10px;
-	margin-top: 15px;
-	color: #333333;
-}
-
 input, textarea, select {
 	margin-top: 15px;
-	padding: 5px 5px;
+	padding: 10px 10px;
 	background-color: rgba(255, 255, 255, 0.4);
 	color: #6b8089;
 	border-radius: 4px;
 	border: none;
 	transition: all 300ms ease;
+	width: 200px;
 }
 
 input:focus, textarea:focus, select:focus, input:hover, textarea:hover, select:hover {
@@ -360,23 +349,78 @@ input:focus, textarea:focus, select:focus, input:hover, textarea:hover, select:h
 	color: #92a2a9;
 }
 
-input {
-	width: 200px;
+span.submit-container {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
 }
 
-select {
-	background: #000;
+input.submit-button {
+	font-weight: bold;
+	font-size: 1em;
+	padding: 8px;
+	margin: 10px auto;
+	width: auto;
+	color: #e4e4e2;
+	background-color: #5c974c;
 }
 
-/* Responsive */
-@media screen and (max-width: 800px) {
+input.submit-button:hover {
+	background-color: #70a762;
+	color: #fefefe;
+}
 
+#form {
+	margin: 0;
+	padding: 0;
+}
+
+.form {
+	color: #666666;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+@media screen and (min-width: 640px) {
 	#form label {
-		width: 250px;
+		display: inline-block;
+		position: relative;
+		width: 40%;
+		left: 9%;
+		text-align: right;
+		color: #333333;
+		padding: 20px 0;
 	}
 
-	#form input {
-		width: 120px;
+	#form select, #form input, #form textarea {
+		display: inline-block;
+		position: absolute;
+		padding: 8px 0;
+		left: 50%;
+		width: 40%;
+	}
+
+	#form input.submit-button {
+		display: block;
+		position: relative;
+		left: 0;
+		padding: 8px 20px;
+		width: auto;
+	}
+}
+
+@media screen and (min-width: 800px) {
+
+	#form select, #form input, #form textarea {
+		width: 35%;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+
+	#form select, #form input, #form textarea {
+		width: 25%;
 	}
 }
 
@@ -390,54 +434,22 @@ select {
 		padding: 0;
 	}
 
-	#form label, #form span.form-entry {
-		display: block;
+	#form label, #form input, #form select {
+		width: 80%;
+		margin: 0 auto;
+		margin-top: 10px;
 		text-align: center;
-		margin: 0;
 	}
 
 	#form label {
+		float: none;
+		display: block;
 		width: 100%;
 	}
 
-	#form span.form-entry {
-		width: 50%;
-		margin: 0 auto;
-		text-align: left;
+	#form input.submit-button {
+		width: auto;
 	}
-
-	#form select {
-		width: 50px;
-		margin: 0 auto;
-		margin-top: 10px;
-	}
-}
-
-.form {
-	color: #666666;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-}
-
-span.submit-container {
-	display: block;
-	margin: 0 auto;
-	text-align: center;
-}
-
-input.submit-button {
-	font-weight: bold;
-	padding: 5px;
-	margin: 10px auto;
-	width: auto;
-	color: #999999;
-	background-color: #5c974c;
-}
-
-input.submit-button:hover {
-	background-color: #70a762;
-	color: #bdbdbb;
 }
 
 /********************
@@ -509,17 +521,24 @@ table{
 	border-collapse: collapse;
 	text-align: center;
 	background-color: white;
-	border: 2px solid #132739;
 }
 
 .top th {
 	font-size: 1.3em;
-	background-color: #5c6d75;
+	background-color: #5c974c;
+	color: #e4e4e2;
+	padding: 8px;
 }
 
-td, th {
+td {
 	margin: 10px;
 	padding: 5px;
+}
+
+@media screen and (max-width: 640px) {
+	.top th {
+		font-size: 1em;
+	}
 }
 
 /********************
