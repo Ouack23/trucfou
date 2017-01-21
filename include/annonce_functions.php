@@ -148,6 +148,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 	$reponse->closeCursor();
 }
 
+
 function print_statistics($current_page, $current_url, $sort_array, $what) {
 	global $bdd;
 	
@@ -158,49 +159,43 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 	$rows = ['Prix' => 'price', 'Trajet' => 'time', 'Distance' => 'distance', 'Superficie Bâtie' => 'superf_h', 'Superficie Terrain' => 'superf_t', 'État' => 'habit', 'Note' => 'note'];
 	
 	foreach($rows as $n => $c) {
-		if($c != 'note') {
-			$get_stats = $bdd->query('SELECT AVG('.$c.') AS MOY, MIN('.$c.') AS MIN, MAX('.$c.') AS MAX FROM annonces');
-			$datas = $get_stats->fetch();
-			$moy = $datas['MOY'];
-			$min = $datas['MIN'];
-			$max = $datas['MAX'];
-			
-			$get_stats->closeCursor();
-			
-			$get_values = $bdd->query('SELECT '.$c.' FROM annonces');
-			
-			$values = [];
-			
-			while($data = $get_values->fetch()[$c]) {
-				array_push($values, $data);
-			}
-			
-			$get_values->closeCursor();
-		}
-		
-		else {
-			$get_stats = $bdd->query('SELECT AVG(value) AS MOY, MIN(value) AS MIN, MAX(value) AS MAX FROM notes');
-			$datas = $get_stats->fetch();
-			$moy = $datas['MOY'];
-			$min = $datas['MIN'];
-			$max = $datas['MAX'];
-			$get_stats->closeCursor();
-			
+		if($c == 'note') {
 			$get_values = $bdd->query('SELECT value FROM notes');
-			
-			$values = [];
-			
-			while($data = $get_values->fetch()['value']) {
-				array_push($values, $data);
-			}
-			
-			$get_values->closeCursor();
+			$c = 'value';
 		}
+		else {
+			$get_values = $bdd->query('SELECT '.$c.' FROM annonces');
+		}
+		$min = -1;
+		$max = 0;
+		$sum = 0;
+		$values = [];
+		
+		while($data = $get_values->fetch()[$c]) {
+			if( ($c == 'superf_h' ||  $c == 'superf_t') && $data == 1) {
+				continue; // for superficies, 1 means unknown so don't take it in count for stats !
+			}
+			array_push($values, $data);
+			if($min == -1 || $data < $min) {
+				$min = $data;
+			}
+			if($data > $max) {
+				$max = $data;
+			}
+			$sum += $data;
+		}
+		$nb = count($values);
+		if($nb == 0) {
+			continue;
+		}
+		$moy = $sum/$nb;
+
+		$get_values->closeCursor();
 		
 		echo('<tr><td class="left">'.$n.'</td>');
-		
+
 		$quartiles = calcul_quartiles($values);
-		
+
 		if($c != 'note' && $c != 'habit') {
 			
 			echo('<td>'.$min.'</td>');
