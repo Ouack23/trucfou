@@ -313,11 +313,11 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 	switch($current_url['order']) {
 		case 'note':
 			if($what == 'user_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces WHERE auteur = \''.$user->data['username'].'\'');
-			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces');
+			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query($reponse_query);
 			else echo('<p class="error">Erreur : mauvaise valeur pour $what dans sort_print_annonces()</p>');
 			
 			$array_notes = [];
-			
+
 			while($liste = $list_all_annonces->fetch()) {
 				$array_notes[$liste['id']] = get_note($liste['id']);
 			}
@@ -341,7 +341,7 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 		
 		case 'comments':
 			if($what == 'user_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces WHERE auteur = \''.$user->data['username'].'\'');
-			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces');
+			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query($reponse_query);
 			else echo('<p class="error">Erreur : mauvaise valeur pour $what dans sort_print_annonces()</p>');
 			
 			$array_comments = [];
@@ -369,7 +369,7 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 		
 		case 'date':
 			if($what == 'user_annonces') $list_all_annonces = $bdd->query('SELECT id FROM annonces WHERE auteur = \''.$user->data['username'].'\'');
-			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query('SELECT id, '.format_date().' FROM annonces');
+			elseif($what == 'all_annonces') $list_all_annonces = $bdd->query($reponse_query);
 			else echo('<p class="error">Erreur : mauvaise valeur pour $what dans sort_print_annonces()</p>');
 			
 			$array_dates = [];

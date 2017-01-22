@@ -32,9 +32,62 @@
 				$current_page = 'annonces.php';
 				
 				print_sort_form($current_page, $current_url, $sort_array);
-				
-				print_all_annonces($current_page, $current_url, $sort_array);
-				
+
+				$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
+				$reponse_query = $bdd->query($initial_query);
+				$i = 0;
+				while($annonce = $reponse_query->fetch()) {
+					$annonces[$i] = $annonce;
+					$i++;
+				}
+				$columns = [
+							'id' 		=> 'N°',
+							'date' 		=> 'Date',
+							'auteur' 	=> 'Auteur',
+							'lieu' 		=> 'Lieu',
+							'departement'=> 'Dpt',
+							'superf_h' 	=> 'Superficie bâtie',
+							'superf_t' 	=> 'Superficie du terrain',
+							'habit'		=> 'État',
+							'time' 		=> 'Trajet',
+							'distance' 	=> 'Distance',
+							'price' 	=> 'Prix',
+							'link' 		=> 'Annonce',
+//							'note' 		=> 'Note',
+//							'comments' 	=> 'Comms'
+							];
+			?>
+			<script>
+				function underline(element) {
+					element.style.textDecoration = "underline";
+				}
+				function tableCreate(){
+				    var body = document.body,
+				        tbl  = document.createElement('table'),
+				        liste_annonces = <?php echo json_encode($annonces)?>,
+				        columns = <?php echo json_encode(($columns)) ?>;
+
+			        var tr = tbl.insertRow();
+	                for(var col in columns) {
+		            	var th = document.createElement("th");
+		            	th.appendChild(document.createTextNode(columns[col]));
+		            	tr.appendChild(th);
+		            	tr.addEventListener("click", underline(th));
+		            }
+
+				    for(var annonce in liste_annonces){
+				        tr = tbl.insertRow();
+				        var row = liste_annonces[annonce];
+		                for(var col in columns) {
+			            	var td = tr.insertCell();
+				            td.appendChild(document.createTextNode(row[col]));
+				        }
+				    }
+				    body.appendChild(tbl);
+				}
+				tableCreate();
+			</script>
+			<?php
 				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true')
 					print_comments_annonce($current_page, $current_url, $sort_array);
 				

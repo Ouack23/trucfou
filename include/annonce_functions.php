@@ -58,39 +58,6 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	echo('</form>');
 }
 
-function print_all_annonces($current_page, $current_url, $sort_array) {
-	global $bdd;
-	
-	$what = 'all_annonces';
-	
-	$columns_array = ['id' => 'N°',
-			'date' => 'Date',
-			'auteur' => 'Auteur',
-			'lieu' => 'Lieu',
-			'departement' => 'Dpt',
-			'superf_h' => 'Superficie bâtie',
-			'superf_t' => 'Superficie du terrain',
-			'habit' => 'État',
-			'time' => 'Trajet',
-			'distance' => 'Distance',
-			'price' => 'Prix',
-			'note' => 'Note',
-			'comments' => 'Comms'];
-	
-	print_debut_table($columns_array, ['Lien', 'Détails'], 'Liste des Annonces', $current_url, $sort_array, 'annonces');
-	
-	$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
-	
-	$have_to_add_WHERE = true;
-	$have_to_add_AND = false;
-	
-	$reponse_query = build_annonce_query($initial_query, true, false, $current_page, $current_url, $sort_array, $what);
-	
-	sort_print_annonces($reponse_query, $current_page, $current_url, $sort_array, $what);
-	
-	echo('</table></div>');
-}
-
 function print_comments_annonce($current_page, $current_url, $sort_array) {
 	global $bdd, $user;
 	
