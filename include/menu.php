@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $host = $request->server('HTTP_HOST', '');
 $is_localhost = $host == 'localhost';
 
@@ -30,10 +30,24 @@ if($user->data['is_registered']) {
 	
 	if($is_admin && $is_localhost)
 		echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
-}
+} else {
 
-else
 	echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=register', true, $user->session_id).'">Inscription</a></li>');
+	echo('<li><span id="connexion-link">Connexion</span></li>');
+	echo('<section id="login-frame" class="hidden">
+		<div class="box login-box">
+			<form accept-charset="utf-8" action="'.append_sid('forum/ucp.php', 'mode=login', true, $user->session_id).'" method="post">
+				<p>
+					<label for="username">Identifiant : </label><input type="text" name="username" id="username" size="10" title="Username" /><br />
+					<label for="password">Mot de passe : </label><input type="password" name="password" id="password" size="10" title="Password" /><br />
+					<input type="submit" name="login" value="Connexion" />
+					<input type="hidden" name="redirect" value="../index.php" />
+				</p>
+			</form>
+		</div>
+	</section>
+	');
+}
 
 echo('</ul></nav>');
 ?>

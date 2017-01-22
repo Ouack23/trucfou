@@ -1,12 +1,58 @@
 <?php
 include('include/functions.php');
 include('include/config.php');
+
+function print_form_new_offer($params, $sort_array, $action) {
+	echo('
+		<div class="flex-container">
+			<div class="box posting-form">
+				<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
+					<p class="form">
+					<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
+					<label for="departement">Département :</label><input type="number" min="'.$sort_array['min_departement'].'" max="'.$sort_array['max_departement'].'" name="departement" id="departement" value="'.$params['departement'].'"/><br />
+					<label for="superf_h">Superficie bâtie (en m², 1 si inconnue) :</label><input type="number" min="'.$sort_array['superf_h'].'" max="'.$sort_array['max_superf_h'].'" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/><br />
+					<label for="superf_t">Superficie du terrain (en m², 1 si inconnue) :</label><input type="number" min="'.$sort_array['min_superf_t'].'" max="'.$sort_array['max_superf_t'].'" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/><br />
+					<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
+					<label for="time">Temps de trajet depuis Lyon (en mn) :</label><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/><br />
+					<label for="distance">Distance de Lyon (en km) :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/><br />
+					<label for="price">Prix (en k€, genre 66,666) :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/><br />
+					<label for="habit">Combien c\'est habitable en l\'état :</label>
+					<select name="habit" id="habit">
+						<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
+						<option value="un" '.print_selected($params['habit'], 1).'>1</option>
+						<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
+						<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
+						<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
+						<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
+					</select><br />
+					<label for="note">Ta note pour cette annonce :</label>
+					<select name="note" id="note">
+						<option value="zero" '.print_selected($params['note'], 0).'>0</option>
+						<option value="un" '.print_selected($params['note'], 1).'>1</option>
+						<option value="deux" '.print_selected($params['note'], 2).'>2</option>
+						<option value="trois" '.print_selected($params['note'], 3).'>3</option>
+						<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
+						<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
+					</select><br />
+
+					<span class="submit-container"><input type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
+
+					</p>
+				</form>
+			</div>
+		</div>'
+	);
+}
+
 ?>
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
@@ -24,7 +70,7 @@ include('include/config.php');
 					case 'create':
 						echo('<h1>Poster une nouvelle annonce</h1>');
 						
-						if(!isset($_POST['Valider'])) print_form_new_annonce([], $sort_array, $action);
+						if(!isset($_POST['Valider'])) print_form_new_offer([], $sort_array, $action);
 						
 						else {
 							$param_array = get_new_annonce_param_array($sort_array);
@@ -58,12 +104,12 @@ include('include/config.php');
 								$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $param_array['note']));
 								$req_note->closeCursor();
 									
-								echo('<p id="form" class="success">L\'annonce a bien été ajoutée, bien joué !</p>');
+								echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> L\'annonce a bien été ajoutée, bien joué !</p></div>');
 							}
 						
 							else {
-								echo('<p class="error">Au moins une erreur est survenue</p>');
-								print_form_new_annonce($param_array, $sort_array, $action);
+								echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Au moins une erreur est survenue</p></div>');
+								print_form_new_offer($param_array, $sort_array, $action);
 							}
 						}
 					break;
@@ -83,7 +129,7 @@ include('include/config.php');
 									$annonce['note'] = get_user_note($annonce_id, $user->data['username']);
 									
 									if(!isset($_POST['Valider'])) {
-										print_form_new_annonce($annonce, $sort_array, $action);
+										print_form_new_offer($annonce, $sort_array, $action);
 									}
 										
 									else {
@@ -134,26 +180,26 @@ include('include/config.php');
 												$update_note->closeCursor();
 											}
 											
-											echo('<p class="success">Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p>');
+											echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p></div>');
 										}
 										
-										else echo('<p class="error">Aucun changement apporté à l\'annonce !</p>');
+										else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Aucun changement apporté à l\'annonce !</p></div>');
 									}
 								}
 								
-								else echo('<p class="error">Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p>');
+								else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p></div>');
 								
 								$get_annonce->closeCursor();
 							}
 							
-							else echo('<p class="error">Cette annonce n\'existe pas ou plus !</p>');
+							else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Cette annonce n\'existe pas ou plus !</p></div>');
 						}
 						
-						else echo('<p class="error">Pas d\'annonce à modifier !</p>');
+						else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à modifier !</p></div>');
 					break;
 					
 					default:
-						echo('<p class="error">Mauvaise valeur de action dans l\'url.</p>');
+						echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Mauvaise valeur de action dans l\'url.</p></div>');
 					break;
 				}
 			} ?>
