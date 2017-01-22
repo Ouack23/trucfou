@@ -293,6 +293,11 @@ h1 {
 	flex-grow: 1;
 }
 
+.event ul.event-titre li.event-ou {
+	font-weight: normal;
+	background-color: #70a762;
+}
+
 .event p, .comment p {
 	margin: 0;
 	padding: 20px;

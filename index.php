@@ -65,9 +65,9 @@ include('include/functions.php');
 
 					<div class="event">
 						<ul class="event-titre">
-							<li class="event-quand"><i class="fa fa-clock-o fa-fw"></i> 12 / 01 / 2017</li>
+							<li class="event-quand"><i class="fa fa-clock-o fa-fw"></i> Date à définir</li>
 							<li class="event-quoi"><i class="fa fa-check fa-fw"></i> Grand Groupe <em>(réu plénière)</em></li>
-							<li class="event-ou"><i class="fa fa-map-marker fa-fw"></i> Annonciade</li>
+							<li class="event-ou"><i class="fa fa-map-marker fa-fw"></i> Lieu à définir</li>
 						</ul>
 
 						<p>
