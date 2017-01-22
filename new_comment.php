@@ -18,7 +18,7 @@ include('include/config.php');?>
 	</head>
 	<body>
 		<?php include_content('top');
-		echo('<section id="main">');	
+		echo('<section id="main">');
 			echo('<h1>Écrire un nouveau commentaire</h1>');
 			
 			if(!$user->data['is_registered']) include('include/not_registered.php');
@@ -42,6 +42,7 @@ include('include/config.php');?>
 
 						//Création du commentaire
 						else {?>
+							<h3 class="center">Annonce n°<?php echo($current_url['annonce']);?></h3>
 							<div id="BBcode">
 								<input type="submit" onclick="insertBalise('b')" value="Gras" />
 								<input type="submit" onclick="insertBalise('i')" value="Italique" />
@@ -54,26 +55,25 @@ include('include/config.php');?>
 								<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
 								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
 							</div>
-							<p>Commentaire de l'annonce n°<?php echo($current_url['annonce']);?> :<br /></p>
 							<form accept-charset="utf-8" action="#" method="post">
 								<textarea name="comment" id="comment"></textarea>
-								<p><input type="submit" name="submit" value="Valider" />
+								<p class="center"><input type="submit" name="submit" value="Valider" />
 								<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
 							</form>
-							<p><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
-							<p id="visualPreview"></p>
+							<p class="center"><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
+							<div id="visualPreview" class="box"><p></p></div>
 							<?php
 						}
 					}
 					
-					else echo('<p class="error">Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p>');
+					else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p></div>');
 				}
 				
 				//Traitement de la validation
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
 					$req->execute(array('annonce' => $current_url['annonce'], 'auteur' => $user->data['username'], 'comment' => $request->variable('comment', '')));
-					echo('<p class="success">Vous pouvez aller consulter votre commentaire <a href=comments.php?annonce='.$current_url['annonce'].'>ici</a></p>');
+					echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Vous pouvez aller consulter votre commentaire <a href=annonces.php?annonce='.$current_url['annonce'].'>ici</a></p></div>');
 				}
 			}
 		echo('</section>');

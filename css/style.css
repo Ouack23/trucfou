@@ -85,7 +85,7 @@ nav ul li {
 	display: inline-block;
 }
 
-nav ul li a {
+nav ul li a, nav ul #connexion-link {
 	text-decoration: none;
     color: #e4e4e2;
     display: block;
@@ -93,6 +93,7 @@ nav ul li a {
     line-height: 40px;
     background: transparent;
     transition: all 300ms ease;
+    cursor: default;
 }
 
 /* Responsive */
@@ -103,7 +104,7 @@ nav ul li a {
 	}
 }
 
-nav ul li a:hover {
+nav ul li a:hover, nav ul #connexion-link:hover {
 	background-color: #70a762;
 	color: #fefefe;
 }
@@ -203,7 +204,7 @@ h1 {
 	color: #5c974c;
 }
 
-.box a {
+.box a, table a {
 	font-weight: bold;
 	text-decoration: none;
 	color: #5c974c;
@@ -214,11 +215,11 @@ h1 {
 	margin: -2px;
 }
 
-.box a:hover {
+.box a:hover, table a:hover {
 	cursor: default;
 }
 
-.box a:before, .box a:after {
+.box a:before, .box a:after, table a:before, table a:after {
 	content: "";
 	position: absolute;
 	bottom: 0;
@@ -229,15 +230,15 @@ h1 {
 	transition: all 300ms cubic-bezier(0.7, 0, 0.175, 1);
 }
 
-.box a:before {
+.box a:before, table a:before {
 	right: 50%;
 }
 
-.box a:after {
+.box a:after, table a:after {
 	left: 50%;
 }
 
-.box a:hover:before, .box a:hover:after, .box a:active:before, .box a:active:after {
+.box a:hover:before, .box a:hover:after, .box a:active:before, .box a:active:after, table a:hover:before, table a:hover:after, table a:active:before, table a:active:after {
 	width: 50%;
 }
 
@@ -246,17 +247,17 @@ h1 {
 	color: #5c974c;
 }
 
-/**********************
-		EVENTS
-**********************/
+/************************
+	EVENTS / COMMENTS
+************************/
 
-.event {
+.event, .comment {
 	margin : 0;
 	margin-top: 20px;
 	background-color: #cccccc;
 }
 
-.event ul.event-titre {
+.event ul.event-titre, .comment ul.comment-titre {
 	margin: 0;
 	padding: 0;
 	background-color: #5c974c;
@@ -266,7 +267,7 @@ h1 {
 	list-style: none;
 }
 
-.event ul.event-titre li {
+.event ul.event-titre li, .comment ul.comment-titre li {
 	padding: 10px;
 	margin: 0;
 	font-weight: bold;
@@ -275,29 +276,24 @@ h1 {
 /* Responsive */
 @media screen and (max-width: 640px) {
 
-	.event ul.event-titre {
+	.event ul.event-titre, .comment ul.comment-titre {
 		flex-flow: column nowrap;
 	}
 
-	.event ul.event-titre li {
+	.event ul.event-titre li, .comment ul.comment-titre li {
 		display: block;
 	}
 }
 
-.event ul.event-titre li.event-quand {
+.event ul.event-titre li.event-quand, .comment ul.comment-titre li.comment-quand {
 	background-color: #538b46;
 }
 
-.event ul.event-titre li.event-quoi {
+.event ul.event-titre li.event-quoi, .comment ul.comment-titre li.comment-quoi {
 	flex-grow: 1;
 }
 
-.event ul.event-titre li.event-ou {
-	font-weight: normal;
-	background-color: #70a762;
-}
-
-.event p {
+.event p, .comment p {
 	margin: 0;
 	padding: 20px;
 }
@@ -355,7 +351,7 @@ span.submit-container {
 	text-align: center;
 }
 
-input.submit-button {
+input[type=submit] {
 	font-weight: bold;
 	font-size: 1em;
 	padding: 8px;
@@ -365,7 +361,7 @@ input.submit-button {
 	background-color: #5c974c;
 }
 
-input.submit-button:hover {
+input[type=submit]:hover {
 	background-color: #70a762;
 	color: #fefefe;
 }
@@ -401,7 +397,7 @@ input.submit-button:hover {
 		width: 40%;
 	}
 
-	#form input.submit-button {
+	#form input[type=submit] {
 		display: block;
 		position: relative;
 		left: 0;
@@ -421,6 +417,13 @@ input.submit-button:hover {
 
 	#form select, #form input, #form textarea {
 		width: 25%;
+	}
+}
+
+@media screen and (min-width: 1600px) {
+
+	#form select, #form input, #form textarea {
+		width: 20%;
 	}
 }
 
@@ -446,10 +449,6 @@ input.submit-button:hover {
 		display: block;
 		width: 100%;
 	}
-
-	#form input.submit-button {
-		width: auto;
-	}
 }
 
 /********************
@@ -458,6 +457,7 @@ input.submit-button:hover {
 
 #login-frame {
 	position: fixed;
+	top: 0;
 	width: 100%;
 	height: 100%;
 	padding: 0;
@@ -470,7 +470,7 @@ input.submit-button:hover {
 .login-box {
 	width: 350px;
 	height: 200px;
-	margin: 10% auto;
+	margin: 15% auto;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
@@ -507,7 +507,7 @@ input.submit-button:hover {
 	width: 45%;
 }
 
-.login-box input.submit-button {
+.login-box input[type=submit] {
 	margin: 10px;
 }
 
@@ -521,18 +521,64 @@ table{
 	border-collapse: collapse;
 	text-align: center;
 	background-color: white;
+	margin-bottom: 30px;
+	border-bottom: 4px solid #5c974c;
 }
 
-.top th {
-	font-size: 1.3em;
+th {
+	font-size: 1em;
 	background-color: #5c974c;
 	color: #e4e4e2;
 	padding: 8px;
 }
 
+.top th {
+	font-size: 1.3em;
+}
+
+th a {
+	color: #e4e4e2;
+}
+
+th a:before, th a:after {
+	background: #e4e4e2;
+}
+
+tr:nth-child(even) {
+	background-color: #e4e4e2;
+}
+
+tr:nth-child(odd) {
+	background-color: #fefefe;
+}
+
 td {
 	margin: 10px;
 	padding: 5px;
+}
+
+td a {
+	font-weight: normal;
+}
+
+.offer-vote {
+	text-align: center;
+}
+
+#change-note {
+	margin: 10px 20px;
+}
+
+.comment-author {
+	color: #cccccc;
+}
+
+input[type=submit].warning-button {
+	background: #b64545;
+}
+
+input[type=submit]:hover.warning-button {
+	background: #c06161;
 }
 
 @media screen and (max-width: 640px) {
@@ -561,7 +607,6 @@ td {
 	display: block;
 	width: 80%;
 	margin: auto;
-	border: 1px solid black;
 	min-height: 300px;
 }
 
@@ -577,31 +622,31 @@ textarea {
 ************************/
 
 .habit0 {
-	background-color: red;
+	background-color: rgba(255, 0, 0, 0.8);
 }
 
 .habit1 {
-	background-color: orangered;
+	background-color: rgba(255, 69, 0, 0.8);
 }
 
 .habit2 {
-	background-color: orange;
+	background-color: rgba(255, 165, 0, 0.8);
 }
 
 .habit3 {
-	background-color: gold;
+	background-color: rgba(255, 215, 0, 0.8);
 }
 
 .habit4 {
-	background-color: limegreen;
+	background-color: rgba(50, 205, 50, 0.8);
 }
 
 .habit5 {
-	background-color: greenyellow;
+	background-color: rgba(173, 255, 47, 0.8);
 }
 
 .unknown, .unnoted {
-	background-color: lightgray;
+	background-color: rgba(0, 0, 0, 0.05);
 }
 
 .unavailable {
@@ -654,18 +699,11 @@ output {
 }
 
 #form_sort_annonce * {
-	tex-align: center;
-	margin-auto;
+	text-align: center;
+	margin: auto;
 }
 
 #form_sort_annonce label {
 	margin-left: 10px;
 	margin-right: 10px;
-}
-
-#form_sort_annonce input[type=submit] {
-	font-weight: bold;
-	background-color: lightgreen;
-	margin: auto;
-	text-align: center;
 }

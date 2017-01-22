@@ -157,7 +157,7 @@ include("include/config.php");?>
 						<div class="box posting-form">
 							<form method="post" action="#" accept-charset="utf-8">
 								<p class="center">
-									<span class="submit-container"><input class="submit-button" type="submit" value="Poster un nouveau document" name="newdoc"/></span>
+									<span class="submit-container"><input type="submit" value="Poster un nouveau document" name="newdoc"/></span>
 								</p>
 							</form>
 						</div>
@@ -183,7 +183,7 @@ include("include/config.php");?>
 
 									<label for="name">Titre du document : </label><input type="text" name="title" id="title" />
 
-									<span class="submit-container"><input class="submit-button" type="submit" value="Valider" /></span>
+									<span class="submit-container"><input type="submit" value="Valider" /></span>
 								</p>
 							</form>
 						</div>

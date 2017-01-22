@@ -35,7 +35,7 @@ function print_form_new_offer($params, $sort_array, $action) {
 						<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
 					</select><br />
 
-					<span class="submit-container"><input class="submit-button" type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
+					<span class="submit-container"><input type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
 
 					</p>
 				</form>

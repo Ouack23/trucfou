@@ -953,39 +953,48 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 	$donnees = $reponse->fetch();
 	
 	print_single_annonce($current_page, $current_url, $sort_array);
+
+	echo('<div class="flex-container">
+					<div class="box posting-form">');
+
 	print_notation($current_url['annonce']);
+
+	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
+
 	print_available($current_url['annonce']);
 	
-	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
 	
 	if($donnees != NULL) {
 		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
-		
-		print_debut_table($columns_array, [], 'Liste des commentaires de l\'annonce '.$current_url['annonce'].'', $current_url, $sort_array, 'comments');
-		echo('</tr></table></div>');
-		
-		echo('<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post"><p>');
-		echo('<input type="submit" name="new_comment" value="Nouveau commentaire" />');
-		echo('</p></form>');
-		
-		echo('<h3 id="comments">Commentaire numéro '.$donnees['id'].'</h3>');
-		echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
-		echo('<p id="content">'.$donnees['comment'].'</p>');
-		
-		while($donnees = $reponse->fetch()) {
-			echo('<h3>Commentaire numéro '.$donnees['id'].'</h3>');
-			echo('<p id="description">écrit par '.$donnees['auteur'].' le '.$donnees['date'].'</p>');
-			echo('<p id="content">'.$donnees['comment'].'</p>');
-		}
+
+		echo('<h1>Commentaires</h1>');
+
+		do {
+			echo('
+				<div class="comment">
+					<ul class="comment-titre">
+						<li class="comment-quand"><i class="fa fa-clock-o fa-fw"></i> '.$donnees['date'].'</li>
+						<li class="comment-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">'.$donnees['auteur'].'</span></li>
+					</ul>
+
+					<p>'.$donnees['comment'].'</p>
+				</div>
+			');
+		} while ($donnees = $reponse->fetch());
 	}
 	
 	else {
-		echo('<h1 id="comments">Pas de commentaire pour cette annonce !</h1>');
-		
-		echo('<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post"><p>');
-		echo('<input type="submit" name="new_comment" value="Nouveau commentaire" />');
-		echo('</p></form>');
+		echo('<h3 id="comments">Pas de commentaire pour cette annonce !</h3>');
 	}
+
+	echo('
+		<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post">
+			<p class="center"><input type="submit" name="new_comment" value="Nouveau commentaire" /></p>
+		</form>
+	');
+
+	echo('</div></div>');
+
 	$reponse->closeCursor();
 }
 
@@ -1192,8 +1201,8 @@ function print_available($annonce) {
 	if($avail) {
 		if($avail['available']) {
 			if(!isset($_POST['unavailable'])) {
-				echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
-				echo('<input type="submit" value="Déclarer indisponible" name="unavailable"/>');
+				echo('<form accept-charset="utf-8" action="#comments" method="post"><p class="center">');
+				echo('<input type="submit" class="warning-button" value="Déclarer indisponible" name="unavailable"/>');
 				echo('</p></form>');
 			}
 			
@@ -1249,9 +1258,13 @@ function print_notation($annonce) {
 		$user_note = $notes['value'];
 		
 		if(!isset($_POST['modify_note'])) {
-			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>Vous avez voté '.$user_note.'/5 pour cette annonce. ');
-			echo('<input type="submit" value="Modifier ce vote" name="modify_note" />');
-			echo('</p></form>');
+			echo('
+				<form accept-charset="utf-8" class="offer-vote" action="#comments" method="post">
+					<p>Vous avez voté '.$user_note.'/5 pour cette annonce.
+						<input type="submit" class="submit-button" id="change-note" value="Modifier ce vote" name="modify_note" />
+					</p>
+				</form>
+			');
 		}
 		
 		else {
@@ -1295,7 +1308,7 @@ function print_notation($annonce) {
 }
 
 function print_modify_annonce($id) {
-	echo('<form action="'.append_sid('new_annonce.php', 'action=edit&annonce='.$id.'').'" method="post"><p>');
+	echo('<form action="'.append_sid('new_annonce.php', 'action=edit&annonce='.$id.'').'" method="post"><p class="center">');
 	echo('<input type="submit" value="Modifier l\'annonce" />');
 	echo('</p></form>');
 }
