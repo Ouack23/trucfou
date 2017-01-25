@@ -17,23 +17,23 @@ function print_form_new_offer($params, $sort_array, $action) {
 					<label for="distance">Distance de Lyon (en km) :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/><br />
 					<label for="price">Prix (en k€, genre 66,666) :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/><br />
 					<label for="habit">Combien c\'est habitable en l\'état :</label>
-					<select name="habit" id="habit">
+					<span class="select-wrapper"><select name="habit" id="habit">
 						<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
 						<option value="un" '.print_selected($params['habit'], 1).'>1</option>
 						<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
 						<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
 						<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
 						<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
-					</select><br />
+					</select></span><br />
 					<label for="note">Ta note pour cette annonce :</label>
-					<select name="note" id="note">
+					<span class="select-wrapper"><select name="note" id="note">
 						<option value="zero" '.print_selected($params['note'], 0).'>0</option>
 						<option value="un" '.print_selected($params['note'], 1).'>1</option>
 						<option value="deux" '.print_selected($params['note'], 2).'>2</option>
 						<option value="trois" '.print_selected($params['note'], 3).'>3</option>
 						<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
 						<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
-					</select><br />
+					</select></span><br />
 
 					<span class="submit-container"><input type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
 
