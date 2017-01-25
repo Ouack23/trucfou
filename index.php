@@ -89,7 +89,7 @@ include('include/functions.php');
 						</ul>
 
 						<p>
-							Les réunions Groupe de Travail ont lieu tous les mardis soirs à 20h dans une salle de la BMC. Tout le monde peut y participer. Pour être sûr du lieu, allez voir <a href="http://trucfou.pe.hu/forum/viewforum.php?f=19">ici</a>.
+							Les réunions Groupe de Travail ont lieu tous les mardis soirs à 20h. Tout le monde peut y participer. Pour être sûr du lieu, allez voir <a href="http://trucfou.pe.hu/forum/viewforum.php?f=19">ici</a>.
 						</p>
 
 					</div>
