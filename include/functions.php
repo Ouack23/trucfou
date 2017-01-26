@@ -124,14 +124,14 @@ function select_annonce() {
 	$reponse = $bdd->query('SELECT id, price,'.format_date().', auteur, lieu FROM annonces');
 	
 	echo('<form accept-charset="utf-8" action="#" method="get"><p>');
-	echo('<select name="annonce">');
+	echo('<span class="select-wrapper"><select name="annonce">');
 	
 	while($annonces=$reponse->fetch()) {
 		echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].' k€</option>');
 	}
 	$reponse->closeCursor();
 	
-	echo('</select>');
+	echo('</select></span>');
 	echo('<input type="submit" value="Valider" /></p></form>');
 }
 
@@ -149,23 +149,23 @@ function print_form_new_annonce($params, $sort_array, $action) {
 			<label for="distance">Distance de Lyon :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/> km<br />
 			<label for="price">Prix :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)<br />
 			<label for="habit">Combien c\'est habitable en l\'état :</label>
-			<select name="habit" id="habit">
+			<span class="select-wrapper"><select name="habit" id="habit">
 				<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
 				<option value="un" '.print_selected($params['habit'], 1).'>1</option>
 				<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
 				<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
 				<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
 				<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
-			</select> sur 5<br />
+			</select> sur 5</span><br />
 			<label for="note">Ta note pour cette annonce :</label>
-			<select name="note" id="note">
+			<span class="select-wrapper"><select name="note" id="note">
 				<option value="zero" '.print_selected($params['note'], 0).'>0</option>
 				<option value="un" '.print_selected($params['note'], 1).'>1</option>
 				<option value="deux" '.print_selected($params['note'], 2).'>2</option>
 				<option value="trois" '.print_selected($params['note'], 3).'>3</option>
 				<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
 				<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
-			</select> sur 5<br />');
+			</select> sur 5</span><br />');
 	
 	if($action == 'create') {
 		echo('<input type="submit" name="Valider" value="Valider" />');
@@ -1014,14 +1014,14 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
 	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce">');
-	echo('<p><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
+	echo('<p><label for="sort_date">Date</label><span class="select-wrapper"><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
 	echo('>Avant</option>');
 	echo('<option value="after"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'after') echo ' selected';
 	echo('>Après</option>');
-	echo('</select>');
+	echo('</select></span>');
 	
 	echo('<input type="text" name="value_date" id="datepicker" value="');
 	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
@@ -1029,20 +1029,20 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	if($current_page == 'annonces.php') {
 		echo('<label for="sort_auteur">Auteur</label>');
-		echo('<select id="sort_auteur" name="sort_auteur">');
+		echo('<span class="select-wrapper"><select id="sort_auteur" name="sort_auteur">');
 		print_liste('auteur');
-		echo('</select>');
+		echo('</select></span>');
 	}
 	
 	echo('<label for="sort_lieu">Lieu</label>');
-	echo('<select id="sort_lieu" name="sort_lieu">');
+	echo('<span class="select-wrapper"><select id="sort_lieu" name="sort_lieu">');
 	print_liste('lieu');
-	echo('</select>');
+	echo('</select></span>');
 	
 	echo('<label for="sort_departement">Département</label>');
-	echo('<select id="sort_departement" name="sort_departement">');
+	echo('<span class="select-wrapper"><select id="sort_departement" name="sort_departement">');
 	print_liste('departement');
-	echo('</select>');
+	echo('</select></span>');
 	
 	$get_max = $bdd->query('SELECT MAX(superf_h) AS superf_h, MAX(superf_t) AS superf_t, MAX(time) AS time, MAX(price) AS price, MAX(distance) AS distance FROM annonces');
 	$max = $get_max->fetch();
@@ -1074,7 +1074,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 	global $sort_array;
 	
 	echo('<label for="sort_'.$name.'">'.$label.'</label>');
-	echo('<select id="sort_'.$name.'" name="sort_'.$name.'">');
+	echo('<span class="select-wrapper"><select id="sort_'.$name.'" name="sort_'.$name.'">');
 	
 	foreach($option_array as $value => $option_label) {
 		echo('<option value="'.$value.'"');
@@ -1082,7 +1082,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 		echo('>'.$option_label.'</option>');
 	}
 	
-	echo('</select>');
+	echo('</select></span>');
 	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="');
 	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
 	else echo($min);
@@ -1279,14 +1279,14 @@ function print_notation($annonce) {
 		if(!isset($_POST['value_note_submit'])) {
 			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
 			echo('<label for="note_option">Note : </label>');
-			echo('<select id="note_option" name="value_note_submit">');
+			echo('<span class="select-wrapper"><select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');
 			echo('<option value="un">1</option>');
 			echo('<option value="deux">2</option>');
 			echo('<option value="trois">3</option>');
 			echo('<option value="quatre">4</option>');
 			echo('<option value="cinq">5</option>');
-			echo('</select>');
+			echo('</select></span>');
 			echo('<input type="submit" value="Voter" />');
 			echo('</p></form>');
 		}
