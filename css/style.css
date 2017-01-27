@@ -342,10 +342,6 @@ select {
 	transition: all 300ms ease;
 }
 
-.select-wrapper {
-    position: relative;
-}
-
 .select-wrapper:before {
     content: '\f0d7';
     font-family: FontAwesome;
@@ -458,6 +454,7 @@ input[type=submit]:hover {
 	}
 
 	#form label, #form input, #form .select-wrapper {
+		display: inline-block;
 		width: 80%;
 		margin: 0 auto;
 		margin-top: 10px;
@@ -466,8 +463,8 @@ input[type=submit]:hover {
 
 	#form select {
 		width: 100%;
-		display: block;
-		text-align: center;
+		display: inline-block;
+		padding: 10px;
 	}
 
 	#form label {
