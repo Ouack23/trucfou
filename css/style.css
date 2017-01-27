@@ -576,11 +576,11 @@ th a:before, th a:after {
 }
 
 tr:nth-child(even) {
-	background-color: #fdc865;
+	background-color: #b88b4a;
 }
 
 tr:nth-child(odd) {
-	background-color: #ffd78c;
+	background-color: #fbc563;
 }
 
 td {
@@ -682,7 +682,7 @@ textarea {
 }
 
 .unknown, .unnoted {
-	background-color: rgba(184, 139, 74, 0.4);
+	background-color: rgba(162, 112, 53, 0.4);
 }
 
 tr.unavailable {
@@ -693,7 +693,7 @@ tr.unavailable {
 	color: #cc8f1d;
 }
 
-.unavailable td a:before, td a:after {
+.unavailable td a:before, .unavailable td a:after {
 	background-color: #cc8f1d;
 }
 
