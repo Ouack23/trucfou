@@ -58,26 +58,78 @@
 							];
 			?>
 			<script>
-				function underline(element) {
-					element.style.textDecoration = "underline";
+				function sortJSONTable(jsonArray, sortKey){
+					jsonArray.sort(function(a, b) {
+						if(sortKey == "auteur" || sortKey == "lieu") {
+							return a[sortKey] > b[sortKey];
+						}
+						else {
+							return a[sortKey] - b[sortKey];
+						}
+					});
 				}
-				function tableCreate(){
+
+				// callback function
+				function onClickOnTableHeader(element) {
+					// store element id
+					var id = element.id;
+
+					//remove old table
+					var oldTable = document.getElementById("annoncesArray");
+					oldTable.parentNode.removeChild(oldTable);
+
+					// create new one.
+					tableCreate(id);
+
+					// underline and sort
+					var th = document.getElementById(id);
+					th.style.textDecoration = "underline";
+				}
+
+				// callback function
+/*				function filterJSON(inputArray) {
+					var filteredArray;
+
+					for(var annonce in inputArray){
+				    	var display = true;
+
+
+				    	if(display)
+				    	{
+				    		filteredArray
+				    	}
+				    }
+
+					return filteredArray;
+				}
+*/
+				function tableCreate(sortColumn){
 				    var body = document.body,
 				        tbl  = document.createElement('table'),
 				        liste_annonces = <?php echo json_encode($annonces)?>,
 				        columns = <?php echo json_encode(($columns)) ?>;
+		
+					tbl.id = "annoncesArray";
 
+					// generate table header.
 			        var tr = tbl.insertRow();
 	                for(var col in columns) {
 		            	var th = document.createElement("th");
 		            	th.appendChild(document.createTextNode(columns[col]));
+		            	th.id = col;
 		            	tr.appendChild(th);
-		            	tr.addEventListener("click", underline(th));
+		            	th.addEventListener("click", function() {onClickOnTableHeader(this);} );
 		            }
 
-				    for(var annonce in liste_annonces){
+		            var filtered_annonces = liste_annonces; //filterJSON(liste_annonces);
+
+		            // sort array
+		            sortJSONTable(filtered_annonces, sortColumn);
+
+	            	// generate resulting dom
+				    for(var annonce in filtered_annonces){
 				        tr = tbl.insertRow();
-				        var row = liste_annonces[annonce];
+				        var row = filtered_annonces[annonce];
 		                for(var col in columns) {
 			            	var td = tr.insertCell();
 				            td.appendChild(document.createTextNode(row[col]));
@@ -85,7 +137,8 @@
 				    }
 				    body.appendChild(tbl);
 				}
-				tableCreate();
+
+				tableCreate("id");
 			</script>
 			<?php
 				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true')
