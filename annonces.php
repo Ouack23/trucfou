@@ -56,6 +56,23 @@
 //							'note' 		=> 'Note',
 //							'comments' 	=> 'Comms'
 							];
+
+				$filters = [
+//							'id' 		=> 'N°',
+//							'date' 		=> 'Date',
+							'auteur' 	=> 'sort_auteur',
+							'lieu' 		=> 'sort_lieu',
+							'departement'=> 'sort_departement',
+							'superf_h' 	=> 'value_superf_h',
+							'superf_t' 	=> 'value_superf_t',
+							'habit'		=> 'value_habit',
+							'time' 		=> 'value_time',
+							'distance' 	=> 'value_distance',
+							'price' 	=> 'value_price' //,
+//							'link' 		=> 'Annonce',
+//							'note' 		=> 'Note',
+//							'comments' 	=> 'Comms'
+							];
 			?>
 			<script>
 				function sortJSONTable(jsonArray, sortKey){
@@ -74,36 +91,51 @@
 					// store element id
 					var id = element.id;
 
-					//remove old table
-					var oldTable = document.getElementById("annoncesArray");
-					oldTable.parentNode.removeChild(oldTable);
-
-					// create new one.
+					// create new table.
 					tableCreate(id);
 
-					// underline and sort
+					// underline
 					var th = document.getElementById(id);
 					th.style.textDecoration = "underline";
 				}
 
-				// callback function
-/*				function filterJSON(inputArray) {
-					var filteredArray;
+				function filterJSON(inputArray) {
+					var filteredArray = inputArray,
+						filters = <?php echo json_encode(($filters)) ?>,
+						columns = <?php echo json_encode(($columns)) ?>;
 
 					for(var annonce in inputArray){
-				    	var display = true;
+				    	var hide = false;
+				    	var row = inputArray[annonce];
 
-
-				    	if(display)
+				    	for(var filterKey in filters) {
+				    		var element = document.getElementById(filters[filterKey]);
+				    		if(element.id.startsWith("value_")) {
+				    			hide = row[filterKey] < element.value;
+				    		}
+				    		else if (element.id.startsWith("sort_")) {
+				    			hide = element.value != "all" && element.value != row[filterKey];
+				    		}
+				    		if(hide)
+				    			break;
+				    	}
+				    	if(hide)
 				    	{
-				    		filteredArray
+				    		delete filteredArray[annonce];
 				    	}
 				    }
 
 					return filteredArray;
 				}
-*/
+
 				function tableCreate(sortColumn){
+
+					//remove old table
+					var oldTable = document.getElementById("annoncesArray");
+					if(oldTable != null) {
+						oldTable.parentNode.removeChild(oldTable);
+					}
+
 				    var body = document.body,
 				        tbl  = document.createElement('table'),
 				        liste_annonces = <?php echo json_encode($annonces)?>,
@@ -121,7 +153,8 @@
 		            	th.addEventListener("click", function() {onClickOnTableHeader(this);} );
 		            }
 
-		            var filtered_annonces = liste_annonces; //filterJSON(liste_annonces);
+		            // filter array
+		            var filtered_annonces = filterJSON(liste_annonces);
 
 		            // sort array
 		            sortJSONTable(filtered_annonces, sortColumn);
@@ -133,6 +166,11 @@
 		                for(var col in columns) {
 			            	var td = tr.insertCell();
 				            td.appendChild(document.createTextNode(row[col]));
+				            if(col == "habit") {
+				            	var c = "habit";
+				            	c += row[col];
+				            	td.setAttribute("class", c);
+				            }
 				        }
 				    }
 				    body.appendChild(tbl);
