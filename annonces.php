@@ -72,16 +72,31 @@
 //							'note' 		=> 'Note',
 //							'comments' 	=> 'Comms'
 							];
-
-				print_sort_form($current_page, $current_url, $sort_array);
 			?>
 			<script>
-				function generateTable(id) {
+				function generateTable(sortColumn) {
 			        var liste_annonces = <?php echo json_encode($annonces)?>,
 				        columns = <?php echo json_encode($columns) ?>,
 				        filters = <?php echo json_encode($filters) ?>;
-					createTable(id, liste_annonces, columns, filters);
+
+			        // look for the currently selected column.
+			        if(sortColumn == undefined) {
+			        	var table = document.getElementById("annoncesArray");
+			        	var headers = table.getElementsByTagName("th");
+			        	for(var i = 0; i < headers.length; i++) {
+			        		if(headers[i].getAttribute("type") == "sorted") {
+			        			sortColumn = headers[i].id;
+			        		}
+			        	}
+			        }
+
+					createTable(sortColumn, liste_annonces, columns, filters);
 				}
+			</script>
+			<?php
+				print_sort_form($current_page, $current_url, $sort_array);
+			?>
+			<script>
 				generateTable("id");
 			</script>
 			<?php

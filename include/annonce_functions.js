@@ -82,7 +82,7 @@ function createTable(sortColumn, liste_annonces, columns, filters){
 			th.style.textDecoration = "underline";
 			sortingCriteria = "sorted";
     	}
-    	th.name = sortingCriteria;
+    	th.setAttribute("type", sortingCriteria);
     	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters);} );
     	tr.appendChild(th);
     }
