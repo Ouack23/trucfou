@@ -92,7 +92,7 @@
 			        	}
 			        }
 
-					createTable(sortColumn, liste_annonces, columns, filters);
+					createTable(sortColumn, false, liste_annonces, columns, filters);
 				}
 			</script>
 			<script>

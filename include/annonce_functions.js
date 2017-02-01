@@ -1,12 +1,18 @@
 // --------------------------------------------------------
 // Callback mfunction to sort a JSON table
 // -------------------------------------------------------- 
-function sortJSONTable(jsonArray, sortKey){
+function sortJSONTable(jsonArray, sortKey, reverse){
 	jsonArray.sort(function(a, b) {
 		if(sortKey == "auteur" || sortKey == "lieu") {
+            if(reverse) {
+                return a[sortKey] < b[sortKey];
+            }
 			return a[sortKey] > b[sortKey];
 		}
 		else {
+            if(reverse) {
+                return b[sortKey] - a[sortKey];
+            }
 			return a[sortKey] - b[sortKey];
 		}
 	});
@@ -15,12 +21,13 @@ function sortJSONTable(jsonArray, sortKey){
 // --------------------------------------------------------
 // Callback method to call createTable on click on column header
 // -------------------------------------------------------- 
-function onClickOnTableHeader(element, liste_annonces, columns, filters) {
+function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse) {
 	// store element id
 	var id = element.id;
+	reverse = element.getAttribute("type") == "sorted" && !reverse;
 
 	// create new table.
-	createTable(id, liste_annonces, columns, filters);
+	createTable(id, reverse, liste_annonces, columns, filters);
 }
 
 // --------------------------------------------------------
@@ -29,14 +36,24 @@ function onClickOnTableHeader(element, liste_annonces, columns, filters) {
 function filterJSON(inputArray, filters, columns) {
 	var filteredArray = inputArray;
 
+	// for each row
 	for(var annonce in inputArray){
     	var hide = false;
     	var row = inputArray[annonce];
 
+		// check each filtered column
     	for(var filterKey in filters) {
     		var element = document.getElementById(filters[filterKey]);
     		if(element.id.startsWith("value_")) {
-    			hide = row[filterKey] < element.value;
+    			var sortDirection = "sort_" + filterKey;
+    			var sortElement = document.getElementById(sortDirection);
+
+    			if (sortElement.value == "sup") {
+    				hide = row[filterKey] < element.value;
+    			}
+    			else {
+    				hide = row[filterKey] > element.value;
+    			}
     		}
     		else if (element.id.startsWith("sort_")) {
     			hide = element.value != "all" && element.value != row[filterKey];
@@ -56,7 +73,7 @@ function filterJSON(inputArray, filters, columns) {
 // --------------------------------------------------------
 // create a sorted and filtered table
 // -------------------------------------------------------- 
-function createTable(sortColumn, liste_annonces, columns, filters){
+function createTable(sortColumn, reverse, liste_annonces, columns, filters){
 
 	//remove old table
 	var oldTable = document.getElementById("annoncesArray");
@@ -83,7 +100,7 @@ function createTable(sortColumn, liste_annonces, columns, filters){
 			sortingCriteria = "sorted";
     	}
     	th.setAttribute("type", sortingCriteria);
-    	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters);} );
+    	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters, reverse);} );
     	tr.appendChild(th);
     }
 
@@ -91,7 +108,7 @@ function createTable(sortColumn, liste_annonces, columns, filters){
     var filtered_annonces = filterJSON(liste_annonces, filters, columns);
 
     // sort array
-    sortJSONTable(filtered_annonces, sortColumn);
+    sortJSONTable(filtered_annonces, sortColumn, reverse);
 
 	// generate resulting dom
     for(var annonce in filtered_annonces){
