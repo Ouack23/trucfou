@@ -65,7 +65,7 @@ function createTable(sortColumn, liste_annonces, columns, filters){
 	}
 
 	// create DOM elements and json lists.
-    var body = document.body,
+    var annonceTitle = document.getElementById("annonceTitle"),
         tbl  = document.createElement('table');
 
 	tbl.id = "annoncesArray";
@@ -107,5 +107,5 @@ function createTable(sortColumn, liste_annonces, columns, filters){
             }
         }
     }
-    body.appendChild(tbl);
+    annonceTitle.appendChild(tbl);
 }

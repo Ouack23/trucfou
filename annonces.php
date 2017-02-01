@@ -72,7 +72,9 @@
 //							'note' 		=> 'Note',
 //							'comments' 	=> 'Comms'
 							];
+				print_sort_form($current_page, $current_url, $sort_array);
 			?>
+			<h1 id="annonceTitle"> Annonces </h1>
 			<script>
 				function generateTable(sortColumn) {
 			        var liste_annonces = <?php echo json_encode($annonces)?>,
@@ -93,9 +95,6 @@
 					createTable(sortColumn, liste_annonces, columns, filters);
 				}
 			</script>
-			<?php
-				print_sort_form($current_page, $current_url, $sort_array);
-			?>
 			<script>
 				generateTable("id");
 			</script>
