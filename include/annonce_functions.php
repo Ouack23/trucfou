@@ -1,21 +1,20 @@
 <?php
 include_once("functions.php");
 include_once("utils.php");
-
 function print_sort_form($current_page, $current_url, $sort_array) {
 	global $user, $bdd;
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
 	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce">');
-	echo('<p><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
+	echo('<p><label for="sort_date">Date</label><span class="select-wrapper"><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
 	echo('>Avant</option>');
 	echo('<option value="after"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'after') echo ' selected';
 	echo('>Après</option>');
-	echo('</select>');
+	echo('</select></span>');
 	
 	echo('<input type="text" name="value_date" id="datepicker" value="');
 	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
@@ -23,20 +22,20 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	if($current_page == 'annonces.php') {
 		echo('<label for="sort_auteur">Auteur</label>');
-		echo('<select id="sort_auteur" name="sort_auteur">');
+		echo('<span class="select-wrapper"><select id="sort_auteur" name="sort_auteur">');
 		print_liste('auteur');
-		echo('</select>');
+		echo('</select></span>');
 	}
 	
 	echo('<label for="sort_lieu">Lieu</label>');
-	echo('<select id="sort_lieu" name="sort_lieu">');
+	echo('<span class="select-wrapper"><select id="sort_lieu" name="sort_lieu">');
 	print_liste('lieu');
-	echo('</select>');
+	echo('</select></span>');
 	
 	echo('<label for="sort_departement">Département</label>');
-	echo('<select id="sort_departement" name="sort_departement">');
+	echo('<span class="select-wrapper"><select id="sort_departement" name="sort_departement">');
 	print_liste('departement');
-	echo('</select>');
+	echo('</select></span>');
 	
 	$get_max = $bdd->query('SELECT MAX(superf_h) AS superf_h, MAX(superf_t) AS superf_t, MAX(time) AS time, MAX(price) AS price, MAX(distance) AS distance FROM annonces');
 	$max = $get_max->fetch();
