@@ -1,90 +1,7 @@
 <?php
-define('IN_PHPBB', true);
-$phpbb_root_path =(defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-include($phpbb_root_path . 'common.' . $phpEx);
-global $user, $auth, $phpbb_root_path, $phpEx;
 
-// Start session management
-$user->session_begin();
-$auth->acl($user->data);
-$user->setup();
-
-function format_date() {
-	return 'DATE_FORMAT(date, "%d/%m/%Y") AS date';
-}
-
-function include_content($where) {
-	global $phpbb_root_path, $phpEx, $config, $user, $auth, $cache, $template, $request, $session;
-	switch($where) {
-		case 'top':
-			include('header.php');
-			include('menu.php');
-		break;
-
-		case 'bottom':
-			include('footer.php');
-		break;
-
-		default:
-			echo('<p class="error">Erreur : mauvais paramètre pour la fonction include_content()</p>');
-		break;
-	}
-}
-
-function secure_get() {
-	global $current_url, $sort_array, $request;
-	
-	$current_url['reverse'] = $request->variable('reverse', 'false');
-	$current_url['order'] = $request->variable('order', 'id');
-	$current_url['orderComments'] = $request->variable('orderComments', 'date');
-	$current_url['reverseComments'] = $request->variable('reverseComments', 'false');
-	$current_url['annonce'] = $request->variable('annonce', 0);
-	$current_url['user'] = $request->variable('user', 0);
-	$current_url['comments'] = $request->variable('comments', 'false');
-	
-	$sort_array['max_superf_h'] = 65535;
-	$sort_array['max_superf_t'] = 65535;
-	$sort_array['max_habit'] = 5;
-	$sort_array['max_time'] = 255;
-	$sort_array['max_distance'] = 1000;
-	$sort_array['max_price'] = 100;
-	$sort_array['max_departement'] = 95;
-	$sort_array['max_note'] = 5;
-	
-	$sort_array['min_superf_h'] = 1;
-	$sort_array['min_superf_t'] = 1;
-	$sort_array['min_habit'] = 0;
-	$sort_array['min_time'] = 1;
-	$sort_array['min_distance'] = 1;
-	$sort_array['min_price'] = 0.0;
-	$sort_array['min_departement'] = 1;
-	$sort_array['min_note'] = 0;
-	
-	$sort_array['auteur'] = $request->variable('sort_auteur', 'all');
-	$sort_array['lieu'] = $request->variable('sort_lieu', 'all');
-	$sort_array['departement'] = $request->variable('sort_departement', 'all');
-	
-	$sort_array['sort_date'] = $request->variable('sort_date', 'after');
-	$sort_array['sort_superf_h'] = $request->variable('sort_superf_h', 'sup');
-	$sort_array['sort_superf_t'] = $request->variable('sort_superf_t', 'sup');
-	$sort_array['sort_habit'] = $request->variable('sort_habit', 'sup');
-	$sort_array['sort_time'] = $request->variable('sort_time', 'sup');
-	$sort_array['sort_distance'] = $request->variable('sort_distance', 'sup');
-	$sort_array['sort_price'] = $request->variable('sort_price', 'sup');
-	$sort_array['sort_note'] = $request->variable('sort_note', 'sup');
-	
-	$sort_array['value_date'] = $request->variable('value_date', '01/01/2016');
-	$sort_array['value_superf_h'] = $request->variable('value_superf_h', $sort_array['min_superf_h']);
-	$sort_array['value_superf_t'] = $request->variable('value_superf_t', $sort_array['min_superf_t']);
-	$sort_array['value_habit'] = $request->variable('value_habit', $sort_array['min_habit']);
-	$sort_array['value_time'] = $request->variable('value_time', $sort_array['min_time']);
-	$sort_array['value_distance'] = $request->variable('value_distance', $sort_array['min_distance']);
-	$sort_array['value_price'] = $request->variable('value_price', $sort_array['min_price']);
-	$sort_array['value_note'] = $request->variable('value_note', $sort_array['min_note']);
-	
-	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'false');
-}
+include_once("phpBB.php");
+include_once("utils.php");
 
 function print_reverse($whichpage, $criteria, $current_url) {
 	global $request;
@@ -113,151 +30,17 @@ function print_reverse($whichpage, $criteria, $current_url) {
 	$boolArray=['true', 'false'];
 	
 	if(in_array($current_url[$reverseName], $boolArray) and in_array($current_url[$orderName], $possibilities)) {
-		if($current_url[$orderName] == $criteria) {if($current_url[$reverseName] == 'false') return('true'); else return('false');} else return('false');
+		if($current_url[$orderName] == $criteria) {
+			if($current_url[$reverseName] == 'false')
+			 	return('true');
+			 else 
+			 	return('false');
+		}
+		else
+			return('false');
 	}
 	
 	else echo('<p class="error">Erreur : mauvaise URL empêche la bonne exécution de print_reverse() !</p>');
-}
-
-function select_annonce() {
-	global $bdd;
-	$reponse = $bdd->query('SELECT id, price,'.format_date().', auteur, lieu FROM annonces');
-	
-	echo('<form accept-charset="utf-8" action="#" method="get"><p>');
-	echo('<span class="select-wrapper"><select name="annonce">');
-	
-	while($annonces=$reponse->fetch()) {
-		echo('<option value="'.$annonces['id'].'">N°'.$annonces['id'].' - par '.$annonces['auteur'].' - le '.$annonces['date'].' - à '.$annonces['lieu'].' - coûtant '.$annonces['price'].' k€</option>');
-	}
-	$reponse->closeCursor();
-	
-	echo('</select></span>');
-	echo('<input type="submit" value="Valider" /></p></form>');
-}
-
-// Deprecated
-function print_form_new_annonce($params, $sort_array, $action) {
-	echo('
-		<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
-			<p name="form" id="form">
-			<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
-			<label for="departement">Département :</label><input type="number" min="'.$sort_array['min_departement'].'" max="'.$sort_array['max_departement'].'" name="departement" id="departement" value="'.$params['departement'].'"/><br />
-			<label for="superf_h">Superficie bâtie :</label><input type="number" min="'.$sort_array['superf_h'].'" max="'.$sort_array['max_superf_h'].'" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)<br />
-			<label for="superf_t">Superficie du terrain :</label><input type="number" min="'.$sort_array['min_superf_t'].'" max="'.$sort_array['max_superf_t'].'" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m² (1 si inconnue)<br />
-			<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
-			<label for="time">Temps de trajet depuis Lyon :</label><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/> minutes<br />
-			<label for="distance">Distance de Lyon :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/> km<br />
-			<label for="price">Prix :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)<br />
-			<label for="habit">Combien c\'est habitable en l\'état :</label>
-			<span class="select-wrapper"><select name="habit" id="habit">
-				<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
-				<option value="un" '.print_selected($params['habit'], 1).'>1</option>
-				<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
-				<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
-				<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
-				<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
-			</select> sur 5</span><br />
-			<label for="note">Ta note pour cette annonce :</label>
-			<span class="select-wrapper"><select name="note" id="note">
-				<option value="zero" '.print_selected($params['note'], 0).'>0</option>
-				<option value="un" '.print_selected($params['note'], 1).'>1</option>
-				<option value="deux" '.print_selected($params['note'], 2).'>2</option>
-				<option value="trois" '.print_selected($params['note'], 3).'>3</option>
-				<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
-				<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
-			</select> sur 5</span><br />');
-	
-	if($action == 'create') {
-		echo('<input type="submit" name="Valider" value="Valider" />');
-	}
-	
-	elseif($action == 'edit') {
-		echo('<input type="submit" name="Valider" value="Mettre à jour" />');
-	}
-	
-	echo('</p></form>');
-}
-
-function print_selected($n, $p) {
-	$possibilities = [0, 1, 2, 3, 4, 5];
-	if(in_array($n, $possibilities) && in_array($p, $possibilities) && $n == $p)
-		return('selected');
-}
-
-function search_error_new_annonce($sort_array, $param_array) {
-	if(empty($param_array['lieu']) || empty($param_array['link']) || $param_array['superf_h'] == 0 || $param_array['superf_t'] == 0 ||
-			$param_array['time'] == 0 || $param_array['distance'] == 0 || $param_array['price'] == 0 || $param_array['habit'] == -1 || $param_array['note'] == -1)
-		echo('<p id="form" class="error">Il faut remplir tous les champs !</p>');
-	
-	if(!preg_match('#^[A-Z][a-zA-Z- ]+#', $param_array['lieu']))
-		echo('<p id="form" class="error">Le lieu ne doit contenir que des lettres, des tirets et des espaces, et doit commencer par une lettre majuscule !</p>');
-
-	if($param_array['departement'] > $sort_array['max_departement'] || $param_array['departement'] < $sort_array['min_departement'])
-		echo('<p id="form" class="error">Le département doit être compris entre 1 et 95 !</p>');
-	
-	if($param_array['superf_h'] > $sort_array['max_superf_h'] || $param_array['superf_h'] < $sort_array['min_superf_h'])
-		echo('<p id="form" class="error">La superficie de la maison doit être comprise entre '.$sort_array['min_superf_h'].' et '.$sort_array['max_superf_h'].' !</p>');
-	
-	if($param_array['superf_t'] > $sort_array['max_superf_t'] || $param_array['superf_t'] < $sort_array['min_superf_t'])
-		echo('<p id="form" class="error">La superficie du terrain doit être comprise entre '.$sort_array['min_superf_t'].' et '.$sort_array['max_superf_t'].' !</p>');
-	
-	if(!preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $param_array['link']))
-		echo('<p id="form" class="error">Le lien n\'est pas correct !</p>');
-	
-	if($param_array['time'] > $sort_array['max_time'] || $param_array['time'] < $sort_array['min_time'])
-		echo('<p id="form" class="error">Le temps doit être compris entre '.$sort_array['min_time'].' et '.$sort_array['max_time'].' inclus !</p>');
-	
-	if($param_array['distance'] > $sort_array['max_distance'] || $param_array['distance'] < $sort_array['min_distance'])
-		echo('<p id="form" class="error">La distance doit être comprise entre '.$sort_array['min_distance'].' et '.$sort_array['max_distance'].' inclus !</p>');
-	
-	if($param_array['price'] > $sort_array['max_price'] || $param_array['price'] < $sort_array['min_price'])
-		echo('<p id="form" class="error">Le prix doit être compris entre '.$sort_array['min_price'].' et '.$sort_array['max_price'].' k€ !</p>');
-}
-
-function convert_str_nb($h){
-	switch($h) {
-		case 'zero':
-			return 0;
-		break;
-		
-		case 'un':
-			return 1;
-		break;
-		
-		case 'deux':
-			return 2;
-		break;
-		
-		case 'trois':
-			return 3;
-		break;
-		
-		case 'quatre':
-			return 4;
-		break;
-		
-		case 'cinq':
-			return 5;
-		break;
-		
-		default:
-			echo('<p class="error">Toi, t\'es vraiment un petit malin !</p>');
-			return -1;
-		break;
-	}
-}
-
-function get_username($user_id) {
-	global $bdd;
-	
-	$get_username = $bdd->query('SELECT user_id, username FROM phpbb_users WHERE user_id = \''.$user_id.'\'');
-	
-	if($get_username != NULL) {
-		$result = $get_username->fetch();
-		$get_username->closeCursor();
-		return($result['username']);	
-	}
-	else {$get_username->closeCursor(); return('');}
 }
 
 function print_debut_table($sort_columns_array, $other_columns_array, $title, $current_url, $sort_array, $what) {
@@ -277,17 +60,16 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 						$add_superf = false;
 					}
 				}
-				
 				else {
 					if($is_first) {
 						echo('<th class="left" rowspan="2">');
 						$is_first = false;
 					}
-						
-					else echo('<th rowspan="2">');
-						
+					else
+						echo('<th rowspan="2">');
+
 					$string_params = '';
-						
+
 					foreach($current_url as $label => $value) {
 						if($label == 'order') $string_params .= 'order='.$column_bdd.'&amp;';
 						elseif($label == 'reverse') $string_params .= 'reverse='.print_reverse('annonces', $column_bdd, $current_url).'&amp;';
@@ -401,156 +183,10 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 			echo('</tr>');
 		break;
 		
-		case 'other':
-			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
-			
-			echo('<tr class="top">');
-			
-			foreach($other_columns_array as $c) {
-				if($is_first) {
-					echo('<th class="left">'.$c.'</th>');
-					$is_first = false;
-				}
-				else echo('<th>'.$c.'</th>');
-			}
-			
-			echo('</tr>');
-		break;
-		
 		default:
-			echo('<p class="error">Mauvais paramètre what dans print_debut_table() : '.$what.'</p>');
+			echo('<p class="error">Mauvais paramètre what dans print_annonce_debut_table() : '.$what.'</p>');
 		break;
 	}
-}
-
-function print_statistics($current_page, $current_url, $sort_array, $what) {
-	global $bdd;
-	
-	$other_columns_array = ['Catégorie', 'Min', 'Quartile 1', 'Médiane', 'Quartile 3', 'Max', 'Moyenne'];
-	
-	print_debut_table([], $other_columns_array, 'Statistiques des annonces', $current_url, $sort_array, 'other');
-	
-	$rows = ['Prix' => 'price', 'Trajet' => 'time', 'Distance' => 'distance', 'Superficie Bâtie' => 'superf_h', 'Superficie Terrain' => 'superf_t', 'État' => 'habit', 'Note' => 'note'];
-	
-	foreach($rows as $n => $c) {
-		if($c != 'note') {
-			$get_stats = $bdd->query('SELECT AVG('.$c.') AS MOY, MIN('.$c.') AS MIN, MAX('.$c.') AS MAX FROM annonces');
-			$datas = $get_stats->fetch();
-			$moy = $datas['MOY'];
-			$min = $datas['MIN'];
-			$max = $datas['MAX'];
-			
-			$get_stats->closeCursor();
-			
-			$get_values = $bdd->query('SELECT '.$c.' FROM annonces');
-			
-			$values = [];
-			
-			while($data = $get_values->fetch()[$c]) {
-				array_push($values, $data);
-			}
-			
-			$get_values->closeCursor();
-		}
-		
-		else {
-			$get_stats = $bdd->query('SELECT AVG(value) AS MOY, MIN(value) AS MIN, MAX(value) AS MAX FROM notes');
-			$datas = $get_stats->fetch();
-			$moy = $datas['MOY'];
-			$min = $datas['MIN'];
-			$max = $datas['MAX'];
-			$get_stats->closeCursor();
-			
-			$get_values = $bdd->query('SELECT value FROM notes');
-			
-			$values = [];
-			
-			while($data = $get_values->fetch()['value']) {
-				array_push($values, $data);
-			}
-			
-			$get_values->closeCursor();
-		}
-		
-		echo('<tr><td class="left">'.$n.'</td>');
-		
-		$quartiles = calcul_quartiles($values);
-		
-		if($c != 'note' && $c != 'habit') {
-			
-			echo('<td>'.$min.'</td>');
-			echo('<td>'.$quartiles[0].'</td>');
-			echo('<td>'.$quartiles[1].'</td>');
-			echo('<td>'.$quartiles[2].'</td>');
-			echo('<td>'.$max.'</td>');
-			echo('<td>'.$moy.'</td></tr>');
-		}
-		
-		else {
-			echo('<td class="habit'.floor($min).'">'.$min.'</td>');
-			echo('<td class="habit'.floor($quartiles[0]).'">'.$quartiles[0].'</td>');
-			echo('<td class="habit'.floor($quartiles[1]).'">'.$quartiles[1].'</td>');
-			echo('<td class="habit'.floor($quartiles[2]).'">'.$quartiles[2].'</td>');
-			echo('<td class="habit'.floor($max).'">'.$max.'</td>');
-			echo('<td class="habit'.floor($moy).'">'.$moy.'</td></tr>');
-		}
-	}
-	
-	echo('</table></div>');
-}
-
-function calcul_quartiles($t) {
-	sort($t);
-	$count = count($t);
-	
-	$quartiles = [];
-	
-	for($i = 1; $i <= 3; $i++) {
-		$val = floor(($count - 1) * $i / 4);
-		
-		if(($i % 2 && $count % 4) || (!($i % 2) && $count % 2)) array_push($quartiles, $t[$val]);
-		
-		else {
-			$low = $t[$val];
-			$high = $t[$val+1];
-			array_push($quartiles, ($low + $high) / 2);
-		}
-	}
-	
-	return $quartiles;
-}
-
-function print_all_annonces($current_page, $current_url, $sort_array) {
-	global $bdd;
-	
-	$what = 'all_annonces';
-	
-	$columns_array = ['id' => 'N°',
-			'date' => 'Date',
-			'auteur' => 'Auteur',
-			'lieu' => 'Lieu',
-			'departement' => 'Dpt',
-			'superf_h' => 'Superficie bâtie',
-			'superf_t' => 'Superficie du terrain',
-			'habit' => 'État',
-			'time' => 'Trajet',
-			'distance' => 'Distance',
-			'price' => 'Prix',
-			'note' => 'Note',
-			'comments' => 'Comms'];
-	
-	print_debut_table($columns_array, ['Lien', 'Détails'], 'Liste des Annonces', $current_url, $sort_array, 'annonces');
-	
-	$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
-	
-	$have_to_add_WHERE = true;
-	$have_to_add_AND = false;
-	
-	$reponse_query = build_annonce_query($initial_query, true, false, $current_page, $current_url, $sort_array, $what);
-	
-	sort_print_annonces($reponse_query, $current_page, $current_url, $sort_array, $what);
-	
-	echo('</table></div>');
 }
 
 function print_single_annonce($current_page, $current_url, $sort_array) {
@@ -941,129 +577,6 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 	}
 }
 
-function print_comments_annonce($current_page, $current_url, $sort_array) {
-	global $bdd, $user;
-	
-	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
-	
-	if($current_url['reverseComments'] == 'true')
-		$reponse_query .= ' DESC';
-			
-	$reponse = $bdd->query($reponse_query);
-	$donnees = $reponse->fetch();
-	
-	print_single_annonce($current_page, $current_url, $sort_array);
-
-	echo('<div class="flex-container">
-					<div class="box posting-form">');
-
-	print_notation($current_url['annonce']);
-
-	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
-
-	print_available($current_url['annonce']);
-	
-	
-	if($donnees != NULL) {
-		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
-
-		echo('<h1>Commentaires</h1>');
-
-		do {
-			echo('
-				<div class="comment">
-					<ul class="comment-titre">
-						<li class="comment-quand"><i class="fa fa-clock-o fa-fw"></i> '.$donnees['date'].'</li>
-						<li class="comment-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">'.$donnees['auteur'].'</span></li>
-					</ul>
-
-					<p>'.$donnees['comment'].'</p>
-				</div>
-			');
-		} while ($donnees = $reponse->fetch());
-	}
-	
-	else {
-		echo('<h3 id="comments">Pas de commentaire pour cette annonce !</h3>');
-	}
-
-	echo('
-		<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post">
-			<p class="center"><input type="submit" name="new_comment" value="Nouveau commentaire" /></p>
-		</form>
-	');
-
-	echo('</div></div>');
-
-	$reponse->closeCursor();
-}
-
-function is_auteur($username, $id) {
-	global $bdd;
-	
-	$get_annonce = $bdd->prepare('SELECT id, auteur FROM annonces WHERE id = :id');
-	$get_annonce->execute(array('id' => $id));
-	$auteur = $get_annonce->fetch()['auteur'];
-	
-	return $auteur == $username;
-}
-
-function print_sort_form($current_page, $current_url, $sort_array) {
-	global $user, $bdd;
-	
-	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
-	
-	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce">');
-	echo('<p><label for="sort_date">Date</label><span class="select-wrapper"><select id="sort_date" name="sort_date">');
-	echo('<option value="before"');
-	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
-	echo('>Avant</option>');
-	echo('<option value="after"');
-	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'after') echo ' selected';
-	echo('>Après</option>');
-	echo('</select></span>');
-	
-	echo('<input type="text" name="value_date" id="datepicker" value="');
-	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
-	else echo($sort_array['value_date'].'"/>');
-	
-	if($current_page == 'annonces.php') {
-		echo('<label for="sort_auteur">Auteur</label>');
-		echo('<span class="select-wrapper"><select id="sort_auteur" name="sort_auteur">');
-		print_liste('auteur');
-		echo('</select></span>');
-	}
-	
-	echo('<label for="sort_lieu">Lieu</label>');
-	echo('<span class="select-wrapper"><select id="sort_lieu" name="sort_lieu">');
-	print_liste('lieu');
-	echo('</select></span>');
-	
-	echo('<label for="sort_departement">Département</label>');
-	echo('<span class="select-wrapper"><select id="sort_departement" name="sort_departement">');
-	print_liste('departement');
-	echo('</select></span>');
-	
-	$get_max = $bdd->query('SELECT MAX(superf_h) AS superf_h, MAX(superf_t) AS superf_t, MAX(time) AS time, MAX(price) AS price, MAX(distance) AS distance FROM annonces');
-	$max = $get_max->fetch();
-	$get_max->closeCursor();
-	
-	print_option_select($inf_sup_array, 'superf_h', 'Superficie bâtie', $sort_array['min_superf_h'], $max['superf_h'], 50);
-	echo('<br />');
-	print_option_select($inf_sup_array, 'superf_t', 'Superficie du terrain', $sort_array['min_superf_t'], $max['superf_t'], 50);
-	print_option_select($inf_sup_array, 'habit', 'État', $sort_array['min_habit'], $sort_array['max_habit'], 1);
-	print_option_select($inf_sup_array, 'time', 'Trajet', $sort_array['min_time'], $max['time'], 10);
-	print_option_select($inf_sup_array, 'distance', 'Distance', $sort_array['min_distance'], $max['distance'], 10);
-	echo('<br />');
-	print_option_select($inf_sup_array, 'price', 'Prix', $sort_array['min_price'], $max['price'], 10);
-	print_option_select($inf_sup_array, 'note', 'Note', $sort_array['min_note'], $sort_array['max_note'], 1);
-	
-	echo('<label for="print_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /><br />');
-	
-	echo('<input type="submit" name="sort" id="sort" value="Valider" /></p>');
-	echo('</form>');
-}
-
 function print_checked_enabled_only($sort_array) {
 	if($sort_array['hide_disabled'] == 'true') {
 		return('checked="checked"');
@@ -1120,26 +633,6 @@ function print_liste($what) {
 	else echo('<p class="error">la fonction print_list($what) a été appelée avec un mauvais paramètre</p>');
 }
 
-function get_user_note($annonce, $username) {
-	global $bdd;
-	
-	$int_annonce = intval($annonce);
-	
-	$get_values = $bdd->prepare('SELECT * FROM notes WHERE annonce = :id AND auteur = :username');
-	$get_values->execute(array('id' => $int_annonce, 'username' => $username));
-	
-	if($get_values) {
-		$note = $get_values->fetch()['value'];
-		$get_values->closeCursor();
-		
-		return $note;
-	}
-	
-	else {
-		echo('<p class="error">No note found for annonce '.$int_annonce.' and user '.$username.'</p>');
-		return -1;
-	}
-}
 
 function get_note($annonce) {
 	global $bdd;
@@ -1313,79 +806,4 @@ function print_modify_annonce($id) {
 	echo('</p></form>');
 }
 
-function get_new_annonce_param_array($sort_array) {
-	global $request;
-	
-	$lieu = $request->variable('lieu', '');
-	$superf_h = $request->variable('superf_h', $sort_array['min_superf_h']);
-	$superf_t = $request->variable('superf_t', $sort_array['min_superf_t']);
-	$link = $request->variable('link', '');
-	$habit = $request->variable('habit', '');
-	$time = $request->variable('time', $sort_array['min_time']);
-	$distance = $request->variable('distance', $sort_array['min_distance']);
-	$price = (float)$request->variable('price', $sort_array['min_price']);
-	$departement = $request->variable('departement', $sort_array['min_departement']);
-	$note = $request->variable('note', '');
-	
-	$habit = convert_str_nb($habit);
-	$note = convert_str_nb($note);
-	
-	if($lieu < 0) $lieu = 0;
-	if($superf_h < 0) $superf_h = 0;
-	if($superf_t < 0) $superf_t = 0;
-	if($time < 0) $time = 0;
-	if($distance < 0) $distance = 0;
-	if($price < 0.0) $price = 0.0;
-	if($depart < 0) $departement = 0;
-	
-	$param_array = ['lieu' => $lieu,
-			'superf_h' => $superf_h,
-			'superf_t' => $superf_t,
-			'link' => $link,
-			'habit' => $habit,
-			'time' => $time,
-			'distance' => $distance,
-			'price' => $price,
-			'departement' => $departement,
-			'note' => $note];
-	
-	return $param_array;
-}
-
-function verif_form_new_annonce($sort_array, $param_array) {
-	$print_form = false;
-	
-	if(!(preg_match('#^https?://(www.)?[a-zA-Z0-9]+\.[a-z0-9]{1,4}\??#', $param_array['link']) &&
-		preg_match('#^[A-Z][a-zA-Z- ]+#', $param_array['lieu'])			&&
-		$param_array['time']		<= $sort_array['max_time']			&&		$param_array['time'] 		>= $sort_array['min_time']			&&
-		$param_array['distance']	<= $sort_array['max_distance']		&&		$param_array['distance'] 	>= $sort_array['min_distance']		&&
-		$param_array['superf_h']	<= $sort_array['max_superf_h']		&&		$param_array['superf_h'] 	>= $sort_array['min_superf_h']		&&
-		$param_array['superf_t']	<= $sort_array['max_superf_t']		&&		$param_array['superf_t'] 	>= $sort_array['min_superf_t']		&&
-		$param_array['price']		<= $sort_array['max_price']			&&		$param_array['price'] 		>= $sort_array['min_price']			&&
-		$param_array['departement']	<= $sort_array['max_departement']	&&		$param_array['departement'] >= $sort_array['min_departement']	&&
-		$param_array['superf_h']	!= 0								&&		$param_array['superf_t'] 	!= 0								&&
-		$param_array['time']		!= 0								&&		$param_array['price']		!= 0								&&
-		$param_array['distance']	!= 0								&&		$param_array['habit']		!= -1								&&
-		!empty($param_array['lieu'])									&&		!empty($param_array['link'])									&&
-		$param_array['note'] != -1)) {
-				$print_form = true;
-				search_error_new_annonce($sort_array, $param_array);
-			}
-			
-	return $print_form;
-}
-
-function cmp($a, $b) {
-	if ($a == $b) {
-		return 0;
-	}
-	return ($a < $b) ? -1 : 1;
-}
-
-function cmp_reverse($a, $b) {
-	if ($a == $b) {
-		return 0;
-	}
-	return ($a > $b) ? -1 : 1;
-}
 ?>

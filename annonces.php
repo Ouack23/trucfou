@@ -1,6 +1,12 @@
 <?php
-include("include/functions.php");
-include("include/config.php");?>
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+
+	include_once("include/annonce_functions.php");
+	include_once("include/config.php");
+	include_once("include/header_footer.php");
+?>
 
 <html>
 	<head>
@@ -16,7 +22,7 @@ include("include/config.php");?>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-		<?php include_content("top"); ?>
+		<?php add_header(); ?>
 		<section id="main">
 			<?php
 			if(!$user->data['is_registered']) include('include/not_registered.php');
@@ -35,6 +41,6 @@ include("include/config.php");?>
 				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
 			} ?>
 		</section>
-		<?php include_content("bottom"); ?>
+		<?php add_footer(); ?>
 	</body>
 </html>

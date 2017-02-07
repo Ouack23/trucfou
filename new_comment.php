@@ -1,6 +1,9 @@
-<?php 
-include('include/functions.php'); 
-include('include/config.php');?>
+<?php
+	include_once("include/config.php");
+	include_once("include/header_footer.php");
+	include_once("include/new_comment_functions.php");
+?>
+
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -17,8 +20,14 @@ include('include/config.php');?>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
+<<<<<<< HEAD
 		<?php include_content('top');
 		echo('<section id="main">');
+=======
+		<?php
+			add_header();
+			echo('<section id="main">');	
+>>>>>>> The Big Refactor
 			echo('<h1>Écrire un nouveau commentaire</h1>');
 			
 			if(!$user->data['is_registered']) include('include/not_registered.php');
@@ -77,6 +86,6 @@ include('include/config.php');?>
 				}
 			}
 		echo('</section>');
-		include_content('bottom'); ?>
+		add_footer(); ?>
 	</body>
 </html>
