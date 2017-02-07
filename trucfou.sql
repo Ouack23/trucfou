@@ -33,6 +33,23 @@ CREATE TABLE IF NOT EXISTS `annonces` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `calendrier`
+--
+
+CREATE TABLE IF NOT EXISTS `calendrier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `location` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `framadate` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `category` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `comments`
 --
 
