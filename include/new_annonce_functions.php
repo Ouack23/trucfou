@@ -7,34 +7,34 @@ function print_form_new_offer($params, $sort_array, $action) {
 			<div class="box posting-form">
 				<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
 					<p class="form">
-					<label for="lieu">Lieu :</label><span class="form-entry"><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/></span><br />
-					<label for="departement">Département :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_departement'].'" max="'.$sort_array['max_departement'].'" name="departement" id="departement" value="'.$params['departement'].'"/></span><br />
-					<label for="superf_h">Superficie bâtie :</label><span class="form-entry"><input type="number" min="'.$sort_array['superf_h'].'" max="'.$sort_array['max_superf_h'].'" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/> m² (1 si inconnue)</span><br />
-					<label for="superf_t">Superficie du terrain :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_superf_t'].'" max="'.$sort_array['max_superf_t'].'" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/> m² (1 si inconnue)</span><br />
-					<label for="link">Lien de l\'annonce :</label><span class="form-entry"><input type="text" name="link" id="link" value="'.$params['link'].'"/></span><br />
-					<label for="time">Temps de trajet depuis Lyon :</label><span class="form-entry"><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/> minutes</span><br />
-					<label for="distance">Distance de Lyon :</label><span class="form-entry"><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/> km</span><br />
-					<label for="price">Prix :</label><span class="form-entry"><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/> k€ LOL (ex : 66.666)</span><br />
-					<label for="habit">Combien c\'est habitable en l\'état :</label><span class="form-entry">
-					<select name="habit" id="habit">
+					<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />
+					<label for="departement">Département :</label><input type="number" min="'.$sort_array['min_departement'].'" max="'.$sort_array['max_departement'].'" name="departement" id="departement" value="'.$params['departement'].'"/><br />
+					<label for="superf_h">Superficie bâtie (en m², 1 si inconnue) :</label><input type="number" min="'.$sort_array['superf_h'].'" max="'.$sort_array['max_superf_h'].'" name="superf_h" id="superf_h" value="'.$params['superf_h'].'"/><br />
+					<label for="superf_t">Superficie du terrain (en m², 1 si inconnue) :</label><input type="number" min="'.$sort_array['min_superf_t'].'" max="'.$sort_array['max_superf_t'].'" name="superf_t" id="superf_t" value="'.$params['superf_t'].'"/><br />
+					<label for="link">Lien de l\'annonce :</label><input type="text" name="link" id="link" value="'.$params['link'].'"/><br />
+					<label for="time">Temps de trajet depuis Lyon (en mn) :</label><input type="number"  min="'.$sort_array['min_time'].'" max="'.$sort_array['max_time'].'" name="time" id="time" value="'.$params['time'].'"/><br />
+					<label for="distance">Distance de Lyon (en km) :</label><input type="number" name="distance" min="'.$sort_array['min_distance'].'" max="'.$sort_array['max_distance'].'" id="distance" value="'.$params['distance'].'"/><br />
+					<label for="price">Prix (en k€, genre 66,666) :</label><input type="number" min="'.$sort_array['min_price'].'" max="'.$sort_array['max_price'].'" step="0.001" name="price" id="price" value="'.$params['price'].'"/><br />
+					<label for="habit">Combien c\'est habitable en l\'état :</label>
+					<span class="select-wrapper"><select name="habit" id="habit">
 						<option value="zero" '.print_selected($params['habit'], 0).'>0</option>
 						<option value="un" '.print_selected($params['habit'], 1).'>1</option>
 						<option value="deux" '.print_selected($params['habit'], 2).'>2</option>
 						<option value="trois" '.print_selected($params['habit'], 3).'>3</option>
 						<option value="quatre" '.print_selected($params['habit'], 4).'>4</option>
 						<option value="cinq" '.print_selected($params['habit'], 5).'>5</option>
-					</select> sur 5</span><br />
-					<label for="note">Ta note pour cette annonce :</label><span class="form-entry">
-					<select name="note" id="note">
+					</select></span><br />
+					<label for="note">Ta note pour cette annonce :</label>
+					<span class="select-wrapper"><select name="note" id="note">
 						<option value="zero" '.print_selected($params['note'], 0).'>0</option>
 						<option value="un" '.print_selected($params['note'], 1).'>1</option>
 						<option value="deux" '.print_selected($params['note'], 2).'>2</option>
 						<option value="trois" '.print_selected($params['note'], 3).'>3</option>
 						<option value="quatre" '.print_selected($params['note'], 4).'>4</option>
 						<option value="cinq" '.print_selected($params['note'], 5).'>5</option>
-					</select> sur 5</span><br />
+					</select></span><br />
 
-					<span class="submit-container"><input class="submit-button" type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
+					<span class="submit-container"><input type="submit" name="Valider" value="'. ($action == 'edit' ? 'Mettre à jour' : 'Valider') .'" /></span>
 
 					</p>
 				</form>

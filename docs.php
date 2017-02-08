@@ -176,13 +176,13 @@
 								<p>
 									<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
 									<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
-									<label for="category">Catégorie : </label><select name="category" id="category">
+									<label for="category">Catégorie : </label><span class="select-wrapper"><select name="category" id="category">
 										');
 										foreach($categories as $c => $n) {
 											echo('<option value="'.$c.'">'.$n.'</option>');
 										}
 										echo ('
-									</select><br />
+									</select></span><br />
 
 									<label for="name">Titre du document : </label><input type="text" name="title" id="title" />
 

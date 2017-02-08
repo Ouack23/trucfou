@@ -587,7 +587,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 	global $sort_array;
 	
 	echo('<label for="sort_'.$name.'">'.$label.'</label>');
-	echo('<select id="sort_'.$name.'" name="sort_'.$name.'">');
+	echo('<span class="select-wrapper"><select id="sort_'.$name.'" name="sort_'.$name.'">');
 	
 	foreach($option_array as $value => $option_label) {
 		echo('<option value="'.$value.'"');
@@ -595,7 +595,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 		echo('>'.$option_label.'</option>');
 	}
 	
-	echo('</select>');
+	echo('</select></span>');
 	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="');
 	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
 	else echo($min);
@@ -772,14 +772,14 @@ function print_notation($annonce) {
 		if(!isset($_POST['value_note_submit'])) {
 			echo('<form accept-charset="utf-8" action="#comments" method="post"><p>');
 			echo('<label for="note_option">Note : </label>');
-			echo('<select id="note_option" name="value_note_submit">');
+			echo('<span class="select-wrapper"><select id="note_option" name="value_note_submit">');
 			echo('<option value="zero">0</option>');
 			echo('<option value="un">1</option>');
 			echo('<option value="deux">2</option>');
 			echo('<option value="trois">3</option>');
 			echo('<option value="quatre">4</option>');
 			echo('<option value="cinq">5</option>');
-			echo('</select>');
+			echo('</select></span>');
 			echo('<input type="submit" value="Voter" />');
 			echo('</p></form>');
 		}
