@@ -117,10 +117,12 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
         for(var col in columns) {
         	var td = tr.insertCell();
             td.appendChild(document.createTextNode(row[col]));
-            if(col == "habit") {
-            	var c = "habit";
-            	c += row[col];
-            	td.setAttribute("class", c);
+
+            // add class for note and habit to color cells. 
+            if(col == "habit" || col == "note") {
+            	var className = "habit"; // TODO rename this class !
+            	className += row[col]; // e.g. "habit2"
+            	td.setAttribute("class", className);
             }
         }
     }

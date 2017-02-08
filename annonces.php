@@ -32,13 +32,18 @@
 				secure_get();
 				$current_page = 'annonces.php';
 				
-				$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
-				$reponse_query = $bdd->query($initial_query);
+				$annonces_initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
+				$annonces_reponse_query = $bdd->query($annonces_initial_query);
+
+				$annonces = [];
 				$i = 0;
-				while($annonce = $reponse_query->fetch()) {
+				while($annonce = $annonces_reponse_query->fetch()) {
+					$annonce["note"] = get_note($annonce["id"]);
 					$annonces[$i] = $annonce;
 					$i++;
 				}
+
+				// Order of elements is order in the displayed table
 				$columns = [
 							'id' 		=> 'N°',
 							'date' 		=> 'Date',
@@ -46,18 +51,17 @@
 							'lieu' 		=> 'Lieu',
 							'departement'=> 'Dpt',
 							'superf_h' 	=> 'Superficie bâtie',
-							'superf_t' 	=> 'Superficie du terrain',
+							'superf_t' 	=> 'Terrain',
 							'habit'		=> 'État',
 							'time' 		=> 'Trajet',
 							'distance' 	=> 'Distance',
 							'price' 	=> 'Prix',
+							'note' 		=> 'Note',
 							'link' 		=> 'Annonce',
-//							'note' 		=> 'Note',
 //							'comments' 	=> 'Comms'
 							];
 
 				$filters = [
-//							'id' 		=> 'N°',
 //							'date' 		=> 'Date',
 							'auteur' 	=> 'sort_auteur',
 							'lieu' 		=> 'sort_lieu',
@@ -67,10 +71,8 @@
 							'habit'		=> 'value_habit',
 							'time' 		=> 'value_time',
 							'distance' 	=> 'value_distance',
-							'price' 	=> 'value_price' //,
-//							'link' 		=> 'Annonce',
-//							'note' 		=> 'Note',
-//							'comments' 	=> 'Comms'
+							'price' 	=> 'value_price' ,
+							'note' 		=> 'value_note'
 							];
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>
@@ -94,8 +96,7 @@
 
 					createTable(sortColumn, false, liste_annonces, columns, filters);
 				}
-			</script>
-			<script>
+
 				generateTable("id");
 			</script>
 			<?php
