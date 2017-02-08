@@ -73,7 +73,8 @@
 							'time' 		=> 'value_time',
 							'distance' 	=> 'value_distance',
 							'price' 	=> 'value_price' ,
-							'note' 		=> 'value_note'
+							'note' 		=> 'value_note',
+							'disable'	=> 'hide_disabled'
 							];
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>

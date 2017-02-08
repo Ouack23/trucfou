@@ -39,8 +39,8 @@ function filterJSON(inputArray, filters, columns) {
 
 	// for each row
 	for(var annonce in inputArray){
-    	var hide = false;
     	var row = inputArray[annonce];
+        var hide = false;
 
 		// check each filtered column
     	for(var filterKey in filters) {
@@ -64,6 +64,9 @@ function filterJSON(inputArray, filters, columns) {
     		else if (filterWidget.id.startsWith("sort_")) {
     			hide = filterWidget.value != "all" && filterWidget.value != row[filterKey];
     		}
+            else if (filterWidget.id == "hide_disabled" && filterWidget.checked) { 
+                hide = row["available"] == 0;
+            }
 
             // if column ask for hhide, no need to go further
     		if(hide)
@@ -145,6 +148,11 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
             	td.setAttribute("class", className);
             }
         }
+
+        if (row["available"] == 0) {
+            tr.setAttribute("class", "unavailable");
+        }
+
     }
     annonceTitle.appendChild(tbl);
 }
