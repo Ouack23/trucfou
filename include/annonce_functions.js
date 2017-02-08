@@ -3,12 +3,14 @@
 // -------------------------------------------------------- 
 function sortJSONTable(jsonArray, sortKey, reverse){
 	jsonArray.sort(function(a, b) {
+        // real strings comparison
 		if(sortKey == "auteur" || sortKey == "lieu") {
             if(reverse) {
                 return a[sortKey] < b[sortKey];
             }
 			return a[sortKey] > b[sortKey];
 		}
+        // numbers (saved as strings) comparison
 		else {
             if(reverse) {
                 return b[sortKey] - a[sortKey];
@@ -22,12 +24,11 @@ function sortJSONTable(jsonArray, sortKey, reverse){
 // Callback method to call createTable on click on column header
 // -------------------------------------------------------- 
 function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse) {
-	// store element id
-	var id = element.id;
+
 	reverse = element.getAttribute("type") == "sorted" && !reverse;
 
 	// create new table.
-	createTable(id, reverse, liste_annonces, columns, filters);
+	createTable(element.id, reverse, liste_annonces, columns, filters);
 }
 
 // --------------------------------------------------------
@@ -43,24 +44,32 @@ function filterJSON(inputArray, filters, columns) {
 
 		// check each filtered column
     	for(var filterKey in filters) {
-    		var element = document.getElementById(filters[filterKey]);
-    		if(element.id.startsWith("value_")) {
-    			var sortDirection = "sort_" + filterKey;
-    			var sortElement = document.getElementById(sortDirection);
 
-    			if (sortElement.value == "sup") {
-    				hide = row[filterKey] < element.value;
+            // get filter widget
+    		var filterWidget = document.getElementById(filters[filterKey]);
+
+            // if filter is a slider (value) + combobox (inf or sup)
+    		if(filterWidget.id.startsWith("value_")) {
+    			var comparatorName = "sort_" + filterKey; // combobox name
+    			var comparatorWidget = document.getElementById(comparatorName);
+
+    			if (comparatorWidget.value == "sup") {
+    				hide = row[filterKey] < filterWidget.value;
     			}
     			else {
-    				hide = row[filterKey] > element.value;
+    				hide = row[filterKey] > filterWidget.value;
     			}
     		}
-    		else if (element.id.startsWith("sort_")) {
-    			hide = element.value != "all" && element.value != row[filterKey];
+            // else element is only a comobobox, pick current value
+    		else if (filterWidget.id.startsWith("sort_")) {
+    			hide = filterWidget.value != "all" && filterWidget.value != row[filterKey];
     		}
+
+            // if column ask for hhide, no need to go further
     		if(hide)
     			break;
     	}
+
     	if(hide)
     	{
     		delete filteredArray[annonce];
@@ -114,9 +123,20 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
     for(var annonce in filtered_annonces){
         tr = tbl.insertRow();
         var row = filtered_annonces[annonce];
+
         for(var col in columns) {
         	var td = tr.insertCell();
-            td.appendChild(document.createTextNode(row[col]));
+
+            // links are specifics
+            if(col == "link") {
+                var link = document.createElement('a');
+                link.appendChild(document.createTextNode("Annonce"));
+                link.setAttribute("href", row[col]);
+                td.appendChild(link);
+            }
+            else {
+                td.appendChild(document.createTextNode(row[col]));
+            }
 
             // add class for note and habit to color cells. 
             if(col == "habit" || col == "note") {

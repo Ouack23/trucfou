@@ -50,17 +50,18 @@
 							'auteur' 	=> 'Auteur',
 							'lieu' 		=> 'Lieu',
 							'departement'=> 'Dpt',
-							'superf_h' 	=> 'Superficie bâtie',
+							'superf_h' 	=> 'Batiment',
 							'superf_t' 	=> 'Terrain',
 							'habit'		=> 'État',
 							'time' 		=> 'Trajet',
 							'distance' 	=> 'Distance',
 							'price' 	=> 'Prix',
 							'note' 		=> 'Note',
-							'link' 		=> 'Annonce',
+							'link' 		=> 'Lien',
 //							'comments' 	=> 'Comms'
 							];
 
+				// keys and values matters: used to get the elements in filter method
 				$filters = [
 //							'date' 		=> 'Date',
 							'auteur' 	=> 'sort_auteur',
