@@ -82,6 +82,24 @@ function filterJSON(inputArray, filters, columns) {
 	return filteredArray;
 }
 
+
+// --------------------------------------------------------
+// AJAX method to show details
+// -------------------------------------------------------- 
+function showDetails(elementSource) {
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("annonce_details").innerHTML = this.responseText;
+        }
+    };
+
+    xmlhttp.open("GET", "include/annonce_details.php?q=" + elementSource.id, true);
+    xmlhttp.send();
+
+}
+
 // --------------------------------------------------------
 // create a sorted and filtered table
 // -------------------------------------------------------- 
@@ -123,19 +141,25 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
     sortJSONTable(filtered_annonces, sortColumn, reverse);
 
 	// generate resulting dom
-    for(var annonce in filtered_annonces){
+    for (var annonce in filtered_annonces){
         tr = tbl.insertRow();
         var row = filtered_annonces[annonce];
 
-        for(var col in columns) {
+        for (var col in columns) {
         	var td = tr.insertCell();
 
             // links are specifics
-            if(col == "link") {
+            if (col == "link") {
                 var link = document.createElement('a');
                 link.appendChild(document.createTextNode("Annonce"));
                 link.setAttribute("href", row[col]);
                 td.appendChild(link);
+            }
+            // details are specifics too
+            else if (col == "details") {
+                td.appendChild(document.createTextNode("Details"));
+                td.addEventListener("click", function() {showDetails(this); });
+                td.id = row["id"];
             }
             else {
                 td.appendChild(document.createTextNode(row[col]));

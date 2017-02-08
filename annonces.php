@@ -58,6 +58,7 @@
 							'price' 	=> 'Prix',
 							'note' 		=> 'Note',
 							'link' 		=> 'Lien',
+							'details'	=> 'Details',
 //							'comments' 	=> 'Comms'
 							];
 
@@ -74,11 +75,12 @@
 							'distance' 	=> 'value_distance',
 							'price' 	=> 'value_price' ,
 							'note' 		=> 'value_note',
-							'disable'	=> 'hide_disabled'
+							'disable'	=> 'hide_disabled',
 							];
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>
 			<h1 id="annonceTitle"> Annonces </h1>
+			<div> <div id="annonce_details"></div></div>
 			<script>
 				function generateTable(sortColumn) {
 			        var liste_annonces = <?php echo json_encode($annonces)?>,
