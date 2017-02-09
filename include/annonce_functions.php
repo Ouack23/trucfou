@@ -6,12 +6,11 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
-	echo('<div class="flex-container">
-			<div class="box">
-				<div class="box-header">
-					<h2>Filtres</h2>
-				</div>
-				<div class="box-content">');
+	echo('<div class="box">
+			<div class="box-header">
+				<h2>Filtres</h2>
+			</div>
+			<div class="box-content">');
 	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce"><div class="filters">');
 	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
@@ -62,7 +61,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	echo('<br /><span class="submit-container"><input type="submit" name="sort" id="sort" value="Valider" /></span></p>');
 	echo('</form>');
-	echo('</div></div></div>');
+	echo('</div></div>');
 }
 
 function print_all_annonces($current_page, $current_url, $sort_array) {
@@ -147,7 +146,8 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		</form>
 	');
 
-	echo('</div></div></div></div></div>');
+	echo('</div>');
+	echo('</div></div>');
 
 	$reponse->closeCursor();
 }
@@ -221,5 +221,7 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 	}
 	
 	echo('</table></div></div>');
+
+	echo('</div></div>');
 }
 ?>

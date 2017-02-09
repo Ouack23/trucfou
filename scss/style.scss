@@ -20,22 +20,3 @@
 	margin: auto;
 	@extend %menu-space;
 }
-
-#BBcode {
-	display: block;
-	margin: auto;
-	width: 1000px;
-}
-
-#visualPreview {
-	display: block;
-	width: 80%;
-	margin: auto;
-	min-height: 300px;
-}
-
-output {
-	display: inline-block;
-	width: 50px;
-	font-size: 80%;
-}

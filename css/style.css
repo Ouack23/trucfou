@@ -59,6 +59,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -80,7 +86,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -263,6 +269,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -284,7 +296,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -392,6 +404,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -413,7 +431,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -504,6 +522,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -525,7 +549,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -589,6 +613,10 @@ h1 {
     @media screen and (max-width: 480px) {
       #main .flex-container {
         margin: 0 !important; } }
+    #main .flex-container.flex-column {
+      -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap; }
   #main a, #main span.simili-link {
     font-weight: bold;
     text-decoration: none;
@@ -766,6 +794,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -787,7 +821,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -918,7 +952,8 @@ form, #form, .form {
 .posting-form {
   -webkit-flex: 0.5 !important;
   -ms-flex: 0.5 !important;
-  flex: 0.5 !important; }
+  flex: 0.5 !important;
+  background-color: #c0cdce; }
   @media screen and (max-width: 1600px) {
     .posting-form {
       -webkit-flex: 0.65;
@@ -1057,21 +1092,51 @@ input[type=submit].warning-button {
       margin: auto;
       margin-bottom: 5px; }
 
+.new-comment-form {
+  margin: auto;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+  .new-comment-form input {
+    display: inline-block;
+    font-weight: normal !important;
+    padding: 5px;
+    margin: 5px !important;
+    width: auto; }
+
+textarea.new-comment-text {
+  display: block;
+  width: 80%;
+  margin: auto; }
+
+#visualPreview {
+  display: block;
+  width: 80%;
+  margin: auto;
+  min-height: 300px; }
+
 table {
   border-collapse: collapse;
   text-align: center;
   border-bottom: 4px solid #3fb0ac;
-  color: #596c6b; }
+  color: #596c6b;
+  overflow-x: auto; }
   table th {
     font-size: 1em !important;
     background-color: #3fb0ac;
     color: #d7dfe0;
     padding: 8px;
     font-weight: 600 !important; }
-    table th a {
+    table th a, table th span.simili-link {
       color: #d7dfe0 !important;
       font-weight: 600 !important; }
-      table th a:before, table th a:after {
+      table th a:before, table th a:after, table th span.simili-link:before, table th span.simili-link:after {
         background: #d7dfe0 !important; }
   table .top th {
     font-size: 1.3em; }
@@ -1082,11 +1147,11 @@ table {
   table td {
     margin: 10px;
     padding: 5px; }
-    table td a {
+    table td a, table td span.simili-link {
       font-size: 0.9em;
       font-weight: normal !important;
       color: #3fb0ac; }
-      table td a:before, table td a:after {
+      table td a:before, table td a:after, table td span.simili-link:before, table td span.simili-link:after {
         background-color: #3fb0ac; }
 
 .offer-vote {
@@ -1186,6 +1251,12 @@ table {
     table {
       margin: 15px auto; } }
 
+.new-comment-form {
+  margin-bottom: 30px; }
+  @media all and (max-width: 640px) {
+    .new-comment-form {
+      margin-bottom: 15px; } }
+
 header, .box .box-content, .posting-form {
   padding: 30px; }
   @media all and (max-width: 640px) {
@@ -1207,7 +1278,7 @@ header, #main object {
     header, #main object {
       margin-bottom: 0; } }
 
-nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, table th, table td a {
+nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-header h2, .box .box-content h3, .block ul.block-titre li.block-quand, .block ul.block-titre li.block-ou, label, .new-comment-form input, table th, table td a, table td span.simili-link {
   text-transform: uppercase;
   font-family: 'Source Sans Pro'; }
 
@@ -1388,19 +1459,3 @@ nav ul li a, nav ul .connexion-link, header .header-logo h1 span, .box .box-head
 #main object {
   display: block;
   margin: auto; }
-
-#BBcode {
-  display: block;
-  margin: auto;
-  width: 1000px; }
-
-#visualPreview {
-  display: block;
-  width: 80%;
-  margin: auto;
-  min-height: 300px; }
-
-output {
-  display: inline-block;
-  width: 50px;
-  font-size: 80%; }

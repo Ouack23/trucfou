@@ -49,13 +49,12 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	$superf_string_cmp = 'Superficie';
 	$superf_string_print = 'Superficies';
 
-	echo('<div class="flex-container">
-			<div class="box">
-				<div class="box-header">
-					<h2>'.$title.'</h2>
-				</div>
+	echo('<div class="box">
+			<div class="box-header">
+				<h2>'.$title.'</h2>
+			</div>
 
-				<div class="box-content">');
+			<div class="box-content">');
 	
 	switch($what) {
 		case 'annonces':

@@ -12,6 +12,7 @@ form, #form, .form {
 .posting-form {
 	flex: 0.5 !important;
 	@extend %padding;
+	background-color: $block-color;
 
 	@media screen and (max-width: 1600px) {
 		flex: 0.65;
@@ -158,4 +159,35 @@ input[type=submit].warning-button {
 			margin-bottom: 5px;
 		}
 	}
+}
+
+.new-comment-form {
+
+	margin: auto;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	@extend %margin-bottom;
+
+	input {
+		display: inline-block;
+		@extend %uppercase;
+		font-weight: normal !important;
+		padding: 5px;
+		margin: 5px !important;
+		width: auto;
+	}
+}
+
+textarea.new-comment-text {
+	display: block;
+	width: 80%;
+	margin: auto;
+}
+
+#visualPreview {
+	display: block;
+	width: 80%;
+	margin: auto;
+	min-height: 300px;
 }

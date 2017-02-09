@@ -29,6 +29,8 @@
 			if(!$user->data['is_registered']) include('include/not_registered.php');
 			
 			else {
+
+				echo('<div class="flex-container flex-column">');
 				secure_get();
 				$current_page = 'annonces.php';
 				
@@ -40,6 +42,8 @@
 					print_comments_annonce($current_page, $current_url, $sort_array);
 				
 				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
+
+				echo('</div>');
 			} ?>
 		</section>
 		<?php add_footer(); ?>

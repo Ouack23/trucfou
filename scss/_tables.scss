@@ -4,6 +4,7 @@ table {
 	@extend %margin-auto;
 	border-bottom: 4px solid $secondary-color;
 	color: $text-color;
+	overflow-x: auto;
 
 	th {
 		font-size: 1em !important;
@@ -13,7 +14,7 @@ table {
 		@extend %uppercase;
 		font-weight: 600 !important;
 
-		a {
+		a, span.simili-link {
 			color: $bg-color !important;
 			font-weight: 600 !important;
 
@@ -42,7 +43,7 @@ table {
 		margin: 10px;
 		padding: 5px;
 
-		a {
+		a, span.simili-link {
 			@extend %uppercase;
 			font-size: 0.9em;
 			font-weight: normal !important;

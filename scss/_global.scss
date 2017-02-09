@@ -66,6 +66,10 @@ h1 {
 		@media screen and (max-width: $mobile) {
 			margin: 0 !important;
 		}
+
+		&.flex-column {
+			flex-flow: column nowrap;
+		}
 	}
 
 	a, span.simili-link {

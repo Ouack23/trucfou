@@ -12,21 +12,17 @@
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<script src="include/xbbcode.js"></script>
 		<script src="include/functions.js"></script>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-<<<<<<< HEAD
-		<?php include_content('top');
-		echo('<section id="main">');
-=======
 		<?php
 			add_header();
-			echo('<section id="main">');	
->>>>>>> The Big Refactor
-			echo('<h1>Écrire un nouveau commentaire</h1>');
+			echo('<section id="main">');
+			echo('<h1 class="page-title">Nouveau commentaire</h1>');
 			
 			if(!$user->data['is_registered']) include('include/not_registered.php');
 
@@ -49,26 +45,36 @@
 
 						//Création du commentaire
 						else {?>
-							<h3 class="center">Annonce n°<?php echo($current_url['annonce']);?></h3>
-							<div id="BBcode">
-								<input type="submit" onclick="insertBalise('b')" value="Gras" />
-								<input type="submit" onclick="insertBalise('i')" value="Italique" />
-								<input type="submit" onclick="insertBalise('u')" value="Souligné" />
-								<input type="submit" onclick="insertBalise('img')" value="Image" />
-								<input type="submit" onclick="insertBalise('noparse')" value="Noparse" />
-								<input type="submit" onclick="insertBalise('quote')" value="Citation" />
-								<input type="submit" onclick="insertBalise('s')" value="Barré" />
-								<input type="submit" onclick="insertBalise('table')" value="Tableau" />
-								<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
-								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
+							
+							<div class="flex-container">
+								<div class="box">
+									<div class="box-header">
+										<h2><span class="icon-bubbles4"></span>Commentaire pour l'annonce n°<?php echo($current_url['annonce']);?></h2>
+									</div>
+
+									<div class="box-content">
+										<div id="BBcode" class="new-comment-form">
+											<input type="submit" onclick="insertBalise('b')" value="Gras" />
+											<input type="submit" onclick="insertBalise('i')" value="Italique" />
+											<input type="submit" onclick="insertBalise('u')" value="Souligné" />
+											<input type="submit" onclick="insertBalise('img')" value="Image" />
+											<input type="submit" onclick="insertBalise('noparse')" value="Noparse" />
+											<input type="submit" onclick="insertBalise('quote')" value="Citation" />
+											<input type="submit" onclick="insertBalise('s')" value="Barré" />
+											<input type="submit" onclick="insertBalise('table')" value="Tableau" />
+											<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
+											<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
+										</div>
+										<form accept-charset="utf-8" action="#" method="post">
+											<textarea class="new-comment-text" name="comment" id="comment" rows="6"></textarea>
+											<p class="center"><input type="submit" name="submit" value="Valider" />
+											<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
+										</form>
+										<p class="center"><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
+										<div id="visualPreview" class="box"><p></p></div>
+									</div>
+								</div>
 							</div>
-							<form accept-charset="utf-8" action="#" method="post">
-								<textarea name="comment" id="comment"></textarea>
-								<p class="center"><input type="submit" name="submit" value="Valider" />
-								<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
-							</form>
-							<p class="center"><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
-							<div id="visualPreview" class="box"><p></p></div>
 							<?php
 						}
 					}

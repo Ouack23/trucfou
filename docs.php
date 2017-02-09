@@ -11,6 +11,7 @@
 		<title>Un projet de malade - Documents</title>
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	
@@ -19,17 +20,22 @@
 		$current_page = 'docs.php';
 		
 		echo('<section id="main">');
+		echo('<h1 class="page-title">Documents</h1>');
 		
 		if(!$user->data['is_registered']) include('include/not_registered.php');
 		
 		else {
-			print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents');
+
+			echo('<div class="flex-container flex-column">');
+
 			$docs_folder = 'include/docs/';
 			$ext = 'pdf';
 			$allowed_exts = 'application/pdf';
 			$categories = ['admin' => 'Administratif', 'CR_gen' => 'Compte-Rendu - Assemblée Générale', 'CR_gdt' => 'Compte-Rendu - Groupe de Travail', 'other' => 'Autre'];
 			
 			$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR');
+
+			print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents');
 			
 			while($donnees = $reponse->fetch()) {
 				if($donnees['enable'] == 1) {
@@ -43,7 +49,7 @@
 			}
 
 			$reponse->closeCursor();
-			echo('</table></div>');
+			echo('</table></div></div></div>');
 			
 			$to_enable = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR WHERE enable = 0');
 			
@@ -66,7 +72,7 @@
 					}
 				}
 				
-				echo('</table></div>');
+				echo('</table></div></div></div>');
 				
 				if(isset($_GET['id']) && isset($_GET['action'])) {
 					$id = $request->variable('id', 0);
@@ -153,31 +159,32 @@
 			}
 
 			// Post a new document
-			echo('
-				<div class="flex-container">
-					<div class="box posting-form hide-by-default">
-						<div class="box-header">
-							<h2>Poster un nouveau document</h2>
-						</div>
+			echo('<div class="box hide-by-default">
+					<div class="box-header">
+						<h2>Poster un nouveau document</h2>
+					</div>
 
-						<div class="box-content">
-							<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
-								<p>
-									<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
-									<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
-									<label for="category">Catégorie : </label><select name="category" id="category">
-										');
-										foreach($categories as $c => $n) {
-											echo('<option value="'.$c.'">'.$n.'</option>');
-										}
-										echo ('
-									</select><br />
+					<div class="box-content">
+						<div class="flex-container">
+							<div class="posting-form">
+								<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
+									<p>
+										<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
+										<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
+										<label for="category">Catégorie : </label><select name="category" id="category">
+											');
+											foreach($categories as $c => $n) {
+												echo('<option value="'.$c.'">'.$n.'</option>');
+											}
+											echo ('
+										</select><br />
 
-									<label for="name">Titre du document : </label><input type="text" name="title" id="title" /><br />
+										<label for="name">Titre du document : </label><input type="text" name="title" id="title" /><br />
 
-									<span class="submit-container"><input type="submit" value="Valider" /></span>
-								</p>
-							</form>
+										<span class="submit-container"><input type="submit" value="Valider" /></span>
+									</p>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -197,7 +204,7 @@
 			}
 		}
 
-		echo('</div></div>');
+		echo('</div></div></div>');
 		echo('</section>');
 		add_footer();?>
 	</body>
