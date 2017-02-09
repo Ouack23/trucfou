@@ -1,6 +1,12 @@
-<?php
-include('include/functions.php');
- ?>
+﻿﻿<?php
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+
+	include('include/phpBB.php');
+	include('include/header_footer.php');
+?>
+
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -10,8 +16,8 @@ include('include/functions.php');
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-		<?php include_content('top'); ?>
-
+		<?php add_header('top'); ?>
+		
 		<section id="main">
 
 			<h1 class="page-title">Accueil</h1>
@@ -100,6 +106,6 @@ include('include/functions.php');
 
 			</div>
 		</section>
-		<?php include_content('bottom'); ?>
+		<?php add_footer('bottom'); ?>
 	</body>
 </html>

@@ -1,6 +1,9 @@
 ﻿<?php
-include("include/functions.php");
-include("include/config.php");?>
+	include_once("include/config.php");
+	include_once("include/header_footer.php");
+	include_once("include/phpBB.php");
+	include_once("include/utils.php");
+?>
 
 <html>
 	<head>
@@ -12,7 +15,7 @@ include("include/config.php");?>
 	</head>
 	
 	<body>
-		<?php include_content("top");
+		<?php add_header();
 		$current_page = 'docs.php';
 		
 		echo('<section id="main">');
@@ -22,7 +25,7 @@ include("include/config.php");?>
 		if(!$user->data['is_registered']) include('include/not_registered.php');
 		
 		else {
-			print_debut_table([], ['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents', $current_url, $sort_array, 'other');
+			print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents');
 			$docs_folder = 'include/docs/';
 			$ext = 'pdf';
 			$allowed_exts = 'application/pdf';
@@ -48,7 +51,7 @@ include("include/config.php");?>
 			
 			if($user->data['username'] == 'Belette' && $to_enable->fetch()) {
 				$to_enable->closeCursor();
-				print_debut_table([], ['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien', 'Activer', 'Supprimer'], 'Liste des Documents à activer', $current_url, $sort_array, 'other');
+				print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien', 'Activer', 'Supprimer'], 'Liste des Documents à activer');
 			
 				$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR');
 			
@@ -207,6 +210,6 @@ include("include/config.php");?>
 
 		echo('</div></div>');
 		echo('</section>');
-		include_content("bottom");?>
+		add_footer();?>
 	</body>
 </html>
