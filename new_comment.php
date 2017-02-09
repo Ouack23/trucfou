@@ -5,8 +5,6 @@ include('include/config.php');?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouveau commentaire</title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -66,14 +64,14 @@ include('include/config.php');?>
 						}
 					}
 					
-					else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p></div>');
+					else echo('<div class="notification"><p><span class="icon-cross"></span> Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p></div>');
 				}
 				
 				//Traitement de la validation
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
 					$req->execute(array('annonce' => $current_url['annonce'], 'auteur' => $user->data['username'], 'comment' => $request->variable('comment', '')));
-					echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Vous pouvez aller consulter votre commentaire <a href=annonces.php?annonce='.$current_url['annonce'].'>ici</a></p></div>');
+					echo('<div class="notification"><p><span class="icon-checkmark"></span> Vous pouvez aller consulter votre commentaire <a href=annonces.php?annonce='.$current_url['annonce'].'>ici</a></p></div>');
 				}
 			}
 		echo('</section>');

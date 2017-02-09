@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-	    $("#connexion-link").click(function() {
+	    $(".connexion-link").click(function() {
 	        $("#login-frame").fadeToggle('fast');
 	    });
 

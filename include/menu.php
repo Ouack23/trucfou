@@ -33,17 +33,21 @@ if($user->data['is_registered']) {
 } else {
 
 	echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=register', true, $user->session_id).'">Inscription</a></li>');
-	echo('<li><span id="connexion-link">Connexion</span></li>');
+	echo('<li><span class="connexion-link">Connexion</span></li>');
 	echo('<section id="login-frame" class="hidden">
 		<div class="box login-box">
-			<form accept-charset="utf-8" action="'.append_sid('forum/ucp.php', 'mode=login', true, $user->session_id).'" method="post">
-				<p>
-					<label for="username">Identifiant : </label><input type="text" name="username" id="username" size="10" title="Username" /><br />
-					<label for="password">Mot de passe : </label><input type="password" name="password" id="password" size="10" title="Password" /><br />
+			<div class="box-header">
+				<h2>Connexion</h2>
+			</div>
+
+			<div class="box-content">
+				<form accept-charset="utf-8" action="'.append_sid('forum/ucp.php', 'mode=login', true, $user->session_id).'" method="post">
+					<label for="username" ><span class="icon-user login-icons"></span></label><input type="text" name="username" id="username" size="10" title="Username" placeholder="Login" /><br />
+					<label for="password" ><span class="icon-lock login-icons"></span></label><input type="password" name="password" id="password" size="10" title="Password" placeholder="Mot de passe" /><br />
 					<input type="submit" name="login" value="Connexion" />
 					<input type="hidden" name="redirect" value="../index.php" />
-				</p>
-			</form>
+				</form>
+			</div>
 		</div>
 	</section>
 	');

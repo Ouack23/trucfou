@@ -1,0 +1,19 @@
+@import 'colors';
+@import 'fonts';
+
+$mobile: 480px;
+$smartphone: 640px;
+$tablet: 1024px;
+
+$menu-height-breakpoint: $smartphone;
+$menu-height: 50px;
+$menu-height-reduced: 40px;
+$menu-fixed-limit: $tablet;
+
+$margin-breakpoint: $smartphone;
+$margin: 30px;
+$margin-reduced: 15px;
+
+$small-radius: 3px;
+
+@import 'mixins';

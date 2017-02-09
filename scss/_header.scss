@@ -1,0 +1,45 @@
+@import 'variables';
+
+header {
+	margin-top: -$menu-height;
+	@extend %padding;
+	background-color: $primary-color-darker2;
+
+	.header-logo {
+
+		margin-left: 10%;
+
+		@media screen and (max-width: $mobile) {
+			margin: 0 auto;
+		}
+
+		@media screen and (max-width: $smartphone) {
+			margin-top: $margin-reduced;
+		}
+		
+		h1 {
+			background-color: transparent;
+			margin-bottom: 0 !important;
+			font-size: 5em;
+			color: $secondary-color;
+			font-family: 'Leafy';
+
+			@media screen and (max-width: $mobile) {
+				font-size: 3.5em;
+				text-align: center;
+			}
+
+			span {
+				display: block;
+				margin-left: 30px;
+				@extend %uppercase;
+				font-size: 0.25em;
+				color: $well-color;
+
+				@media screen and (max-width: $mobile) {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+}

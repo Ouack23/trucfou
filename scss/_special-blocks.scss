@@ -1,0 +1,64 @@
+.block {
+	margin : 0;
+	margin-bottom: 30px;
+	background-color: $block-color;
+	color: $text-color;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	ul.block-titre {
+		margin: 0;
+		padding: 0;
+		background-color: $primary-color-darker;
+		color: $well-color;
+		display: flex;
+		flex-flow: row nowrap;
+		list-style: none;
+
+		@media screen and (max-width: $smartphone) {
+			flex-flow: column nowrap;
+		}
+
+		li {
+			padding: 10px;
+			margin: 0;
+			font-weight: bold;
+
+			@media screen and (max-width: $smartphone) {
+				display: block;
+			}
+
+			&.block-quand {
+				background-color: $primary-color-darker2;
+				@extend %uppercase;
+				font-size: 0.9em;
+			}
+
+			&.block-quoi {
+				flex-grow: 1;
+			}
+
+			&.block-ou {
+				@extend %uppercase;
+				font-size: 0.9em;
+				font-weight: normal;
+				background-color: $primary-color;
+			}
+		}
+	}
+
+	p {
+		margin: 0;
+		padding: 20px;
+	}
+
+	a {
+		color: $secondary-color;
+
+		&:before, &:after {
+			background-color: $secondary-color;
+		}
+	}
+}

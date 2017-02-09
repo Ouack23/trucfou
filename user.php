@@ -6,8 +6,6 @@ include("include/config.php");?>
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - <?php echo($user->data['username']); ?></title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

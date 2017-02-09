@@ -1,0 +1,75 @@
+table {
+	margin: auto;
+	border-collapse: collapse;
+	text-align: center;
+	@extend %margin-bottom;
+	border-bottom: 4px solid $secondary-color;
+	color: $bg-color;
+}
+
+th {
+	font-size: 1em;
+	background-color: $secondary-color;
+	color: $bg-color;
+	padding: 8px;
+}
+
+.top th {
+	font-size: 1.3em;
+}
+
+th a {
+	color: $bg-color;
+}
+
+th a:before, th a:after {
+	background: $bg-color;
+}
+
+tr:nth-child(even) {
+	background-color: #b88b4a;
+}
+
+tr:nth-child(odd) {
+	background-color: #fbc563;
+}
+
+td {
+	margin: 10px;
+	padding: 5px;
+}
+
+td a {
+	font-weight: normal;
+	color: $secondary-color;
+}
+
+td a:before, td a:after {
+	background-color: $secondary-color;
+}
+
+.offer-vote {
+	text-align: center;
+}
+
+#change-note {
+	margin: 10px 20px;
+}
+
+.comment-author {
+	color: #cccccc;
+}
+
+input[type=submit].warning-button {
+	background: $error-color;
+}
+
+input[type=submit]:hover.warning-button {
+	background: #e37c4c;
+}
+
+@media screen and (max-width: 640px) {
+	.top th {
+		font-size: 1em;
+	}
+}

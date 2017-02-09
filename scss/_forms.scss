@@ -1,0 +1,109 @@
+@import 'variables';
+
+@import 'icons';
+
+#form, .form {
+	color: $text-color;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.posting-form {
+	flex: 0.5 !important;
+	@extend %padding;
+}
+
+/* Responsive */
+@media screen and (max-width: 1600px) {
+
+	.posting-form {
+		flex: 0.65;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+
+	.posting-form {
+		flex: 0.8;
+	}
+}
+
+@media screen and (max-width: 800px) {
+
+	.posting-form {
+		flex: 1;
+	}
+}
+
+label, input, textarea, select {
+	display: block;
+	width: 50%;
+
+	@media all and (max-width: 640px) {
+		width: 100%;
+	}
+}
+
+input, textarea, select {
+	padding: 10px 10px;
+	background-color: $field-color;
+	color: $text-color;
+	border: none;
+	border-bottom: 3px solid darken($field-color, 5);
+	transition: all 300ms ease;
+}
+
+label {
+	margin-bottom: 0;
+	padding: 3px;
+	@extend %uppercase;	
+	font-weight: normal;
+	font-size: 0.95em;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input:focus, textarea:focus, select:focus, input:hover, textarea:hover, select:hover {
+	background-color: lighten($field-color, 10);
+	border-bottom: 3px solid $secondary-color;
+}
+
+span.submit-container {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+input[type=submit], .button {
+	font-weight: bold;
+	font-size: 1em;
+	padding: 8px;
+	margin: 10px auto !important;
+	width: auto;
+	@include border-radius($small-radius);
+	border: none;
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.135);
+	color: $bg-color;
+	background-color: darken($secondary-color, 5);
+}
+
+input[type=submit]:hover {
+	background-color: $secondary-color;
+}
+
+// Hack for hiding ugly arrows on "number" input
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
