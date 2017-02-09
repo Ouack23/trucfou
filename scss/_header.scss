@@ -1,8 +1,8 @@
 @import 'variables';
 
 header {
-	margin-top: -$menu-height;
 	@extend %padding;
+	@extend %menu-space;
 	background-color: $primary-color-darker2;
 
 	.header-logo {
@@ -12,14 +12,10 @@ header {
 		@media screen and (max-width: $mobile) {
 			margin: 0 auto;
 		}
-
-		@media screen and (max-width: $smartphone) {
-			margin-top: $margin-reduced;
-		}
 		
 		h1 {
 			background-color: transparent;
-			margin-bottom: 0 !important;
+			margin: 0 !important;
 			font-size: 5em;
 			color: $secondary-color;
 			font-family: 'Leafy';

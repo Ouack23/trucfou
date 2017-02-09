@@ -20,7 +20,24 @@ $well-color: saturate(darken($bg-color, 4), 3);
 $block-color: desaturate(darken($well-color, 4), 3);
 $text-color: #596c6b;
 $field-color: lighten($well-color, 10);
+$field-text-color: $text-color;
 $shadow-color: rgba(0, 0, 0, 0.6);
+
+// Purple&Blue Dark theme
+
+/*
+$primary-color: #9a63eb;
+$primary-color-darker: #8756cc;
+$primary-color-darker2: #7348ae;
+$secondary-color: #3fb0ac;
+$bg-color: #1f2121;
+$well-color: #242626;
+$block-color: #2c2e2e;
+$text-color: #596c6b;
+$field-color: lighten($well-color, 10);
+$field-text-color: $bg-color;
+$shadow-color: rgba(0, 0, 0, 0.6);
+*/
 
 // General
 

@@ -8,6 +8,14 @@
 	}
 }
 
+%margin-auto {
+	margin: $margin auto;
+
+	@media all and (max-width: $margin-breakpoint) {
+		margin: $margin-reduced auto;
+	}
+}
+
 %margin-bottom {
 	margin-bottom: $margin;
 
@@ -42,14 +50,14 @@
 
 %menu-space {
 
-	margin-top: $menu-height;
+	margin-bottom: -$menu-height;
 
 	@media all and (max-width: $menu-height-breakpoint) {
-		margin-top: $menu-height-reduced;
+		margin-bottom: -$menu-height-reduced;
 	}
 
 	@media all and (max-width: $menu-fixed-limit) {
-		margin-top: 0;
+		margin-bottom: 0;
 	}
 }
 

@@ -13,18 +13,19 @@
 		<title>Un projet de malade</title>
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
 		<?php add_header('top'); ?>
-		
+
 		<section id="main">
 
 			<h1 class="page-title">Accueil</h1>
 
 			<div class="flex-container">
 
-				<div class="box news">
+				<div class="box news hide-by-default-mobile">
 
 					<div class="box-header">
 						<h2><span class="icon-bubbles4"></span>Dernières nouvelles</h2>
@@ -64,7 +65,7 @@
 
 				</div>
 
-				<div class="box calendar">
+				<div class="box calendar hide-by-default-mobile">
 
 					<div class="box-header">
 						<h2><span class="icon-calendar"></span>Prochaines dates</h2>

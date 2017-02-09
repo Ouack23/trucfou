@@ -38,6 +38,10 @@
 
 			&.block-quoi {
 				flex-grow: 1;
+
+				.block-author {
+					color: $secondary-color;
+				}
 			}
 
 			&.block-ou {

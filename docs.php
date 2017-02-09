@@ -19,8 +19,6 @@
 		$current_page = 'docs.php';
 		
 		echo('<section id="main">');
-
-		echo('<div class="box posting-form"><div class="box-content">');
 		
 		if(!$user->data['is_registered']) include('include/not_registered.php');
 		
@@ -153,25 +151,16 @@
 					echo $e->getMessage();
 				}
 			}
-			
-			if(!isset($_POST['newdoc'])) {
-				echo('
-					<div class="flex-container">
-						<div class="box posting-form">
-							<form method="post" action="#" accept-charset="utf-8">
-								<p class="center">
-									<span class="submit-container"><input type="submit" value="Poster un nouveau document" name="newdoc"/></span>
-								</p>
-							</form>
+
+			// Post a new document
+			echo('
+				<div class="flex-container">
+					<div class="box posting-form hide-by-default">
+						<div class="box-header">
+							<h2>Poster un nouveau document</h2>
 						</div>
-					</div>
-					');
-			}
-			
-			else {
-				echo('
-					<div class="flex-container">
-						<div class="box posting-form">
+
+						<div class="box-content">
 							<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
 								<p>
 									<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
@@ -184,15 +173,15 @@
 										echo ('
 									</select><br />
 
-									<label for="name">Titre du document : </label><input type="text" name="title" id="title" />
+									<label for="name">Titre du document : </label><input type="text" name="title" id="title" /><br />
 
 									<span class="submit-container"><input type="submit" value="Valider" /></span>
 								</p>
 							</form>
 						</div>
 					</div>
-				');
-			}
+				</div>
+			');
 			
 			if(isset($_GET['name'])) {
 				$complete_name = $docs_folder.$request->variable('name', '');

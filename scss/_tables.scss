@@ -1,51 +1,58 @@
 table {
-	margin: auto;
 	border-collapse: collapse;
 	text-align: center;
-	@extend %margin-bottom;
+	@extend %margin-auto;
 	border-bottom: 4px solid $secondary-color;
-	color: $bg-color;
-}
+	color: $text-color;
 
-th {
-	font-size: 1em;
-	background-color: $secondary-color;
-	color: $bg-color;
-	padding: 8px;
-}
+	th {
+		font-size: 1em !important;
+		background-color: $secondary-color;
+		color: $bg-color;
+		padding: 8px;
+		@extend %uppercase;
+		font-weight: 600 !important;
 
-.top th {
-	font-size: 1.3em;
-}
+		a {
+			color: $bg-color !important;
+			font-weight: 600 !important;
 
-th a {
-	color: $bg-color;
-}
+			&:before, &:after {
+				background: $bg-color !important;
+			}
+		}
+	}
 
-th a:before, th a:after {
-	background: $bg-color;
-}
+	.top th {
+		font-size: 1.3em;
+	}
 
-tr:nth-child(even) {
-	background-color: #b88b4a;
-}
+	tr {
 
-tr:nth-child(odd) {
-	background-color: #fbc563;
-}
+		&:nth-child(even) {
+			background-color: $field-color;
+		}
 
-td {
-	margin: 10px;
-	padding: 5px;
-}
+		&:nth-child(odd) {
+			background-color: lighten($field-color, 10);
+		}
+	}
 
-td a {
-	font-weight: normal;
-	color: $secondary-color;
-}
+	td {
+		margin: 10px;
+		padding: 5px;
 
-td a:before, td a:after {
-	background-color: $secondary-color;
+		a {
+			@extend %uppercase;
+			font-size: 0.9em;
+			font-weight: normal !important;
+			color: $secondary-color;
+
+			&:before, &:after {
+				background-color: $secondary-color;
+			}
+		}
+	}
 }
 
 .offer-vote {
@@ -56,20 +63,42 @@ td a:before, td a:after {
 	margin: 10px 20px;
 }
 
-.comment-author {
-	color: #cccccc;
+.habit0 {
+	background-color: rgba(255, 0, 0, 0.8);
 }
 
-input[type=submit].warning-button {
-	background: $error-color;
+.habit1 {
+	background-color: rgba(255, 69, 0, 0.8);
 }
 
-input[type=submit]:hover.warning-button {
-	background: #e37c4c;
+.habit2 {
+	background-color: rgba(255, 165, 0, 0.8);
 }
 
-@media screen and (max-width: 640px) {
-	.top th {
-		font-size: 1em;
-	}
+.habit3 {
+	background-color: rgba(255, 215, 0, 0.8);
+}
+
+.habit4 {
+	background-color: rgba(50, 205, 50, 0.8);
+}
+
+.habit5 {
+	background-color: rgba(173, 255, 47, 0.8);
+}
+
+.unknown, .unnoted {
+	background-color: rgba(darken($field-color, 40), 0.2) !important;
+}
+
+tr.unavailable {
+	background-color: rgba(darken($field-color, 30), 0.3) !important;
+}
+
+.unavailable td a {
+	color: darken($primary-color, 10);
+}
+
+.unavailable td a:before, .unavailable td a:after {
+	background-color: darken($primary-color, 10);
 }

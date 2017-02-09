@@ -48,10 +48,18 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 	$add_superf = true;
 	$superf_string_cmp = 'Superficie';
 	$superf_string_print = 'Superficies';
+
+	echo('<div class="flex-container">
+			<div class="box">
+				<div class="box-header">
+					<h2>'.$title.'</h2>
+				</div>
+
+				<div class="box-content">');
 	
 	switch($what) {
 		case 'annonces':
-			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+			echo('<div id="table"><table><tr class="top">');
 			
 			foreach($sort_columns_array as $column_bdd => $column_name) {
 				if($column_bdd == 'superf_h' || $column_bdd == 'superf_t') {
@@ -114,7 +122,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		break;
 		
 		case 'single_annonce':
-			echo('<h1 id="comments">'.$title.'</h1><div id="table"><table><tr class="top">');
+			echo('<div id="table"><table><tr class="top">');
 			
 			$have_to_print_superf_string = true;
 			
@@ -154,7 +162,7 @@ function print_debut_table($sort_columns_array, $other_columns_array, $title, $c
 		break;
 		
 		case 'comments':
-			echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+			echo('<div id="table"><table><tr class="top">');
 			
 			foreach($sort_columns_array as $column_bdd => $column_name) {
 				if($is_first) {
@@ -205,7 +213,7 @@ function print_single_annonce($current_page, $current_url, $sort_array) {
 		
 		$reponse->closeCursor();
 
-		echo('</tr></table></div>');
+		echo('</tr></table>');
 	}
 	
 	else echo('<p class="error">Pas d\'annonce à afficher dans print_single_annonce() !</p>');
@@ -586,8 +594,8 @@ function print_checked_enabled_only($sort_array) {
 function print_option_select($option_array, $name, $label, $min, $max, $step) {
 	global $sort_array;
 	
-	echo('<label for="sort_'.$name.'">'.$label.'</label>');
-	echo('<span class="select-wrapper"><select id="sort_'.$name.'" name="sort_'.$name.'">');
+	echo('<div class="filter-group"><label for="sort_'.$name.'">'.$label.'</label>');
+	echo('<select id="sort_'.$name.'" name="sort_'.$name.'">');
 	
 	foreach($option_array as $value => $option_label) {
 		echo('<option value="'.$value.'"');
@@ -595,7 +603,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 		echo('>'.$option_label.'</option>');
 	}
 	
-	echo('</select></span>');
+	echo('</select>');
 	echo('<input type="range" name="value_'.$name.'" id="value_'.$name.'" min="'.$min.'" max="'.$max.'" step="'.$step.'" value="');
 	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
 	else echo($min);
@@ -604,7 +612,7 @@ function print_option_select($option_array, $name, $label, $min, $max, $step) {
 	echo('<output name="print_value_'.$name.'" id="print_value_'.$name.'">');
 	if(isset($_GET['value_date'])) echo($sort_array['value_'.$name]);
 	else echo($min);
-	echo('</output>');
+	echo('</output></div>');
 }
 
 function print_liste($what) {

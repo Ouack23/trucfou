@@ -1,5 +1,5 @@
 <header>
 	<div class="header-logo">
-		<h1>Truc de Fou<span>Le non-mieux nommé</span></h1>
+		<h1>ZOBZOBZOB<span>Parce que merde trouvez un nom</span></h1>
 	</div>
 </header>

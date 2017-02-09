@@ -8,7 +8,7 @@ $GdT = ['Éric', 'Buzz', 'Bastien', 'TimRocket', 'Zaza', 'Keks', 'ratichon'];
 $is_admin = $user->data['username'] == $admin;
 $is_in_GdT = in_array($user->data['username'], $GdT);
 
-echo('<nav><ul>');
+echo('<nav class="nav"><ul>');
 
 echo('<li><a href="'.append_sid('index.php').'">Accueil</a></li>');
 echo('<li><a href="'.append_sid('forum/index.php').'">Forum</a></li>');
