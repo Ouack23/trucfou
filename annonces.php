@@ -83,11 +83,12 @@
 			<div> <div id="annonce_details"></div></div>
 			<script>
 				function generateTable(sortColumn) {
+
 			        var liste_annonces = <?php echo json_encode($annonces)?>,
 				        columns = <?php echo json_encode($columns) ?>,
 				        filters = <?php echo json_encode($filters) ?>;
 
-			        // look for the currently selected column.
+			        // look for the currently selected column. Used when we ask for sorting
 			        if(sortColumn == undefined) {
 			        	var table = document.getElementById("annoncesArray");
 			        	var headers = table.getElementsByTagName("th");

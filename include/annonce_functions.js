@@ -1,20 +1,14 @@
 // --------------------------------------------------------
 // Callback mfunction to sort a JSON table
 // -------------------------------------------------------- 
-function sortJSONTable(jsonArray, sortKey, reverse){
+function sortJSONTable(jsonArray, sortKey){
 	jsonArray.sort(function(a, b) {
         // real strings comparison
 		if(sortKey == "auteur" || sortKey == "lieu") {
-            if(reverse) {
-                return a[sortKey] < b[sortKey];
-            }
 			return a[sortKey] > b[sortKey];
 		}
         // numbers (saved as strings) comparison
 		else {
-            if(reverse) {
-                return b[sortKey] - a[sortKey];
-            }
 			return a[sortKey] - b[sortKey];
 		}
 	});
@@ -138,7 +132,11 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
     var filtered_annonces = filterJSON(liste_annonces, filters, columns);
 
     // sort array
-    sortJSONTable(filtered_annonces, sortColumn, reverse);
+    sortJSONTable(filtered_annonces, sortColumn);
+    if(reverse) {
+        filtered_annonces.reverse();
+    }
+
 
 	// generate resulting dom
     for (var annonce in filtered_annonces){
@@ -157,7 +155,10 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
             }
             // details are specifics too
             else if (col == "details") {
-                td.appendChild(document.createTextNode("Details"));
+                var detailsSpan = document.createElement("span");
+                detailsSpan.appendChild(document.createTextNode("Details"));
+                detailsSpan.setAttribute("class", "simili-link");
+                td.appendChild(detailsSpan);
                 td.addEventListener("click", function() {showDetails(this); });
                 td.id = row["id"];
             }
