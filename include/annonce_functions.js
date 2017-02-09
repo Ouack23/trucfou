@@ -85,7 +85,29 @@ function showDetails(elementSource) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("annonce_details").innerHTML = this.responseText;
+            var stringData = this.response;
+            var data = JSON.parse(stringData);
+
+            // set title
+            var title = document.getElementsByClassName("detailsNumber")[0];
+            title.innerText = "#" + data["id"];
+
+            // Set note comboBox
+            var sel = document.getElementsByClassName("userNote")[0];
+            var options = sel.getElementsByTagName("option");
+            var i = options.length;
+
+            while (i--) {
+                option = options[i];
+                if (option.getAttribute("value") == data["note"]) {
+                    sel.selectedIndex = i;
+                    break;
+                }
+            }
+
+            // set comment button
+            var btn = document.getElementsByClassName("newCommentBtn")[0];
+            btn.setAttribute("action", "new_comment.php?annonce="+data["id"]);
         }
     };
 

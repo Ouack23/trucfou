@@ -633,34 +633,6 @@ function print_liste($what) {
 	else echo('<p class="error">la fonction print_list($what) a été appelée avec un mauvais paramètre</p>');
 }
 
-
-function get_note($annonce) {
-	global $bdd;
-	
-	$int_annonce = intval($annonce);
-	
-	$get_values = $bdd->prepare('SELECT * FROM notes WHERE annonce = :id');
-	$get_values->execute(array('id' => $int_annonce));
-	
-	$values_array = [];
-	
-	if($get_values) {
-		while($value = $get_values->fetch()) {
-			array_push($values_array, $value['value']);
-		}
-
-		$get_values->closeCursor();
-	}
-
-	else {
-		echo('<p class="error">Invalid annonce value in get_note()</p>'); 
-		return -1;
-	}
-	
-	if(!empty($values_array)) return round(array_sum($values_array) / count($values_array), 2);
-	else return 10;
-}
-
 function get_comments($annonce) {
 	global $bdd;
 	

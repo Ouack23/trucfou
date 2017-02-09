@@ -80,7 +80,32 @@
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>
 			<h1 id="annonceTitle"> Annonces </h1>
-			<div> <div id="annonce_details"></div></div>
+			<div class="box posting-form"> <div id="annonce_details">
+				<h1>Détails de l'annonce <div class="detailsNumber"></div> </h1>
+				<form>
+					<p>
+						<label>Note: </label>
+						<span class="select-wrapper"><select class="userNote">
+							<option value="-1" selected="true">aucun vote</option>
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select></span>
+						<input type="submit" value="Voter">
+					</p>
+				</form>
+				<form>
+					<input class="warning-button" value="Déclarer indisponible" type="button" name="unavailable">
+				</form>
+				<h3>No comments for now !</h3>
+				<form class="newCommentBtn" method="post">
+					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>
+				</form>
+
+			</div></div>
 			<script>
 				function generateTable(sortColumn) {
 
