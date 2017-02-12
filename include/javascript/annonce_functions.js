@@ -243,6 +243,10 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
                 td.addEventListener("click", function() {showDetails(this); });
                 td.id = row["id"];
             }
+            else if (col.startsWith("superf") && row[col] == 1) {
+                td.setAttribute("class", "unknown");
+                td.appendChild(document.createTextNode("Inconnue"));
+            }
             else {
                 td.appendChild(document.createTextNode(row[col]));
             }
