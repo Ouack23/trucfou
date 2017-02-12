@@ -7,7 +7,7 @@
 	global $user, $auth, $phpbb_root_path, $phpEx;
 
 	include_once("config.php");
-	include_once("utils.php");
+	include_once("database_getters.php");
 
 	$q = $_REQUEST["q"];
 	$note = get_note($q);

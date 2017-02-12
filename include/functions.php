@@ -1,5 +1,6 @@
 <?php
 
+include_once("database_getters.php");
 include_once("phpBB.php");
 include_once("utils.php");
 

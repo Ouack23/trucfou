@@ -20,14 +20,9 @@
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
-<<<<<<< HEAD
-		<?php include_content('top');
-		echo('<section id="main">');
-=======
 		<?php
 			add_header();
 			echo('<section id="main">');	
->>>>>>> The Big Refactor
 			echo('<h1>Écrire un nouveau commentaire</h1>');
 			
 			if(!$user->data['is_registered']) include('include/not_registered.php');

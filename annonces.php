@@ -5,6 +5,7 @@
 
 	include_once("include/annonce_functions.php");
 	include_once("include/config.php");
+	include_once("include/database_getters.php");
 	include_once("include/header_footer.php");
 ?>
 
