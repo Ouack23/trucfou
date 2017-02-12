@@ -1,5 +1,5 @@
 <?php
-//	include_once("phpBB.php");
+
 	define('IN_PHPBB', true);
 	$phpbb_root_path =(defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
@@ -12,8 +12,11 @@
 	$annonce_id = $_REQUEST["id"];
 	$note = get_note($annonce_id);
 	$comments = get_comments($annonce_id);
+	$available = get_available($annonce_id);
 
-	echo json_encode(array(	"id" => $annonce_id, "note" => $note
-						, "comments" => $comments
+	echo json_encode(array(	"id" => $annonce_id,
+						 	"note" => $note,
+						 	"available" => $available, 
+						 	"comments" => $comments
 						 ));
 ?>

@@ -2,6 +2,16 @@
 
 include_once("utils.php");
 
+function get_available($annonce) {
+	global $bdd;
+
+	$answer = $bdd->query('SELECT available FROM annonces WHERE id = '.$annonce.'');
+	$available = $answer->fetch();
+	$answer->closeCursor();
+
+	return $available["available"];
+}
+
 function get_comments($annonce) {
 	global $bdd;
 
@@ -14,6 +24,8 @@ function get_comments($annonce) {
 		$comments[$i] = $comment;
 		$i++;
 	}
+
+	$answers->closeCursor();
 
 	return $comments;
 }

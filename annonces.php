@@ -99,9 +99,15 @@
 						<input type="submit" value="Voter">
 					</p>
 				</form>
-				<form>
-					<input class="warning-button" value="Déclarer indisponible" type="button" name="unavailable">
+				<form class="availability">
+					<h3>Annonce indisponible !</h3>
+					<input class="warning-button" value="Déclarer indisponible" type="button" name="availability" onclick=unavailable()>
 				</form>
+				<form class="author-element">
+					<input class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
+					<input class="warning-button" value="Redéclarer disponible" type="button" name="availability">
+				</form>
+
 				<div class="comments_section"><h3>No comments for now !</h3></div>
 				<form class="newCommentBtn" method="post">
 					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>

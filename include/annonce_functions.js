@@ -76,6 +76,24 @@ function filterJSON(inputArray, filters, columns) {
 	return filteredArray;
 }
 
+// --------------------------------------------------------
+// unavailable
+// -------------------------------------------------------- 
+function unavailable() {
+    var id = document.getElementsByClassName("detailsNumber")[0].innerText;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var availability = document.getElementsByClassName("availability")[0];
+            availability.getElementsByTagName("h3")[0].style.display = "inline-block";
+            availability.getElementsByTagName("input")[0].style.display = "none";   
+        }
+    }
+
+    xmlhttp.open("GET", "include/unavailable_annonce.php?id=" + id, true);
+    xmlhttp.send();
+}
 
 // --------------------------------------------------------
 // AJAX method to show details
@@ -90,7 +108,7 @@ function showDetails(elementSource) {
 
             // set title
             var title = document.getElementsByClassName("detailsNumber")[0];
-            title.innerText = "#" + data["id"];
+            title.innerText = data["id"];
 
             // Set note comboBox
             var sel = document.getElementsByClassName("userNote")[0];
@@ -104,6 +122,22 @@ function showDetails(elementSource) {
                     break;
                 }
             }
+
+            // available
+            var availability = document.getElementsByClassName("availability")[0];
+
+            if(data["available"] == 1) {
+                availability.getElementsByTagName("h3")[0].style.display = "none";
+                availability.getElementsByTagName("input")[0].style.display = "inline-block";   
+            }
+            else {
+                availability.getElementsByTagName("h3")[0].style.display = "inline-block";
+                availability.getElementsByTagName("input")[0].style.display = "none";   
+            }
+
+            // author line
+            var authorActions = document.getElementsByClassName("author-element")[0];
+            authorActions.style.display = "none";
 
             // list all comments
             var com_section = document.getElementsByClassName("comments_section")[0];
