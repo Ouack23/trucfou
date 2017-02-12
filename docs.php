@@ -9,10 +9,9 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - Documents</title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	
@@ -21,17 +20,22 @@
 		$current_page = 'docs.php';
 		
 		echo('<section id="main">');
+		echo('<h1 class="page-title">Documents</h1>');
 		
 		if(!$user->data['is_registered']) include('include/not_registered.php');
 		
 		else {
-			print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents');
+
+			echo('<div class="flex-container flex-column">');
+
 			$docs_folder = 'include/docs/';
 			$ext = 'pdf';
 			$allowed_exts = 'application/pdf';
 			$categories = ['admin' => 'Administratif', 'CR_gen' => 'Compte-Rendu - Assemblée Générale', 'CR_gdt' => 'Compte-Rendu - Groupe de Travail', 'other' => 'Autre'];
 			
 			$reponse = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR');
+
+			print_table_header(['N°', 'Date', 'Auteur', 'Catégorie', 'Titre', 'Lien'], 'Liste des Documents');
 			
 			while($donnees = $reponse->fetch()) {
 				if($donnees['enable'] == 1) {
@@ -45,7 +49,7 @@
 			}
 
 			$reponse->closeCursor();
-			echo('</table></div>');
+			echo('</table></div></div></div>');
 			
 			$to_enable = $bdd->query('SELECT id, '.format_date().', auteur, title, name, category, enable FROM CR WHERE enable = 0');
 			
@@ -68,7 +72,7 @@
 					}
 				}
 				
-				echo('</table></div>');
+				echo('</table></div></div></div>');
 				
 				if(isset($_GET['id']) && isset($_GET['action'])) {
 					$id = $request->variable('id', 0);
@@ -77,7 +81,7 @@
 					if($action == 'activate') {
 						$activate = $bdd->prepare('UPDATE CR SET enable = 1 WHERE id = :id');
 						
-						if($activate->execute(array('id' => $id))) echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Le document a été correctement validé !</p></div>');
+						if($activate->execute(array('id' => $id))) echo('<div class="notification"><p><span class="icon-checkmark"></span> Le document a été correctement validé !</p></div>');
 					}
 					
 					elseif($action == 'delete') {
@@ -87,19 +91,19 @@
 						$filename = $get_doc->fetch()['name'];
 						$path = $docs_folder.$filename;
 						
-						if(unlink($path)) echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Le document a été supprimé !</p></div>');
+						if(unlink($path)) echo('<div class="notification"><p><span class="icon-checkmark"></span> Le document a été supprimé !</p></div>');
 						
 						$get_doc->closeCursor();
 						
 						$delete = $bdd->prepare('DELETE FROM CR WHERE id = :id');
 						
 						if($delete->execute(array('id' => $id))) {
-							echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Le document a été correctement supprimé de la base de données.</p></div>');
+							echo('<div class="notification"><p><span class="icon-checkmark"></span> Le document a été correctement supprimé de la base de données.</p></div>');
 							$delete->closeCursor();
 						}
 					}
 					
-					else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Mauvais paramètres dans l\'URL.</p></div>');
+					else echo('<div class="notification"><p><span class="icon-cross"></span> Mauvais paramètres dans l\'URL.</p></div>');
 				}
 			}
 			
@@ -111,21 +115,21 @@
 						case UPLOAD_ERR_OK:
 							break;
 						case UPLOAD_ERR_NO_FILE:
-							throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas de fichier !</p></div>');
+							throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Pas de fichier !</p></div>');
 						case UPLOAD_ERR_INI_SIZE:
 						case UPLOAD_ERR_FORM_SIZE:
-							throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Fichier trop grand !</p></div>');
+							throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Fichier trop grand !</p></div>');
 						default:
-							throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Erreur inconnue !</p></div>');
+							throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Erreur inconnue !</p></div>');
 					}
 					
 					if($file['size'] > $request->variable('MAX_FILE_SIZE', 0))
-						throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Fichier trop grand !</p></div>');
+						throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Fichier trop grand !</p></div>');
 					
 					$finfo = new finfo(FILEINFO_MIME_TYPE);
 					
 					if ($finfo->file($file['tmp_name']) != $allowed_exts)
-						throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Le fichier n\'est pas un PDF !</p></div>');
+						throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Le fichier n\'est pas un PDF !</p></div>');
 					
 					else {
 						$name = sprintf('%s.%s', sha1_file($file['tmp_name']), $ext);
@@ -133,18 +137,18 @@
 					}
 					
 					if(!in_array($request->variable('category', ''), $categories))
-						throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Mauvaise catégorie !</p></div>');
+						throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Mauvaise catégorie !</p></div>');
 					
 					if(!move_uploaded_file($file['tmp_name'], $path))
-						throw new RuntimeException('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Déplacement impossible !</p></div>');
+						throw new RuntimeException('<div class="notification"><p><span class="icon-cross"></span> Déplacement impossible !</p></div>');
 					
-					echo '<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Upload réussi !</p></div>';
+					echo '<div class="notification"><p><span class="icon-checkmark"></span> Upload réussi !</p></div>';
 					
 					$req = $bdd->prepare('INSERT INTO CR(date, auteur, category, title, name, enable) VALUES(NOW(), :auteur, :category, :title, :name, 0)');
 					
 					$req->execute(array('auteur' => $user->data['username'], 'category' => $request->variable('category', ''), 'title' => $request->variable('title', ''), 'name' => $name));
 					
-					echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Base de données mise à jour ! Rechargez la page pour voir votre document.</p></div>');
+					echo('<div class="notification"><p><span class="icon-checkmark"></span> Base de données mise à jour ! Rechargez la page pour voir votre document.</p></div>');
 					
 					$req->closeCursor();
 				}
@@ -153,46 +157,38 @@
 					echo $e->getMessage();
 				}
 			}
-			
-			if(!isset($_POST['newdoc'])) {
-				echo('
-					<div class="flex-container">
-						<div class="box posting-form">
-							<form method="post" action="#" accept-charset="utf-8">
-								<p class="center">
-									<span class="submit-container"><input type="submit" value="Poster un nouveau document" name="newdoc"/></span>
-								</p>
-							</form>
+
+			// Post a new document
+			echo('<div class="box hide-by-default">
+					<div class="box-header">
+						<h2>Poster un nouveau document</h2>
+					</div>
+
+					<div class="box-content">
+						<div class="flex-container">
+							<div class="posting-form">
+								<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
+									<p>
+										<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
+										<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
+										<label for="category">Catégorie : </label><select name="category" id="category">
+											');
+											foreach($categories as $c => $n) {
+												echo('<option value="'.$c.'">'.$n.'</option>');
+											}
+											echo ('
+										</select><br />
+
+										<label for="name">Titre du document : </label><input type="text" name="title" id="title" /><br />
+
+										<span class="submit-container"><input type="submit" value="Valider" /></span>
+									</p>
+								</form>
+							</div>
 						</div>
 					</div>
-					');
-			}
-			
-			else {
-				echo('
-					<div class="flex-container">
-						<div class="box posting-form">
-							<form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8" id="form" name="form">
-								<p>
-									<input type="hidden" name="MAX_FILE_SIZE" value="8000000" />
-									<label for="document">Fichier à uploader (8 Mo max !) : </label><input type="file" name="document" id="document" /><br />
-									<label for="category">Catégorie : </label><span class="select-wrapper"><select name="category" id="category">
-										');
-										foreach($categories as $c => $n) {
-											echo('<option value="'.$c.'">'.$n.'</option>');
-										}
-										echo ('
-									</select></span><br />
-
-									<label for="name">Titre du document : </label><input type="text" name="title" id="title" />
-
-									<span class="submit-container"><input type="submit" value="Valider" /></span>
-								</p>
-							</form>
-						</div>
-					</div>
-				');
-			}
+				</div>
+			');
 			
 			if(isset($_GET['name'])) {
 				$complete_name = $docs_folder.$request->variable('name', '');
@@ -207,6 +203,8 @@
 				}
 			}
 		}
+
+		echo('</div></div></div>');
 		echo('</section>');
 		add_footer();?>
 	</body>

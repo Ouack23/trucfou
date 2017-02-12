@@ -80,7 +80,14 @@ function print_selected($n, $p) {
 
 function print_table_header($columns_array, $title) {
 
-	echo('<h1>'.$title.'</h1><div id="table"><table><tr class="top">');
+	echo('<div class="box">
+			<div class="box-header">
+				<h2>'.$title.'</h2>
+			</div>
+
+			<div class="box-content">');
+
+	echo('<div id="table"><table><tr class="top">');
 
 			echo('<tr class="top">');
 			$is_first = true;

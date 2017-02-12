@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'icons';
+
+@import 'menu';
+@import 'header';
+@import 'global';
+
+@import 'special-blocks';
+@import 'forms';
+@import 'tables';
+@import 'login';
+
+
+/********************
+		OTHER
+********************/
+
+#main object {
+	display: block;
+	margin: auto;
+	@extend %menu-space;
+}

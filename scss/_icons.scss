@@ -1,0 +1,125 @@
+@font-face {
+	font-family: 'Iconfont';
+	src:  url('../resources/fonts/Iconfont.eot?n5zt9h');
+	src:  url('../resources/fonts/Iconfont.eot?n5zt9h#iefix') format('embedded-opentype'),
+		url('../resources/fonts/Iconfont.ttf?n5zt9h') format('truetype'),
+		url('../resources/fonts/Iconfont.woff?n5zt9h') format('woff'),
+		url('../resources/fonts/Iconfont.svg?n5zt9h#Iconfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'Iconfont' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	vertical-align: middle;
+	padding-right: 3px;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bullhorn:before {
+	content: "\e91a";
+}
+.icon-file-text2:before {
+	content: "\e926";
+}
+.icon-copy:before {
+	content: "\e92c";
+}
+.icon-price-tag:before {
+	content: "\e935";
+}
+.icon-envelop:before {
+	content: "\e945";
+}
+.icon-location:before {
+	content: "\e947";
+}
+.icon-clock:before {
+	content: "\e94e";
+}
+.icon-calendar:before {
+	content: "\e953";
+}
+.icon-bubbles4:before {
+	content: "\e970";
+}
+.icon-user:before {
+	content: "\e971";
+}
+.icon-users:before {
+	content: "\e972";
+}
+.icon-lock:before {
+	content: "\e98f";
+}
+.icon-cog:before {
+	content: "\e994";
+}
+.icon-bug:before {
+	content: "\e999";
+}
+.icon-stats-bars:before {
+	content: "\e99c";
+}
+.icon-bin:before {
+	content: "\e9ac";
+}
+.icon-cloud-download:before {
+	content: "\e9c2";
+}
+.icon-cloud-upload:before {
+	content: "\e9c3";
+}
+.icon-attachment:before {
+	content: "\e9cd";
+}
+.icon-star-empty:before {
+	content: "\e9d7";
+}
+.icon-star-half:before {
+	content: "\e9d8";
+}
+.icon-star-full:before {
+	content: "\e9d9";
+}
+.icon-plus:before {
+	content: "\ea0a";
+}
+.icon-minus:before {
+	content: "\ea0b";
+}
+.icon-cross:before {
+	content: "\ea0f";
+}
+.icon-checkmark:before {
+	content: "\ea10";
+}
+.icon-checkbox-checked:before {
+	content: "\ea52";
+}
+.icon-checkbox-unchecked:before {
+	content: "\ea53";
+}
+.icon-radio-checked:before {
+	content: "\ea54";
+}
+.icon-radio-unchecked:before {
+	content: "\ea56";
+}
+.icon-file-pdf:before {
+	content: "\eadf";
+}
+.icon-html-five:before {
+	content: "\eae4";
+}
+

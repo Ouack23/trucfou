@@ -8,22 +8,19 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouveau commentaire</title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script src="include/javascript/xbbcode.js"></script>
-		<script src="include/javascript/functions.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
 		<?php
 			add_header();
-			echo('<section id="main">');	
-			echo('<h1>Écrire un nouveau commentaire</h1>');
+			echo('<section id="main">');
+			echo('<h1 class="page-title">Nouveau commentaire</h1>');
 			
 			if(!$user->data['is_registered']) include('include/not_registered.php');
 
@@ -46,38 +43,48 @@
 
 						//Création du commentaire
 						else {?>
-							<h3 class="center">Annonce n°<?php echo($current_url['annonce']);?></h3>
-							<div id="BBcode">
-								<input type="submit" onclick="insertBalise('b')" value="Gras" />
-								<input type="submit" onclick="insertBalise('i')" value="Italique" />
-								<input type="submit" onclick="insertBalise('u')" value="Souligné" />
-								<input type="submit" onclick="insertBalise('img')" value="Image" />
-								<input type="submit" onclick="insertBalise('noparse')" value="Noparse" />
-								<input type="submit" onclick="insertBalise('quote')" value="Citation" />
-								<input type="submit" onclick="insertBalise('s')" value="Barré" />
-								<input type="submit" onclick="insertBalise('table')" value="Tableau" />
-								<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
-								<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
+							
+							<div class="flex-container">
+								<div class="box">
+									<div class="box-header">
+										<h2><span class="icon-bubbles4"></span>Commentaire pour l'annonce n°<?php echo($current_url['annonce']);?></h2>
+									</div>
+
+									<div class="box-content">
+										<div id="BBcode" class="new-comment-form">
+											<input type="submit" onclick="insertBalise('b')" value="Gras" />
+											<input type="submit" onclick="insertBalise('i')" value="Italique" />
+											<input type="submit" onclick="insertBalise('u')" value="Souligné" />
+											<input type="submit" onclick="insertBalise('img')" value="Image" />
+											<input type="submit" onclick="insertBalise('noparse')" value="Noparse" />
+											<input type="submit" onclick="insertBalise('quote')" value="Citation" />
+											<input type="submit" onclick="insertBalise('s')" value="Barré" />
+											<input type="submit" onclick="insertBalise('table')" value="Tableau" />
+											<input type="submit" onclick="insertBalise('tr')" value="Tableau - Ligne" />
+											<input type="submit" onclick="insertBalise('td')" value="Tableau - Cellule" />
+										</div>
+										<form accept-charset="utf-8" action="#" method="post">
+											<textarea class="new-comment-text" name="comment" id="comment" rows="6"></textarea>
+											<p class="center"><input type="submit" name="submit" value="Valider" />
+											<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
+										</form>
+										<p class="center"><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
+										<div id="visualPreview" class="box"><p></p></div>
+									</div>
+								</div>
 							</div>
-							<form accept-charset="utf-8" action="#" method="post">
-								<textarea name="comment" id="comment"></textarea>
-								<p class="center"><input type="submit" name="submit" value="Valider" />
-								<input type="hidden" name="annonce" value="<?php echo($current_url['annonce']); ?>" /></p>
-							</form>
-							<p class="center"><input type="submit" name="preview" value="Prévisualiser" onclick="doPreview();" /></p>
-							<div id="visualPreview" class="box"><p></p></div>
 							<?php
 						}
 					}
 					
-					else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p></div>');
+					else echo('<div class="notification"><p><span class="icon-cross"></span> Pas d\'annonce à commenter, dommage ... Vous pouvez créer une nouvelle annonce <a href="new_annonce.php">ici</a></p></div>');
 				}
 				
 				//Traitement de la validation
 				else {
 					$req = $bdd->prepare('INSERT INTO comments(annonce, date, auteur, comment) VALUES(:annonce, NOW(), :auteur, :comment)');
 					$req->execute(array('annonce' => $current_url['annonce'], 'auteur' => $user->data['username'], 'comment' => $request->variable('comment', '')));
-					echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Vous pouvez aller consulter votre commentaire <a href=annonces.php?annonce='.$current_url['annonce'].'>ici</a></p></div>');
+					echo('<div class="notification"><p><span class="icon-checkmark"></span> Vous pouvez aller consulter votre commentaire <a href=annonces.php?annonce='.$current_url['annonce'].'>ici</a></p></div>');
 				}
 			}
 		echo('</section>');
