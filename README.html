@@ -1,0 +1,39 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="installation-instructions">Installation Instructions</h1>
+<p>Please open an issue if you can&#39;t do any of these steps :</p>
+<ul>
+<li>Download phpBB version 3.1.10 <a href="https://www.phpbb.com/files/release/phpBB-3.1.10.zip">here</a></li>
+<li>Create directory <strong>{Wamp}/www/{trucfou}/forum/</strong> (for a windows WAMP setup). It&#39;s already included in gitignore so don&#39;t worry about it.</li>
+<li>Unzip <strong>phpBB-3.1.10.zip</strong> somewhere. A <strong>phpBB3</strong> directory is created. Copy all of its content in your webserver <strong>forum</strong> folder. You can delete the zip file and the phpBB3 folder, they won&#39;t be useful.</li>
+<li>Start Wamp if it&#39;s not already started.</li>
+<li>Go to <strong>{localhost}/phpmyadmin</strong> and manually create a database. Then go to the <em>import</em> tab and open <strong>trucfou.sql</strong>, then import tables. This create the necessary tables for the trucfou project :)</li>
+<li>Go to <strong>{localhost}/trucfou/forum/install/</strong> and follow the instructions. Choose :<ul>
+<li><em>localhost</em> as host</li>
+<li>the name of the database you created before</li>
+<li>leave the port empty</li>
+<li><em>root</em> as database user</li>
+<li>an empty database password.</li>
+</ul>
+</li>
+<li>Then choose a fake admin name and password for the forum admin account. The setup will then automatically create all databases tables necessary for phpBB3 !</li>
+<li>Delete the <strong>{Wamp}/www/{trucfou}/forum/install</strong> folder</li>
+<li>Create the file <strong>{Wamp}/www/{trucfou}/include/config.php</strong>, containing this :
+```
+&lt;?php
+try {
+  $bdd = new PDO( &#39;mysql:host=localhost;dbname=YOUR_DB_NAME;charset=utf8&#39;, &#39;root&#39;, &#39;&#39;);
+}</li>
+</ul>
+<p>catch (Exception $e) {
+        die(&#39;Erreur : &#39; . $e-&gt;getMessage());
+} ?&gt;
+```</p>
+<p>You&#39;re officialy ready to go !</p>
+
+      </body>
+    </html>

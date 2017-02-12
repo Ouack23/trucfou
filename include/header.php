@@ -1,3 +1,5 @@
 <header>
-	<!-- WARNING : if you add content in this header, the style.css has to be modified in order to display it (currently hidden) -->
+	<div class="header-logo">
+		<h1>Truc de fou<span>Parce que merde trouvez un nom</span></h1>
+	</div>
 </header>

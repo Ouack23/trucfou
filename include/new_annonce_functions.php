@@ -2,9 +2,8 @@
 include_once("utils.php");
 
 function print_form_new_offer($params, $sort_array, $action) {
-	echo('
-		<div class="flex-container">
-			<div class="box posting-form">
+	echo('<div class="flex-container">
+			<div class="posting-form">
 				<form accept-charset="utf-8" action="#form" method="post" name="form" id="form">
 					<p class="form">
 					<label for="lieu">Lieu :</label><input type="text" name="lieu" id="lieu" value="'.$params['lieu'].'"/><br />

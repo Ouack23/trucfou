@@ -1,0 +1,105 @@
+table {
+	border-collapse: collapse;
+	text-align: center;
+	@extend %margin-auto;
+	border-bottom: 4px solid $secondary-color;
+	color: $text-color;
+	overflow-x: auto;
+
+	th {
+		font-size: 1em !important;
+		background-color: $secondary-color;
+		color: $bg-color;
+		padding: 8px;
+		@extend %uppercase;
+		font-weight: 600 !important;
+
+		a, span.simili-link {
+			color: $bg-color !important;
+			font-weight: 600 !important;
+
+			&:before, &:after {
+				background: $bg-color !important;
+			}
+		}
+	}
+
+	.top th {
+		font-size: 1.3em;
+	}
+
+	tr {
+
+		&:nth-child(even) {
+			background-color: $field-color;
+		}
+
+		&:nth-child(odd) {
+			background-color: lighten($field-color, 10);
+		}
+	}
+
+	td {
+		margin: 10px;
+		padding: 5px;
+
+		a, span.simili-link {
+			@extend %uppercase;
+			font-size: 0.9em;
+			font-weight: normal !important;
+			color: $secondary-color;
+
+			&:before, &:after {
+				background-color: $secondary-color;
+			}
+		}
+	}
+}
+
+.offer-vote {
+	text-align: center;
+}
+
+#change-note {
+	margin: 10px 20px;
+}
+
+.habit0 {
+	background-color: rgba(255, 0, 0, 0.8);
+}
+
+.habit1 {
+	background-color: rgba(255, 69, 0, 0.8);
+}
+
+.habit2 {
+	background-color: rgba(255, 165, 0, 0.8);
+}
+
+.habit3 {
+	background-color: rgba(255, 215, 0, 0.8);
+}
+
+.habit4 {
+	background-color: rgba(50, 205, 50, 0.8);
+}
+
+.habit5 {
+	background-color: rgba(173, 255, 47, 0.8);
+}
+
+.unknown, .unnoted {
+	background-color: rgba(darken($field-color, 40), 0.2) !important;
+}
+
+tr.unavailable {
+	background-color: rgba(darken($field-color, 30), 0.3) !important;
+}
+
+.unavailable td a {
+	color: darken($primary-color, 10);
+}
+
+.unavailable td a:before, .unavailable td a:after {
+	background-color: darken($primary-color, 10);
+}

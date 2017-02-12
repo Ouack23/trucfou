@@ -6,36 +6,42 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	$inf_sup_array = ['sup' => 'Supérieur à', 'inf' => 'Inférieur à'];
 	
-	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce">');
-	echo('<p><label for="sort_date">Date</label><span class="select-wrapper"><select id="sort_date" name="sort_date">');
+	echo('<div class="box">
+			<div class="box-header">
+				<h2>Filtres</h2>
+			</div>
+			<div class="box-content">');
+	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce"><div class="filters">');
+	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
 	echo('>Avant</option>');
 	echo('<option value="after"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'after') echo ' selected';
 	echo('>Après</option>');
-	echo('</select></span>');
+	echo('</select>');
 	
 	echo('<input type="text" name="value_date" id="datepicker" value="');
 	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
 	else echo($sort_array['value_date'].'"/>');
+	echo('</div>');
 	
 	if($current_page == 'annonces.php') {
-		echo('<label for="sort_auteur">Auteur</label>');
-		echo('<span class="select-wrapper"><select id="sort_auteur" name="sort_auteur">');
+		echo('<div class="filter-group"><label for="sort_auteur">Auteur</label>');
+		echo('<select id="sort_auteur" name="sort_auteur">');
 		print_liste('auteur');
-		echo('</select></span>');
+		echo('</select></div>');
 	}
 	
-	echo('<label for="sort_lieu">Lieu</label>');
-	echo('<span class="select-wrapper"><select id="sort_lieu" name="sort_lieu">');
+	echo('<div class="filter-group"><label for="sort_lieu">Lieu</label>');
+	echo('<select id="sort_lieu" name="sort_lieu">');
 	print_liste('lieu');
-	echo('</select></span>');
+	echo('</select></div>');
 	
-	echo('<label for="sort_departement">Département</label>');
-	echo('<span class="select-wrapper"><select id="sort_departement" name="sort_departement">');
+	echo('<div class="filter-group"><label for="sort_departement">Département</label>');
+	echo('<select id="sort_departement" name="sort_departement">');
 	print_liste('departement');
-	echo('</select></span>');
+	echo('</select></div>');
 	
 	$get_max = $bdd->query('SELECT MAX(superf_h) AS superf_h, MAX(superf_t) AS superf_t, MAX(time) AS time, MAX(price) AS price, MAX(distance) AS distance FROM annonces');
 	$max = $get_max->fetch();
@@ -51,10 +57,11 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	print_option_select($inf_sup_array, 'price', 'Prix', $sort_array['min_price'], $max['price'], 10);
 	print_option_select($inf_sup_array, 'note', 'Note', $sort_array['min_note'], $sort_array['max_note'], 1);
 	
-	echo('<label for="print_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /><br />');
+	echo('<div class="filter-group"><label for="hide_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /></div></div>');
 	
-	echo('<input type="submit" name="sort" id="sort" value="Valider" /></p>');
+	echo('<br /><span class="submit-container"><input type="submit" name="sort" id="sort" value="Valider" /></span></p>');
 	echo('</form>');
+	echo('</div></div>');
 }
 
 function print_all_annonces($current_page, $current_url, $sort_array) {
@@ -87,7 +94,7 @@ function print_all_annonces($current_page, $current_url, $sort_array) {
 	
 	sort_print_annonces($reponse_query, $current_page, $current_url, $sort_array, $what);
 	
-	echo('</table></div>');
+	echo('</table></div></div></div>');
 }
 
 function print_comments_annonce($current_page, $current_url, $sort_array) {
@@ -103,9 +110,6 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 	
 	print_single_annonce($current_page, $current_url, $sort_array);
 
-	echo('<div class="flex-container">
-					<div class="box posting-form">');
-
 	print_notation($current_url['annonce']);
 
 	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
@@ -116,14 +120,14 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 	if($donnees != NULL) {
 		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
 
-		echo('<h1>Commentaires</h1>');
+		echo('<h3>Commentaires</h3>');
 
 		do {
 			echo('
-				<div class="comment">
-					<ul class="comment-titre">
-						<li class="comment-quand"><i class="fa fa-clock-o fa-fw"></i> '.$donnees['date'].'</li>
-						<li class="comment-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">'.$donnees['auteur'].'</span></li>
+				<div class="block">
+					<ul class="block-titre">
+						<li class="block-quand"><span class="icon-clock"></span> '.$donnees['date'].'</li>
+						<li class="block-quoi"><span class="icon-user"></span> Par <span class="block-author">'.$donnees['auteur'].'</span></li>
 					</ul>
 
 					<p>'.$donnees['comment'].'</p>
@@ -142,6 +146,7 @@ function print_comments_annonce($current_page, $current_url, $sort_array) {
 		</form>
 	');
 
+	echo('</div>');
 	echo('</div></div>');
 
 	$reponse->closeCursor();
@@ -215,6 +220,8 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 		}
 	}
 	
-	echo('</table></div>');
+	echo('</table></div></div>');
+
+	echo('</div></div>');
 }
 ?>

@@ -12,11 +12,10 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Un projet de malade - annonces</title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<script src="include/functions.js"></script>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -24,10 +23,14 @@
 	<body>
 		<?php add_header(); ?>
 		<section id="main">
+			<h1 class="page-title">Annonces</h1>
+
 			<?php
 			if(!$user->data['is_registered']) include('include/not_registered.php');
 			
 			else {
+
+				echo('<div class="flex-container flex-column">');
 				secure_get();
 				$current_page = 'annonces.php';
 				
@@ -39,6 +42,8 @@
 					print_comments_annonce($current_page, $current_url, $sort_array);
 				
 				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
+
+				echo('</div>');
 			} ?>
 		</section>
 		<?php add_footer(); ?>

@@ -1,0 +1,62 @@
+@import 'variables';
+@import 'icons';
+
+#login-frame {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	z-index: 10;
+	display: none;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+.login-box {
+	width: 350px;
+	height: 300px;
+	margin: 15% auto;
+	background-color: $well-color;
+
+	form {
+		margin: 0;
+		padding: 0;
+		text-align: center;
+
+		label, input {
+			display: inline-block;
+			vertical-align: middle;
+			width: auto;
+		}
+
+		input {
+			margin: 10px;
+			padding: 10px 10px;
+		}
+
+		label {
+			text-align: center;
+			margin-right: -10px;
+			background-color: darken($secondary-color, 5);
+			font-weight: bold;
+			font-size: 1em;
+			padding: 10.5px;
+			border-bottom: 3px solid $secondary-color;
+			@include border-left-radius($small-radius);
+		}
+
+		.login-icons {
+			padding-right: 0;
+			width: 0;
+			height: 1em;
+			margin: 0 auto;
+			color: $well-color;
+		}
+
+		.login-icons.icon-lock:before {
+			margin-right: -3px;
+			margin-left: 3px;
+		}
+	}
+}

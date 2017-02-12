@@ -1,17 +1,17 @@
 <?php
-	include_once('include/phpBB.php');
-	include_once('include/new_annonce_functions.php');
-	include_once('include/config.php');
-	include_once('include/header_footer.php');
+include_once('include/phpBB.php');
+include_once('include/new_annonce_functions.php');
+include_once('include/config.php');
+include_once('include/header_footer.php');
 ?>
+
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
@@ -63,11 +63,11 @@
 								$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $param_array['note']));
 								$req_note->closeCursor();
 									
-								echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> L\'annonce a bien été ajoutée, bien joué !</p></div>');
+								echo('<div class="notification"><p><span class="icon-checkmark"></span> L\'annonce a bien été ajoutée, bien joué !</p></div>');
 							}
 						
 							else {
-								echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Au moins une erreur est survenue</p></div>');
+								echo('<div class="notification"><p><span class="icon-cross"></span> Au moins une erreur est survenue</p></div>');
 								print_form_new_offer($param_array, $sort_array, $action);
 							}
 						}
@@ -139,26 +139,26 @@
 												$update_note->closeCursor();
 											}
 											
-											echo('<div class="box msg-box"><p><i class="success fa fa-check fa-fw"></i> Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p></div>');
+											echo('<div class="notification"><p><span class="icon-checkmark"></span> Les changements ont bien été apportés à l\'annonce '.$annonce_id.'</p></div>');
 										}
 										
-										else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Aucun changement apporté à l\'annonce !</p></div>');
+										else echo('<div class="notification"><p><span class="icon-cross"></span> Aucun changement apporté à l\'annonce !</p></div>');
 									}
 								}
 								
-								else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p></div>');
+								else echo('<div class="notification"><p><span class="icon-cross"></span> Tu ne peux pas modifier une annonce qui ne t\'appartient pas !</p></div>');
 								
 								$get_annonce->closeCursor();
 							}
 							
-							else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Cette annonce n\'existe pas ou plus !</p></div>');
+							else echo('<div class="notification"><p><span class="icon-cross"></span> Cette annonce n\'existe pas ou plus !</p></div>');
 						}
 						
-						else echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Pas d\'annonce à modifier !</p></div>');
+						else echo('<div class="notification"><p><span class="icon-cross"></span> Pas d\'annonce à modifier !</p></div>');
 					break;
 					
 					default:
-						echo('<div class="box msg-box"><p><i class="error fa fa-cross fa-fw"></i> Mauvaise valeur de action dans l\'url.</p></div>');
+						echo('<div class="notification"><p><span class="icon-cross"></span> Mauvaise valeur de action dans l\'url.</p></div>');
 					break;
 				}
 			} ?>
