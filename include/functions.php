@@ -348,7 +348,7 @@ function sort_print_annonces($reponse_query, $current_page, $current_url, $sort_
 			$array_comments = [];
 			
 			while($list = $list_all_annonces->fetch()) {
-				$array_comments[$list['id']] = get_comments($list['id']);
+				$array_comments[$list['id']] = get_number_of_comments($list['id']);
 			}
 			
 			if($current_url['reverse'] == 'false') uasort($array_comments, 'cmp');
@@ -457,7 +457,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			if($note == 10) echo('<td class="unnoted"> - </td>');
 			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			
-			echo('<td>'.get_comments($donnees['id']).'</td>');
+			echo('<td>'.get_number_of_comments($donnees['id']).'</td>');
 			
 			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 				
@@ -553,7 +553,7 @@ function print_data($donnees, $current_page, $current_url, $sort_array, $what) {
 			if($note == 10) echo('<td class="unnoted"> - </td>');
 			else echo('<td class="habit'.floor($note).'">'.$note.'</td>');
 			
-			echo('<td>'.get_comments($donnees['id']).'</td>');
+			echo('<td>'.get_number_of_comments($donnees['id']).'</td>');
 			
 			echo('<td><a href="'.$donnees['link'].'" target="_blank">Annonce</a></td>');
 			
@@ -632,30 +632,6 @@ function print_liste($what) {
 	}
 	
 	else echo('<p class="error">la fonction print_list($what) a été appelée avec un mauvais paramètre</p>');
-}
-
-function get_comments($annonce) {
-	global $bdd;
-	
-	$int_annonce = intval($annonce);
-	
-	$get_comments = $bdd->query('SELECT * FROM comments WHERE annonce = '.$int_annonce.'');
-	$nb_comments = 0;
-	
-	if($get_comments) {
-		while($comments = $get_comments->fetch()) {
-			$nb_comments = $nb_comments + 1;
-		}
-	
-		$get_comments->closeCursor();
-	}
-	
-	else {
-		echo('<p class="error">Invalid annonce value in get_comments()</p>');
-		return -1;
-	}
-	
-	return $nb_comments;
 }
 
 function print_available($annonce) {

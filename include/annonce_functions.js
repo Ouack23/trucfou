@@ -105,13 +105,38 @@ function showDetails(elementSource) {
                 }
             }
 
+            // list all comments
+            var com_section = document.getElementsByClassName("comments_section")[0];
+
+            com_section.innerHTML = data["comments"].length > 0 ? "<h3>Commentaires<h3>" : "<h3>Pas de commentaires<h3>";
+
+            for (var comment_id = 0; comment_id < data["comments"].length ; comment_id++) {
+                var com_date = data["comments"][comment_id]["date"];
+                var com_author = data["comments"][comment_id]["auteur"];
+                var com_text = data["comments"][comment_id]["comment"];
+
+                var com_block = document.createElement("div");
+                com_block.setAttribute("class", "comment");
+                com_block.innerHTML = `
+                        <ul class="comment-titre">
+                            <li class="comment-quand"><i class="fa fa-clock-o fa-fw"></i>` + com_date + `</li>
+                            <li class="comment-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">` + com_author + `</span></li>
+                        </ul>
+
+                        <p>`+com_text+`</p>
+                `
+                
+                com_section.appendChild(com_block);
+            }
+
+
             // set comment button
             var btn = document.getElementsByClassName("newCommentBtn")[0];
             btn.setAttribute("action", "new_comment.php?annonce="+data["id"]);
         }
     };
 
-    xmlhttp.open("GET", "include/annonce_details.php?q=" + elementSource.id, true);
+    xmlhttp.open("GET", "include/annonce_details.php?id=" + elementSource.id, true);
     xmlhttp.send();
 
 }

@@ -40,6 +40,7 @@
 				$i = 0;
 				while($annonce = $annonces_reponse_query->fetch()) {
 					$annonce["note"] = get_note($annonce["id"]);
+					$annonce["comments"] = get_number_of_comments($annonce["id"]);
 					$annonces[$i] = $annonce;
 					$i++;
 				}
@@ -60,7 +61,7 @@
 							'note' 		=> 'Note',
 							'link' 		=> 'Lien',
 							'details'	=> 'Details',
-//							'comments' 	=> 'Comms'
+							'comments' 	=> 'Comms'
 							];
 
 				// keys and values matters: used to get the elements in filter method
@@ -101,7 +102,7 @@
 				<form>
 					<input class="warning-button" value="Déclarer indisponible" type="button" name="unavailable">
 				</form>
-				<h3>No comments for now !</h3>
+				<div class="comments_section"><h3>No comments for now !</h3></div>
 				<form class="newCommentBtn" method="post">
 					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>
 				</form>

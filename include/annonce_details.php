@@ -9,8 +9,11 @@
 	include_once("config.php");
 	include_once("database_getters.php");
 
-	$q = $_REQUEST["q"];
-	$note = get_note($q);
+	$annonce_id = $_REQUEST["id"];
+	$note = get_note($annonce_id);
+	$comments = get_comments($annonce_id);
 
-	echo json_encode(array("id" => $q, "note" => $note));
+	echo json_encode(array(	"id" => $annonce_id, "note" => $note
+						, "comments" => $comments
+						 ));
 ?>
