@@ -6,8 +6,8 @@
 	include($phpbb_root_path . 'common.' . $phpEx);
 	global $user, $auth, $phpbb_root_path, $phpEx;
 
-	include_once("config.php");
-	include_once("database_getters.php");
+	include_once("../config.php");
+	include_once("../database_getters.php");
 
 	$annonce_id = $_REQUEST["id"];
 	$note = get_note($annonce_id);

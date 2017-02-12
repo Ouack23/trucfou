@@ -91,7 +91,7 @@ function unavailable() {
         }
     }
 
-    xmlhttp.open("GET", "include/unavailable_annonce.php?id=" + id, true);
+    xmlhttp.open("GET", "include/Ajax/unavailable_annonce.php?id=" + id, true);
     xmlhttp.send();
 }
 
@@ -170,7 +170,7 @@ function showDetails(elementSource) {
         }
     };
 
-    xmlhttp.open("GET", "include/annonce_details.php?id=" + elementSource.id, true);
+    xmlhttp.open("GET", "include/Ajax/annonce_details.php?id=" + elementSource.id, true);
     xmlhttp.send();
 
 }

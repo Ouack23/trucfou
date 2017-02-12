@@ -14,8 +14,8 @@
 		<link rel="stylesheet" href="include/xbbcode.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script src="include/xbbcode.js"></script>
-		<script src="include/functions.js"></script>
+		<script src="include/javascript/xbbcode.js"></script>
+		<script src="include/javascript/functions.js"></script>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
