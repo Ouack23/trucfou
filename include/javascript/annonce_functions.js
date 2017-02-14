@@ -110,8 +110,18 @@ function showDetails(elementSource) {
             box.setAttribute("style", 'display="inline-block"');
 
             // set title
-            var title = document.getElementsByClassName("detailsNumber")[0];
-            title.innerText = data["id"];
+            var title = document.getElementsByClassName("details_number")[0];
+            title.innerText = "Détails de l'annonce " + data["id"];
+
+            // reminder
+            var table_reminder = document.getElementsByClassName("table-reminder")[0];
+            while(table_reminder.firstChild) {
+                table_reminder.removeChild(table_reminder.firstChild);
+            }
+            var table_header = document.getElementsByClassName("table-header")[0].cloneNode(true);
+            table_reminder.appendChild(table_header);
+            var table_row = elementSource.parentNode.cloneNode(true);
+            table_reminder.appendChild(table_row);
 
             // Set note comboBox
             var sel = document.getElementsByClassName("userNote")[0];
@@ -142,10 +152,15 @@ function showDetails(elementSource) {
             var authorActions = document.getElementsByClassName("author-element")[0];
             authorActions.style.display = "none";
 
-            // list all comments
-            var com_section = document.getElementsByClassName("comments_section")[0];
+            // set comment button
+            var add_comment_btn = document.getElementsByClassName("new_comment_btn")[0];
+            add_comment_btn.setAttribute("action", "new_comment.php?annonce="+data["id"]);
 
-            com_section.innerHTML = data["comments"].length > 0 ? "<h3>Commentaires<h3>" : "<h3>Pas de commentaires<h3>";
+            // list all comments
+            var comment_title = document.getElementsByClassName("comment_title")[0];
+            comment_title.innerText = data["comments"].length > 0 ? "Commentaires" : "Pas de commentaires";
+
+            var box_content = document.getElementsByClassName("table")[0];
 
             for (var comment_id = 0; comment_id < data["comments"].length ; comment_id++) {
                 var com_date = data["comments"][comment_id]["date"];
@@ -153,24 +168,19 @@ function showDetails(elementSource) {
                 var com_text = data["comments"][comment_id]["comment"];
 
                 var com_block = document.createElement("div");
-                com_block.setAttribute("class", "comment");
+                com_block.setAttribute("class", "block");
                 com_block.innerHTML = `
-                        <div class="block">
                             <ul class="block-titre">
                                 <li class="block-quand"><i class="fa fa-clock-o fa-fw"></i>` + com_date + `</li>
                                 <li class="block-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">` + com_author + `</span></li>
                             </ul>
                             <p>`+com_text+`</p>
-                        </div>
                 `
                 
-                com_section.appendChild(com_block);
+                box_content.insertBefore(com_block, add_comment_btn);
             }
 
 
-            // set comment button
-            var btn = document.getElementsByClassName("newCommentBtn")[0];
-            btn.setAttribute("action", "new_comment.php?annonce="+data["id"]);
         }
     };
 
@@ -187,8 +197,8 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
 	//remove old table
 	var oldTable = document.getElementById("annonces-table");
     if(oldTable != null) {
-        while(oldTable.childNodes[0] != null) {
-            oldTable.removeChild(oldTable.childNodes[0]);
+        while(oldTable.firstChild != null) {
+            oldTable.removeChild(oldTable.firstChild);
         }
     }
 
@@ -212,6 +222,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
     	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters, reverse);} );
     	tr.appendChild(th);
     }
+    tr.setAttribute("class", "table-header");
 
     // filter array
     var filtered_annonces = filterJSON(liste_annonces, filters, columns);
