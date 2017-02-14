@@ -161,6 +161,10 @@ function showDetails(elementSource) {
             comment_title.innerText = data["comments"].length > 0 ? "Commentaires" : "Pas de commentaires";
 
             var box_content = document.getElementsByClassName("table")[0];
+            var old_comments = box_content.getElementsByClassName("block");
+            while(old_comments[0]) {
+                old_comments[0].parentNode.removeChild(old_comments[0]);
+            }
 
             for (var comment_id = 0; comment_id < data["comments"].length ; comment_id++) {
                 var com_date = data["comments"][comment_id]["date"];

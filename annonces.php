@@ -93,7 +93,7 @@
 					<div>table des annonces</div>
 				</div>
 			</div>
-			
+
 			<?php include_once("include/details.php"); ?>
 			<script>
 				function generateTable(sortColumn) {
@@ -119,8 +119,6 @@
 				generateTable("id");
 			</script>
 			<?php
-				if ($current_url['annonce'] != 0 && $current_url['comments'] == 'true')
-					print_comments_annonce($current_page, $current_url, $sort_array);
 				
 				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
 

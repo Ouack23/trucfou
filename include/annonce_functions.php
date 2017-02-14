@@ -1,6 +1,7 @@
 <?php
 include_once("functions.php");
 include_once("utils.php");
+
 function print_sort_form($current_page, $current_url, $sort_array) {
 	global $user, $bdd;
 	
@@ -63,62 +64,6 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	echo('</form>');
 	echo('</div></div>');
 }
-
-function print_comments_annonce($current_page, $current_url, $sort_array) {
-	global $bdd, $user;
-	
-	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
-	
-	if($current_url['reverseComments'] == 'true')
-		$reponse_query .= ' DESC';
-			
-	$reponse = $bdd->query($reponse_query);
-	$donnees = $reponse->fetch();
-	
-	print_single_annonce($current_page, $current_url, $sort_array);
-
-	print_notation($current_url['annonce']);
-
-	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
-
-	print_available($current_url['annonce']);
-	
-	
-	if($donnees != NULL) {
-		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
-
-		echo('<h3>Commentaires</h3>');
-
-		do {
-			echo('
-				<div class="block">
-					<ul class="block-titre">
-						<li class="block-quand"><span class="icon-clock"></span> '.$donnees['date'].'</li>
-						<li class="block-quoi"><span class="icon-user"></span> Par <span class="block-author">'.$donnees['auteur'].'</span></li>
-					</ul>
-
-					<p>'.$donnees['comment'].'</p>
-				</div>
-			');
-		} while ($donnees = $reponse->fetch());
-	}
-	
-	else {
-		echo('<h3 id="comments">Pas de commentaire pour cette annonce !</h3>');
-	}
-
-	echo('
-		<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post">
-			<p class="center"><input type="submit" name="new_comment" value="Nouveau commentaire" /></p>
-		</form>
-	');
-
-	echo('</div>');
-	echo('</div></div>');
-
-	$reponse->closeCursor();
-}
-
 
 function print_statistics($current_page, $current_url, $sort_array, $what) {
 	global $bdd;
