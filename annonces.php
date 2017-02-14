@@ -84,7 +84,16 @@
 							];
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>
-			<h1 id="annonceTitle"> Annonces </h1>
+
+			<div class="box">
+				<div class="box-header">
+					<h2 class="annonce-title">Annonces</h2>
+				</div>
+				<div class="box-content" id="annonces-table">
+					<div>table des annonces</div>
+				</div>
+			</div>
+			
 			<?php include_once("include/details.php"); ?>
 			<script>
 				function generateTable(sortColumn) {
@@ -95,7 +104,7 @@
 
 			        // look for the currently selected column. Used when we ask for sorting
 			        if(sortColumn == undefined) {
-			        	var table = document.getElementById("annoncesArray");
+			        	var table = document.getElementById("annonces-table");
 			        	var headers = table.getElementsByTagName("th");
 			        	for(var i = 0; i < headers.length; i++) {
 			        		if(headers[i].getAttribute("type") == "sorted") {

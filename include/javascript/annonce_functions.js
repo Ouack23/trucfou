@@ -106,6 +106,9 @@ function showDetails(elementSource) {
             var stringData = this.response;
             var data = JSON.parse(stringData);
 
+            var box = document.getElementById("annonce_details");
+            box.setAttribute("style", 'display="inline-block"');
+
             // set title
             var title = document.getElementsByClassName("detailsNumber")[0];
             title.innerText = data["id"];
@@ -152,12 +155,13 @@ function showDetails(elementSource) {
                 var com_block = document.createElement("div");
                 com_block.setAttribute("class", "comment");
                 com_block.innerHTML = `
-                        <ul class="comment-titre">
-                            <li class="comment-quand"><i class="fa fa-clock-o fa-fw"></i>` + com_date + `</li>
-                            <li class="comment-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">` + com_author + `</span></li>
-                        </ul>
-
-                        <p>`+com_text+`</p>
+                        <div class="block">
+                            <ul class="block-titre">
+                                <li class="block-quand"><i class="fa fa-clock-o fa-fw"></i>` + com_date + `</li>
+                                <li class="block-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">` + com_author + `</span></li>
+                            </ul>
+                            <p>`+com_text+`</p>
+                        </div>
                 `
                 
                 com_section.appendChild(com_block);
@@ -181,16 +185,16 @@ function showDetails(elementSource) {
 function createTable(sortColumn, reverse, liste_annonces, columns, filters){
 
 	//remove old table
-	var oldTable = document.getElementById("annoncesArray");
-	if(oldTable != null) {
-		oldTable.parentNode.removeChild(oldTable);
-	}
+	var oldTable = document.getElementById("annonces-table");
+    if(oldTable != null) {
+        while(oldTable.childNodes[0] != null) {
+            oldTable.removeChild(oldTable.childNodes[0]);
+        }
+    }
 
 	// create DOM elements and json lists.
-    var annonceTitle = document.getElementById("annonceTitle"),
+    var annonces_box = document.getElementById("annonces-table"),
         tbl  = document.createElement('table');
-
-	tbl.id = "annoncesArray";
 
 	// generate table header.
     var tr = tbl.insertRow();
@@ -264,5 +268,5 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
         }
 
     }
-    annonceTitle.appendChild(tbl);
+    annonces_box.appendChild(tbl);
 }
