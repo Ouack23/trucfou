@@ -970,13 +970,13 @@ label, input, textarea, select {
 
 input, textarea, select {
   padding: 10px;
-  background-color: #3d4040;
+  background-color: #565a5a;
   color: #1f2121;
   border: none;
-  border-bottom: 3px solid #303333;
+  border-bottom: 3px solid #494d4d;
   transition: all 300ms ease; }
   input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:focus {
-    background-color: #565a5a;
+    background-color: #6e7575;
     border-bottom: 3px solid #3fb0ac; }
 
 label {
@@ -1027,7 +1027,7 @@ input[type=range] {
 input[type=range]::-moz-range-track {
   height: 8px;
   border: none;
-  background: #3d4040;
+  background: #565a5a;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -1041,7 +1041,7 @@ input[type=range]::-moz-range-thumb {
   background: #3fb0ac; }
 
 input[type=range]:focus::-moz-range-track {
-  background: #565a5a; }
+  background: #6e7575; }
 
 input[type=submit].warning-button {
   background: #df6932; }
@@ -1176,7 +1176,7 @@ table {
   background-color: rgba(0, 0, 0, 0.2) !important; }
 
 tr.unavailable {
-  background-color: rgba(136, 142, 142, 0.3) !important; }
+  background-color: rgba(162, 167, 167, 0.3) !important; }
 
 .unavailable td a {
   color: #7d36e5; }
