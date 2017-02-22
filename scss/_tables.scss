@@ -31,11 +31,11 @@ table {
 	tr {
 
 		&:nth-child(even) {
-			background-color: $field-color;
+			background-color: $table-even-color;
 		}
 
 		&:nth-child(odd) {
-			background-color: lighten($field-color, 10);
+			background-color: $table-odd-color;
 		}
 	}
 
@@ -62,6 +62,10 @@ table {
 
 #change-note {
 	margin: 10px 20px;
+}
+
+[class^="habit"], [class*=" habit"] {
+	color: $bg-color;
 }
 
 .habit0 {
@@ -93,7 +97,7 @@ table {
 }
 
 tr.unavailable {
-	background-color: rgba(darken($field-color, 30), 0.3) !important;
+	background-color: rgba(lighten($field-color, 30), 0.3) !important;
 }
 
 .unavailable td a {

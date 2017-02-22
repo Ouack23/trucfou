@@ -16,6 +16,14 @@
 	}
 }
 
+%margin-top {
+	margin-top: $margin;
+
+	@media all and (max-width: $margin-breakpoint) {
+		margin-top: $margin-reduced;
+	}
+}
+
 %margin-bottom {
 	margin-bottom: $margin;
 
@@ -119,4 +127,5 @@
 %uppercase {
 	text-transform: uppercase;
 	font-family: 'Source Sans Pro';
+	letter-spacing: 0.03em;
 }

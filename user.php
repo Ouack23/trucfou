@@ -10,11 +10,7 @@ include_once("include/phpBB.php");
 		<meta charset="utf-8" />
 		<title>Un projet de malade - <?php echo($user->data['username']); ?></title>
 		<link rel="stylesheet" href="css/style.css" />
-		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="include/sticky.js"></script>
-		<script src="include/functions.js"></script>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="css/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
@@ -37,5 +33,7 @@ include_once("include/phpBB.php");
 			} ?>
 		</section>
 		<?php add_footer(); ?>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/functions.js"></script>
 	</body>
 </html>

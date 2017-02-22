@@ -6,54 +6,67 @@ nav {
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	background-color: $primary-color-darker2;
+	background-color: $nav-color;
     font-weight: bold;
     text-align: center;
-}
+    transition: background-color 100ms ease;
 
-/* Responsive */
-@media all and (max-width: $tablet) {
+    @media all and (max-width: $tablet) {
+    	position: relative !important;
+    }
 
-	nav {
-		position: relative !important;
+    ul {
+	    margin: 0;
+		padding: 0;
+		@extend %menu-height;
+
+		li { 
+			margin: 0;
+			padding: 0;
+			display: inline-block;
+
+			@media all and (max-width: $menu-block-break) {
+				display: block;
+		    }
+
+			a, .connexion-link {
+				@extend %uppercase;
+				font-weight: normal;
+				font-size: 1.2em;
+				text-decoration: none;
+			    color: $nav-link-color;
+			    display: block;
+			    padding: 0 12px;
+			    @extend %menu-height;
+			    background: transparent;
+			    transition: all 300ms ease;
+
+			    &:hover {
+			    	color: $nav-link-hover-color;
+			    	box-shadow: inset 0px -2px 0px 0px $secondary-color;
+
+			    	@media all and (max-width: $menu-block-break) {
+						box-shadow: inset 2px 0px 0px 0px $secondary-color;
+						background-color: $bg-color;
+				    }
+			    }
+			}
+		}
 	}
 }
 
-nav ul {
-    margin: 0;
-	padding: 0;
-	@extend %menu-height;
-}
+.is-sticky nav {
 
-nav ul li { 
-	margin: 0;
-	padding: 0;
-	display: inline-block;
-}
+	@media all and (min-width: $tablet) {
 
-nav ul li a, nav ul .connexion-link {
-	@extend %uppercase;
-	font-weight: normal;
-	font-size: 1.2em;
-	text-decoration: none;
-    color: $primary-color;
-    display: block;
-    padding: 0 12px;
-    @extend %menu-height;
-    background: transparent;
-    transition: all 300ms ease;
-    cursor: default;
-}
+		background-color: $nav-color-stick;
 
-/* Responsive */
-@media all and (max-width: $mobile) {
+		a, .connexion-link {
 
-	nav ul li, nav ul li a {
-		display: block;
-	}
-}
-
-nav ul li a:hover, nav ul .connexion-link:hover {
-	// background-color: $primary-color-darker;
-	color: $well-color;
+			&:hover {
+				background-color: $bg-color;
+				box-shadow: inset 0px 3px 0px 0px $secondary-color;
+			}
+		}
+    }
 }
