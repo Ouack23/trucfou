@@ -17,12 +17,12 @@ function sortJSONTable(jsonArray, sortKey){
 // --------------------------------------------------------
 // Callback method to call createTable on click on column header
 // -------------------------------------------------------- 
-function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse) {
+function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse, user_name) {
 
 	reverse = element.getAttribute("type") == "sorted" && !reverse;
 
 	// create new table.
-	createTable(element.id, reverse, liste_annonces, columns, filters);
+	createTable(element.id, reverse, liste_annonces, columns, filters, user_name);
 }
 
 // --------------------------------------------------------
@@ -80,7 +80,7 @@ function filterJSON(inputArray, filters, columns) {
 // unavailable
 // -------------------------------------------------------- 
 function unavailable() {
-    var id = document.getElementsByClassName("detailsNumber")[0].innerText;
+    var id = document.getElementsByClassName("details_number")[0].innerText;
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -96,9 +96,34 @@ function unavailable() {
 }
 
 // --------------------------------------------------------
+// vote
+// --------------------------------------------------------
+function vote() {
+    var id = document.getElementsByClassName("details_number")[0].innerText;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(this.response);
+        }
+    }
+
+    var combobox = document.getElementsByClassName("user_note")[0];
+    var options = combobox.getElementsByTagName("option");
+    var note = options[combobox.selectedIndex].getAttribute("value");
+
+    var url = "include/Ajax/vote.php?id=" + id
+                + "&note=" + note
+                + "&author=" + user_name;
+
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
+// --------------------------------------------------------
 // AJAX method to show details
 // -------------------------------------------------------- 
-function showDetails(elementSource) {
+function showDetails(elementSource, user_name) {
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -111,7 +136,7 @@ function showDetails(elementSource) {
 
             // set title
             var title = document.getElementsByClassName("details_number")[0];
-            title.innerText = "Détails de l'annonce " + data["id"];
+            title.innerText = data["id"];
 
             // reminder
             var table_reminder = document.getElementsByClassName("table-reminder")[0];
@@ -124,7 +149,7 @@ function showDetails(elementSource) {
             table_reminder.appendChild(table_row);
 
             // Set note comboBox
-            var sel = document.getElementsByClassName("userNote")[0];
+            var sel = document.getElementsByClassName("user_note")[0];
             var options = sel.getElementsByTagName("option");
             var i = options.length;
 
@@ -188,7 +213,10 @@ function showDetails(elementSource) {
         }
     };
 
-    xmlhttp.open("GET", "include/Ajax/annonce_details.php?id=" + elementSource.id, true);
+    var url = "include/Ajax/annonce_details.php?id=" + elementSource.id
+                + "&username=" + user_name;
+
+    xmlhttp.open("GET", url, true);
     xmlhttp.send();
 
 }
@@ -196,7 +224,7 @@ function showDetails(elementSource) {
 // --------------------------------------------------------
 // create a sorted and filtered table
 // -------------------------------------------------------- 
-function createTable(sortColumn, reverse, liste_annonces, columns, filters){
+function createTable(sortColumn, reverse, liste_annonces, columns, filters, user_name){
 
 	//remove old table
 	var oldTable = document.getElementById("annonces-table");
@@ -223,7 +251,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
 			sortingCriteria = "sorted";
     	}
     	th.setAttribute("type", sortingCriteria);
-    	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters, reverse);} );
+    	th.addEventListener("click", function() {onClickOnTableHeader(this, liste_annonces, columns, filters, reverse, user_name);} );
     	tr.appendChild(th);
     }
     tr.setAttribute("class", "table-header");
@@ -259,7 +287,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters){
                 detailsSpan.appendChild(document.createTextNode("Details"));
                 detailsSpan.setAttribute("class", "simili-link");
                 td.appendChild(detailsSpan);
-                td.addEventListener("click", function() {showDetails(this); });
+                td.addEventListener("click", function() {showDetails(this, user_name); });
                 td.id = row["id"];
             }
             else if (col.startsWith("superf") && row[col] == 1) {

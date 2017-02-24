@@ -96,11 +96,12 @@
 
 			<?php include_once("include/details.php"); ?>
 			<script>
+		        var columns = <?php echo json_encode($columns) ?>,
+			        filters = <?php echo json_encode($filters) ?>,
+			        user_name = <?php echo json_encode($user->data["username"]) ?>;
+				
 				function generateTable(sortColumn) {
-
-			        var liste_annonces = <?php echo json_encode($annonces)?>,
-				        columns = <?php echo json_encode($columns) ?>,
-				        filters = <?php echo json_encode($filters) ?>;
+			        var liste_annonces = <?php echo json_encode($annonces)?>;
 
 			        // look for the currently selected column. Used when we ask for sorting
 			        if(sortColumn == undefined) {
@@ -113,7 +114,7 @@
 			        	}
 			        }
 
-					createTable(sortColumn, false, liste_annonces, columns, filters);
+					createTable(sortColumn, false, liste_annonces, columns, filters, user_name);
 				}
 
 				generateTable("id");

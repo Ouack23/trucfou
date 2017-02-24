@@ -1,6 +1,6 @@
 <div class="box" style="display:none" id="annonce_details">
 	<div class="box-header">
-		<h2 class="details_number">Détails de l'annonce</h2>
+		<h2>Détails de l'annonce <h2 class="details_number"> </h2> </h2>
 	</div>
 	<div class="box-content">
 		<div class="table">
@@ -13,7 +13,7 @@
 			<form>
 				<p>
 					<label>Note: </label>
-					<span class="select-wrapper"><select class="userNote">
+					<span class="select-wrapper"><select class="user_note">
 						<option value="-1" selected="true">aucun vote</option>
 						<option value="0">0</option>
 						<option value="1">1</option>
@@ -22,7 +22,7 @@
 						<option value="4">4</option>
 						<option value="5">5</option>
 					</select></span>
-					<input type="submit" value="Voter">
+					<input type="button" value="Voter" onclick=vote()>
 				</p>
 			</form>
 			<form class="availability">
