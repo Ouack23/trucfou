@@ -66,6 +66,7 @@ table {
 
 [class^="habit"], [class*=" habit"] {
 	color: $bg-color;
+	background-color: rgba(100, 100, 100, 0.8);
 }
 
 .habit0 {
@@ -97,7 +98,8 @@ table {
 }
 
 tr.unavailable {
-	background-color: rgba(lighten($field-color, 30), 0.3) !important;
+	background-color: rgba(lighten($table-even-color, 30), 0.3) !important;
+	color: lighten($text-color, 10) !important;
 }
 
 .unavailable td a {
