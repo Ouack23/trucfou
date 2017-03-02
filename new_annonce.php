@@ -10,8 +10,6 @@ include_once('include/header_footer.php');
 		<meta charset="utf-8" />
 		<title>Nouvelle annonce</title>
 		<link rel="stylesheet" href="css/style.css" />
-		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="include/sticky.js"></script>
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>

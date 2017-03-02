@@ -10,7 +10,7 @@
 	margin: 0;
 	z-index: 10;
 	display: none;
-	background-color: rgba(255, 255, 255, 0.4);
+	background-color: $login-bg-color;
 }
 
 .login-box {
@@ -18,6 +18,10 @@
 	height: 300px;
 	margin: 15% auto;
 	background-color: $well-color;
+
+	h2:after {
+		content: '' !important;
+	}
 
 	form {
 		margin: 0;

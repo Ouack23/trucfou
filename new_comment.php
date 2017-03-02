@@ -9,11 +9,8 @@
 		<meta charset="utf-8" />
 		<title>Nouveau commentaire</title>
 		<link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" href="include/xbbcode.css" />
-		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="include/sticky.js"></script>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="css/xbbcode.css" />
+		<link rel="stylesheet" href="css/jquery-ui.css">
 		<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	</head>
 	<body>
@@ -89,5 +86,8 @@
 			}
 		echo('</section>');
 		add_footer(); ?>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/functions.js"></script>
+		<script src="js/xbbcode.js"></script>
 	</body>
 </html>

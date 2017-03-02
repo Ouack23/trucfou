@@ -200,8 +200,8 @@ function showDetails(elementSource, user_name) {
                 com_block.setAttribute("class", "block");
                 com_block.innerHTML = `
                             <ul class="block-titre">
-                                <li class="block-quand"><i class="fa fa-clock-o fa-fw"></i>` + com_date + `</li>
-                                <li class="block-quoi"><i class="fa fa-commenting-o fa-fw"></i> Par <span class="comment-author">` + com_author + `</span></li>
+                                <li class="block-quand"><span class="icon-clock"></span>` + com_date + `</li>
+                                <li class="block-quoi"><span class="icon-user"></span> Par <span class="block-author">` + com_author + `</span></li>
                             </ul>
                             <p>`+com_text+`</p>
                 `
