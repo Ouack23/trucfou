@@ -13,7 +13,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 			</div>
 			<div class="box-content">');
 	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce"><div class="filters">');
-	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
+/*	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
 	echo('>Avant</option>');
@@ -26,7 +26,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
 	else echo($sort_array['value_date'].'"/>');
 	echo('</div>');
-	
+*/	
 	if($current_page == 'annonces.php') {
 		echo('<div class="filter-group"><label for="sort_auteur">Auteur</label>');
 		echo('<select id="sort_auteur" name="sort_auteur">');
