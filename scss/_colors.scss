@@ -46,8 +46,8 @@ $nav-color-stick: $nav-color;
 $nav-link-color: #5f5f5f;
 $nav-link-hover-color: $links-color;
 $login-bg-color: rgba(10, 10, 10, 0.7);
-$table-even-color: darken($field-color, 15);
-$table-odd-color: darken($table-even-color, 5);
+$table-even-color: darken($bg-color, 1);
+$table-odd-color: lighten($table-even-color, 2);
 
 
 // General
