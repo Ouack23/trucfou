@@ -48,10 +48,10 @@ function filterJSON(inputArray, filters, columns) {
     			var comparatorWidget = document.getElementById(comparatorName);
 
     			if (comparatorWidget.value == "sup") {
-    				hide = row[filterKey] < filterWidget.value;
+    				hide = row[filterKey] - filterWidget.value < 0;
     			}
     			else {
-    				hide = row[filterKey] > filterWidget.value;
+    				hide = row[filterKey] - filterWidget.value > 0;
     			}
     		}
             // else element is only a comobobox, pick current value
