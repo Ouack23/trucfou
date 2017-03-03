@@ -1,5 +1,5 @@
 // --------------------------------------------------------
-// Callback mfunction to sort a JSON table
+// Callback function to sort a JSON table
 // -------------------------------------------------------- 
 function sortJSONTable(jsonArray, sortKey){
 	jsonArray.sort(function(a, b) {

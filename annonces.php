@@ -90,30 +90,7 @@
 			</div>
 
 			<?php include_once("include/details.php"); ?>
-			<script>
-		        var columns = <?php echo json_encode($columns) ?>,
-			        filters = <?php echo json_encode($filters) ?>,
-			        user_name = <?php echo json_encode($user->data["username"]) ?>;
-				
-				function generateTable(sortColumn) {
-			        var liste_annonces = <?php echo json_encode($annonces)?>;
 
-			        // look for the currently selected column. Used when we ask for sorting
-			        if(sortColumn == undefined) {
-			        	var table = document.getElementById("annonces-table");
-			        	var headers = table.getElementsByTagName("th");
-			        	for(var i = 0; i < headers.length; i++) {
-			        		if(headers[i].getAttribute("type") == "sorted") {
-			        			sortColumn = headers[i].id;
-			        		}
-			        	}
-			        }
-
-					createTable(sortColumn, false, liste_annonces, columns, filters, user_name);
-				}
-
-				generateTable("id");
-			</script>
 			<?php
 				
 				print_statistics($current_page, $current_url, $sort_array, 'all_annonces');
@@ -125,5 +102,36 @@
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/annonce_functions.js"></script>
+		<script>
+			var columns = <?php echo json_encode($columns) ?>,
+			    filters = <?php echo json_encode($filters) ?>,
+			    user_name = <?php echo json_encode($user->data["username"]) ?>;
+
+			    function generateTable(sortColumn) {
+				    var liste_annonces = <?php echo json_encode($annonces)?>;
+
+				    // look for the currently selected column. Used when we ask for sorting
+				    if(sortColumn == undefined) {
+				        var table = document.getElementById("annonces-table");
+				        var headers = table.getElementsByTagName("th");
+				        for(var i = 0; i < headers.length; i++) {
+				            if(headers[i].getAttribute("type") == "sorted") {
+				                sortColumn = headers[i].id;
+				            }
+				        }
+				    }
+
+				    createTable(sortColumn, false, liste_annonces, columns, filters, user_name);
+				}
+
+			// At page load, generate offers table sorted by id
+			generateTable("id");
+
+			// Monitoring changes in filters form for offers table automatic refresh
+			$("#form_sort_annonce").change(function() {
+				generateTable();
+			});
+
+		</script>
 	</body>
 </html>

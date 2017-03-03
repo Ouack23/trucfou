@@ -60,7 +60,6 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	echo('<div class="filter-group"><label for="hide_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /></div></div>');
 	
-	echo('<br /><span class="submit-container"><input type="button" onclick = "generateTable()" name="sort" id="sort" value="Valider" /></span></p>');
 	echo('</form>');
 	echo('</div></div>');
 }
