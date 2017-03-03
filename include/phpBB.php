@@ -35,7 +35,7 @@ function secure_get() {
 	$sort_array['min_superf_t'] = 1;
 	$sort_array['min_habit'] = 0;
 	$sort_array['min_time'] = 1;
-	$sort_array['min_distance'] = 1;
+	$sort_array['min_distance'] = 0;
 	$sort_array['min_price'] = 0.0;
 	$sort_array['min_departement'] = 1;
 	$sort_array['min_note'] = 0;

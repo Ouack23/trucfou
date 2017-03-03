@@ -111,7 +111,24 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 
 		$quartiles = calcul_quartiles($values);
 
-		if($c != 'note' && $c != 'habit') {
+		$precision = 1;
+		if($c == 'price') {
+			$precision = 0.001;
+		}
+		else if ($c == 'value' || $c == 'habit') {
+			$precision = 0.01;
+		}
+
+		// round for esthetic display
+		$min = round($min / $precision) * $precision;
+		$quartiles[0] = round($quartiles[0] / $precision) * $precision;
+		$quartiles[1] = round($quartiles[1] / $precision) * $precision;
+		$quartiles[2] = round($quartiles[2] / $precision) * $precision;
+		$max = round($max / $precision) * $precision;
+		$moy = round($moy / $precision) * $precision;
+
+
+		if($c != 'value' && $c != 'habit') {
 			
 			echo('<td>'.$min.'</td>');
 			echo('<td>'.$quartiles[0].'</td>');

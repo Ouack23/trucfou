@@ -301,7 +301,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             // add class for note and habit to color cells. 
             if(col == "habit" || col == "note") {
             	var className = "habit"; // TODO rename this class !
-            	className += row[col]; // e.g. "habit2"
+            	className += Math.round(row[col]); // e.g. "habit2"
             	td.setAttribute("class", className);
             }
         }
