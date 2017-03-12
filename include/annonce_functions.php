@@ -1,6 +1,7 @@
 <?php
 include_once("functions.php");
 include_once("utils.php");
+
 function print_sort_form($current_page, $current_url, $sort_array) {
 	global $user, $bdd;
 	
@@ -12,7 +13,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 			</div>
 			<div class="box-content">');
 	echo('<form accept-charset="utf-8" action="#" method="get" id="form_sort_annonce"><div class="filters">');
-	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
+/*	echo('<p><div class="filter-group"><label for="sort_date">Date</label><select id="sort_date" name="sort_date">');
 	echo('<option value="before"');
 	if(isset($_GET['value_date']) && $sort_array['sort_date'] == 'before') echo ' selected';
 	echo('>Avant</option>');
@@ -25,7 +26,7 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	if(!isset($_GET['value_date'])) echo(date('d/m/Y').'"/>');
 	else echo($sort_array['value_date'].'"/>');
 	echo('</div>');
-	
+*/	
 	if($current_page == 'annonces.php') {
 		echo('<div class="filter-group"><label for="sort_auteur">Auteur</label>');
 		echo('<select id="sort_auteur" name="sort_auteur">');
@@ -59,99 +60,9 @@ function print_sort_form($current_page, $current_url, $sort_array) {
 	
 	echo('<div class="filter-group"><label for="hide_disabled">Cacher les indisponibles</label><input type="checkbox" name="hide_disabled" id="hide_disabled" value="true" '.print_checked_enabled_only($sort_array).' /></div></div>');
 	
-	echo('<br /><span class="submit-container"><input type="submit" name="sort" id="sort" value="Valider" /></span></p>');
 	echo('</form>');
 	echo('</div></div>');
 }
-
-function print_all_annonces($current_page, $current_url, $sort_array) {
-	global $bdd;
-	
-	$what = 'all_annonces';
-	
-	$columns_array = ['id' => 'N°',
-			'date' => 'Date',
-			'auteur' => 'Auteur',
-			'lieu' => 'Lieu',
-			'departement' => 'Dpt',
-			'superf_h' => 'Superficie bâtie',
-			'superf_t' => 'Superficie du terrain',
-			'habit' => 'État',
-			'time' => 'Trajet',
-			'distance' => 'Distance',
-			'price' => 'Prix',
-			'note' => 'Note',
-			'comments' => 'Comms'];
-	
-	print_debut_table($columns_array, ['Lien', 'Détails'], 'Liste des Annonces', $current_url, $sort_array, 'annonces');
-	
-	$initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
-	
-	$have_to_add_WHERE = true;
-	$have_to_add_AND = false;
-	
-	$reponse_query = build_annonce_query($initial_query, true, false, $current_page, $current_url, $sort_array, $what);
-	
-	sort_print_annonces($reponse_query, $current_page, $current_url, $sort_array, $what);
-	
-	echo('</table></div></div></div>');
-}
-
-function print_comments_annonce($current_page, $current_url, $sort_array) {
-	global $bdd, $user;
-	
-	$reponse_query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = \''.$current_url['annonce'].'\' ORDER BY '.$current_url['orderComments'].'';
-	
-	if($current_url['reverseComments'] == 'true')
-		$reponse_query .= ' DESC';
-			
-	$reponse = $bdd->query($reponse_query);
-	$donnees = $reponse->fetch();
-	
-	print_single_annonce($current_page, $current_url, $sort_array);
-
-	print_notation($current_url['annonce']);
-
-	if(is_auteur($user->data['username'], $current_url['annonce'])) print_modify_annonce($current_url['annonce']);
-
-	print_available($current_url['annonce']);
-	
-	
-	if($donnees != NULL) {
-		$columns_array = ['date' => 'Date', 'auteur' => 'Auteur'];
-
-		echo('<h3>Commentaires</h3>');
-
-		do {
-			echo('
-				<div class="block">
-					<ul class="block-titre">
-						<li class="block-quand"><span class="icon-clock"></span> '.$donnees['date'].'</li>
-						<li class="block-quoi"><span class="icon-user"></span> Par <span class="block-author">'.$donnees['auteur'].'</span></li>
-					</ul>
-
-					<p>'.$donnees['comment'].'</p>
-				</div>
-			');
-		} while ($donnees = $reponse->fetch());
-	}
-	
-	else {
-		echo('<h3 id="comments">Pas de commentaire pour cette annonce !</h3>');
-	}
-
-	echo('
-		<form accept-charset="utf-8" action="new_comment.php?annonce='.$current_url['annonce'].'" method="post">
-			<p class="center"><input type="submit" name="new_comment" value="Nouveau commentaire" /></p>
-		</form>
-	');
-
-	echo('</div>');
-	echo('</div></div>');
-
-	$reponse->closeCursor();
-}
-
 
 function print_statistics($current_page, $current_url, $sort_array, $what) {
 	global $bdd;
@@ -200,7 +111,24 @@ function print_statistics($current_page, $current_url, $sort_array, $what) {
 
 		$quartiles = calcul_quartiles($values);
 
-		if($c != 'note' && $c != 'habit') {
+		$precision = 1;
+		if($c == 'price') {
+			$precision = 0.001;
+		}
+		else if ($c == 'value' || $c == 'habit') {
+			$precision = 0.01;
+		}
+
+		// round for esthetic display
+		$min = round($min / $precision) * $precision;
+		$quartiles[0] = round($quartiles[0] / $precision) * $precision;
+		$quartiles[1] = round($quartiles[1] / $precision) * $precision;
+		$quartiles[2] = round($quartiles[2] / $precision) * $precision;
+		$max = round($max / $precision) * $precision;
+		$moy = round($moy / $precision) * $precision;
+
+
+		if($c != 'value' && $c != 'habit') {
 			
 			echo('<td>'.$min.'</td>');
 			echo('<td>'.$quartiles[0].'</td>');

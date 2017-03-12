@@ -72,51 +72,6 @@ function format_date() {
 	return 'DATE_FORMAT(date, "%d/%m/%Y") AS date';
 }
 
-
-function get_username($user_id) {
-	global $bdd;
-	
-	$get_username = $bdd->query('SELECT user_id, username FROM phpbb_users WHERE user_id = \''.$user_id.'\'');
-	
-	if($get_username != NULL) {
-		$result = $get_username->fetch();
-		$get_username->closeCursor();
-		return($result['username']);	
-	}
-	else {$get_username->closeCursor(); return('');}
-}
-
-function get_user_note($annonce, $username) {
-	global $bdd;
-	
-	$int_annonce = intval($annonce);
-	
-	$get_values = $bdd->prepare('SELECT * FROM notes WHERE annonce = :id AND auteur = :username');
-	$get_values->execute(array('id' => $int_annonce, 'username' => $username));
-	
-	if($get_values) {
-		$note = $get_values->fetch()['value'];
-		$get_values->closeCursor();
-		
-		return $note;
-	}
-	
-	else {
-		echo('<p class="error">No note found for annonce '.$int_annonce.' and user '.$username.'</p>');
-		return -1;
-	}
-}
-
-function is_auteur($username, $id) {
-	global $bdd;
-	
-	$get_annonce = $bdd->prepare('SELECT id, auteur FROM annonces WHERE id = :id');
-	$get_annonce->execute(array('id' => $id));
-	$auteur = $get_annonce->fetch()['auteur'];
-	
-	return $auteur == $username;
-}
-
 function print_selected($n, $p) {
 	$possibilities = [0, 1, 2, 3, 4, 5];
 	if(in_array($n, $possibilities) && in_array($p, $possibilities) && $n == $p)
