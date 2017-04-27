@@ -6,6 +6,10 @@ function get_available($annonce) {
 	global $bdd;
 
 	$answer = $bdd->query('SELECT available FROM annonces WHERE id = '.$annonce.'');
+	if(!$answer)
+	{
+		return false;
+	}
 	$available = $answer->fetch();
 	$answer->closeCursor();
 
@@ -18,9 +22,14 @@ function get_comments($annonce) {
 	$query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$annonce.'';
 	$answers = $bdd->query($query);
 	$comments = array();
+	if(!$answer)
+	{
+		return $comments;
+	}
+
 	$i = 0;
 
-	while($comment = $answers->fetch()) {
+	while( $comment = $answers->fetch()) {
 		$comments[$i] = $comment;
 		$i++;
 	}

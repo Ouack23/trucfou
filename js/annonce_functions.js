@@ -283,12 +283,17 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             }
             // details are specifics too
             else if (col == "details") {
+                /*
                 var detailsSpan = document.createElement("span");
                 detailsSpan.appendChild(document.createTextNode("Details"));
                 detailsSpan.setAttribute("class", "simili-link");
                 td.appendChild(detailsSpan);
                 td.addEventListener("click", function() {showDetails(this, user_name); });
-                td.id = row["id"];
+                */
+                var a = document.createElement('a');
+                a.appendChild(document.createTextNode("Details"));
+                a.setAttribute("href", row[col]);
+                td.appendChild(a);
             }
             else if (col.startsWith("superf") && row[col] == 1) {
                 td.setAttribute("class", "unknown");
