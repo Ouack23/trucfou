@@ -20,11 +20,11 @@ function get_comments($annonce) {
 	global $bdd;
 
 	$query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$annonce.'';
-	$answers = $bdd->query($query);
+	$answers = $bdd->query('SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$annonce.'');
 	$comments = array();
-	if(!$answer)
+	if(!$answers)
 	{
-		return $comments;
+		return "zob";
 	}
 
 	$i = 0;

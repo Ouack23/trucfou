@@ -33,7 +33,7 @@
 		$available = $request->variable('available', '');
 		if($available != '')
 		{
-			$debug_info = set_available($annonce_id, $available);
+			set_available($annonce_id, $available);
 		}
 		$note = get_user_note($annonce_id, $username);
 		$comments = get_comments($annonce_id);
@@ -91,10 +91,26 @@
 						<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
 						<input type="submit" class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
 					</form>
-<?php /*					
+
 					<h3 class="comment_title"></h3>
-					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>
-	*/ ?>
+
+					<form action="new_comment.php" method="post">
+						<input type="text" name="annonce" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+						<input type="submit" name="new_comment" value="Nouveau commentaire">
+					</form>
+
+					<?php
+
+						foreach($comments as $comment)
+						{
+	                        echo '<ul class="block-titre">';
+	                        echo '<li class="block-quand"><span class="icon-clock"></span>'. $comment["date"] .'</li>';
+	                        echo '<li class="block-quoi"><span class="icon-user"></span> Par <span class="block-author">' .$comment["auteur"].' </span></li>';
+	                        echo '</ul>';
+	                        echo  '<p>'.  $comment["comment"] . '</p>';
+
+						}
+					?>
 				</div>
 			</div>
 		</div>
