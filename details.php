@@ -25,10 +25,15 @@
 		$username = $user->data["username"];
 		$annonce_id = $request->variable('id', '');
 		$note_to_set = $request->variable('note_input', '');
-		$test = '';
+		$debug_info;
 		if($note_to_set != '')
 		{
-			$test = vote($annonce_id, $username, $note_to_set);
+			vote($annonce_id, $username, $note_to_set);
+		}
+		$available = $request->variable('available', '');
+		if($available != '')
+		{
+			$debug_info = set_available($annonce_id, $available);
 		}
 		$note = get_user_note($annonce_id, $username);
 		$comments = get_comments($annonce_id);
@@ -49,7 +54,7 @@
 					</div>
 					<form action="details.php" method="post" id="annonce_form">
 						<p>
-							<label>Note: <?php echo $test; ?></label>
+							<label>Note: </label>
 							<span class="select-wrapper"><select name="note_input" class="user_note" form="annonce_form">
 								<option value="-1" selected="true">aucun vote</option>
 								<?php
@@ -68,8 +73,24 @@
 							<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
 							<input type="submit" name="Vote" value="Voter">
 						</p>
-						<h3 class="comment_title"></h3>
 					</form>
+					<form action="details.php" method="post">
+						<?php
+							if(!$available)
+							{
+								echo '<h3>Annonce indisponible !</h3>';
+							}
+							$set_available = $available ? "0" : "1";
+							$button_name = $available ? "Déclarer indisponible" : "Redéclarer disponible";
+						?>
+						<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+						<input type="text" name="available" value=<?php echo '"'. $set_available.'"'; ?> style='display: none'>
+						<input type="submit" class="warning-button" value=<?php echo '"'.$button_name.'"' ?>  name="availability">
+					</form>
+<?php /*					<input class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
+					<h3 class="comment_title"></h3>
+					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>
+	*/ ?>
 				</div>
 			</div>
 		</div>

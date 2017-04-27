@@ -40,4 +40,12 @@ function vote($annonce, $author, $note_str)
 
 	return $ret;
 }
+
+function set_available($annonce, $available)
+{
+	global $bdd;
+	$set_unavailable = $bdd->prepare('UPDATE annonces SET available = :val WHERE id = :id');
+	$ret = $set_unavailable->execute(array('val' => $available, 'id' => $annonce));
+	return $available;
+}
 ?>
