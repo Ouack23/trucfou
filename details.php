@@ -87,7 +87,11 @@
 						<input type="text" name="available" value=<?php echo '"'. $set_available.'"'; ?> style='display: none'>
 						<input type="submit" class="warning-button" value=<?php echo '"'.$button_name.'"' ?>  name="availability">
 					</form>
-<?php /*					<input class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
+					<form action="confirm_annonce_remove.php" method="post">
+						<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+						<input type="submit" class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
+					</form>
+<?php /*					
 					<h3 class="comment_title"></h3>
 					<input type="submit" name="new_comment" value="Nouveau commentaire"></input>
 	*/ ?>

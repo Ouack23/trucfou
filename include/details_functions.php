@@ -48,4 +48,16 @@ function set_available($annonce, $available)
 	$ret = $set_unavailable->execute(array('val' => $available, 'id' => $annonce));
 	return $available;
 }
+
+function delete($annonce)
+{
+	global $bdd;
+
+	$delete = $bdd->prepare('DELETE FROM notes WHERE annonce = :id');
+	$updated = $delete->execute(array('id' => $annonce));
+	$delete = $bdd->prepare('DELETE FROM annonces WHERE id = :id');
+	$updated = $delete->execute(array('id' => $annonce));
+	$delete = $bdd->prepare('DELETE FROM comments WHERE annonce = :id');
+	$updated = $delete->execute(array('id' => $annonce));
+}
 ?>
