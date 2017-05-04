@@ -39,6 +39,7 @@
 				while($annonce = $annonces_reponse_query->fetch()) {
 					$annonce["note"] = get_note($annonce["id"]);
 					$annonce["comments"] = get_number_of_comments($annonce["id"]);
+					$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
 					$annonces[$i] = $annonce;
 					$i++;
 				}
@@ -88,8 +89,6 @@
 					<div>table des annonces</div>
 				</div>
 			</div>
-
-			<?php include_once("include/details.php"); ?>
 
 			<?php
 				
