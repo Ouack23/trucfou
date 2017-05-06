@@ -135,4 +135,15 @@ function is_auteur($username, $id) {
 	return $auteur == $username;
 }
 
+function get_annonce_link($annonce) {
+	global $bdd;
+
+	$id = intval($annonce);
+	$get_annonce = $bdd->prepare('SELECT id, link FROM annonces WHERE id = :id');
+	$get_annonce->execute(array('id' => $id));
+	$link = $get_annonce->fetch()['link'];
+
+	return $link;
+}
+
 ?>

@@ -38,6 +38,7 @@
 		$note = get_user_note($annonce_id, $username);
 		$comments = get_comments($annonce_id);
 		$available = get_available($annonce_id);
+		$link = get_annonce_link($annonce_id);
 	 ?>
 	<section id="main">
 		<div class="box">
@@ -46,12 +47,9 @@
 			</div>
 			<div class="box-content">
 				<div class="table">
-					<div>
-						<table>
-							<tbody class="table-reminder">
-							</tbody>
-						</table>
-					</div>
+					<p>
+						<a href= <?php echo '"'.$link.'"'; ?> ><h3>Acceder à l'annonce</h3></a>
+					</p>
 					<form action="details.php" method="post" id="annonce_form">
 						<p>
 							<label>Note: </label>
