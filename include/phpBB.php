@@ -62,6 +62,6 @@ function secure_get() {
 	$sort_array['value_price'] = $request->variable('value_price', $sort_array['min_price']);
 	$sort_array['value_note'] = $request->variable('value_note', $sort_array['min_note']);
 	
-	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'false');
+	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'true');
 }
 ?>
