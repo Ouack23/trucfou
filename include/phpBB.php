@@ -3,7 +3,7 @@
 	$phpbb_root_path =(defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include($phpbb_root_path . 'common.' . $phpEx);
-	global $user, $auth, $phpbb_root_path, $phpEx;
+	global $user, $auth, $phpbb_root_path, $phpEx, $phpbb_container;
 
 	// Start session management
 	$user->session_begin();

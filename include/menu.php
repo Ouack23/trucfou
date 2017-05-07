@@ -2,16 +2,26 @@
 $host = $request->server('HTTP_HOST', '');
 $is_localhost = $host == 'localhost';
 
-$admin = 'Belette';
-$GdT = ['Éric', 'Buzz', 'Bastien', 'TimRocket', 'Zaza', 'Keks', 'ratichon'];
+try {
+	$phpbb_notifications = $phpbb_container->get('notification_manager');
+}
+catch(Exception $e) {
+	echo($e);
+}
 
-$is_admin = $user->data['username'] == $admin;
-$is_in_GdT = in_array($user->data['username'], $GdT);
+$notifications = $phpbb_notifications->load_notifications('notification.method.board', array(
+		'all_unread'	=> true,
+		'limit'			=> 5,
+));
 
 echo('<nav class="nav"><ul>');
 
 echo('<li><a href="'.append_sid('index.php').'">Accueil</a></li>');
-echo('<li><a href="'.append_sid('forum/index.php').'">Forum</a></li>');
+if($notifications['unread_count'] != 0) {
+	echo('<li><a href="'.append_sid('forum/index.php').'">Forum ('.$notifications['unread_count'].')</a></li>');
+}
+else
+	echo('<li><a href="'.append_sid('forum/index.php').'">Forum</a></li>');
 
 if($user->data['is_registered']) {
 	echo('<li><a href="'.append_sid('docs.php').'">Documents</a></li>');
@@ -20,15 +30,13 @@ if($user->data['is_registered']) {
 	
 	if(!$is_localhost) {
 		echo('<li><a href="'.append_sid('booked/Web/?').'">Calendrier</a></li>');
-		
-		if($is_admin || $is_in_GdT)
-			echo('<li><a href="'.append_sid('survey/index.php/admin/authentication/sa/login').'">Admin Sondages</a></li>');
+		echo('<li><a href="'.append_sid('survey/index.php/admin/authentication/sa/login').'">Admin Sondages</a></li>');
 	}
 	
 	echo('<li><a href="'.append_sid('forum/ucp.php').'">Mon Profil</a></li>');
 	echo('<li><a href="'.append_sid('forum/ucp.php', 'mode=logout', true, $user->session_id).'">Déconnexion</a></li>');
 	
-	if($is_admin && $is_localhost)
+	if($is_localhost)
 		echo('<li><a href="'.append_sid('phpmyadmin/').'">PMA</a></li>');
 } else {
 
