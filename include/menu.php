@@ -9,10 +9,7 @@ catch(Exception $e) {
 	echo($e);
 }
 
-$notifications = $phpbb_notifications->load_notifications('notification.method.board', array(
-		'all_unread'	=> true,
-		'limit'			=> 5,
-));
+$notifications = $phpbb_notifications->load_notifications();
 
 echo('<nav class="nav"><ul>');
 
