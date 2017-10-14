@@ -28,7 +28,7 @@ function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse
 // --------------------------------------------------------
 // filter a json array
 // -------------------------------------------------------- 
-function filterJSON(inputArray, filters, columns) {
+function filterJSON(inputArray, filters) {
 	var filteredArray = inputArray;
 
 	// for each row
@@ -257,7 +257,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
     tr.setAttribute("class", "table-header");
 
     // filter array
-    var filtered_annonces = filterJSON(liste_annonces, filters, columns);
+    var filtered_annonces = filterJSON(liste_annonces, filters);
 
     // sort array
     sortJSONTable(filtered_annonces, sortColumn);
@@ -304,7 +304,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             }
 
             // add class for note and habit to color cells. 
-            if(col == "habit" || col == "note") {
+            if(col == "habit" || col == "note" || col == "user_note") {
             	var className = "habit"; // TODO rename this class !
             	className += Math.round(row[col]); // e.g. "habit2"
             	td.setAttribute("class", className);

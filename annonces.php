@@ -38,6 +38,7 @@
 				$i = 0;
 				while($annonce = $annonces_reponse_query->fetch()) {
 					$annonce["note"] = get_note($annonce["id"]);
+					$annonce["user_note"] = get_user_note($annonce["id"], $user->data['username']);
 					$annonce["comments"] = get_number_of_comments($annonce["id"]);
 					$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
 					$annonces[$i] = $annonce;
@@ -46,18 +47,19 @@
 
 				// Order of elements is order in the displayed table
 				$columns = [
-							'id' 		=> 'N°',
+							'id' 		=> 'N',
 							'date' 		=> 'Date',
 							'auteur' 	=> 'Auteur',
 							'lieu' 		=> 'Lieu',
 							'departement'=> 'Dpt',
 							'superf_h' 	=> 'Batiment',
 							'superf_t' 	=> 'Terrain',
-							'habit'		=> 'État',
+							'habit'		=> 'Etat',
 							'time' 		=> 'Trajet',
 							'distance' 	=> 'Distance',
 							'price' 	=> 'Prix',
-							'note' 		=> 'Note',
+							'note' 		=> 'Moy',
+							'user_note' => 'Note',
 							'link' 		=> 'Lien',
 							'details'	=> 'Details',
 							'comments' 	=> 'Comms'
@@ -65,18 +67,18 @@
 
 				// keys and values matters: used to get the elements in filter method
 				$filters = [
-//							'date' 		=> 'Date',
-							'auteur' 	=> 'sort_auteur',
-							'lieu' 		=> 'sort_lieu',
-							'departement'=> 'sort_departement',
-							'superf_h' 	=> 'value_superf_h',
-							'superf_t' 	=> 'value_superf_t',
-							'habit'		=> 'value_habit',
-							'time' 		=> 'value_time',
-							'distance' 	=> 'value_distance',
-							'price' 	=> 'value_price' ,
-							'note' 		=> 'value_note',
-							'disable'	=> 'hide_disabled',
+							//'date' 		  => 'Date',
+							'auteur' 	  => 'sort_auteur',
+							'lieu' 		  => 'sort_lieu',
+							'departement' => 'sort_departement',
+							'superf_h' 	  => 'value_superf_h',
+							'superf_t' 	  => 'value_superf_t',
+							'habit'		  => 'value_habit',
+							'time' 		  => 'value_time',
+							'distance' 	  => 'value_distance',
+							'price' 	  => 'value_price',
+							'note' 		  => 'value_note',
+							'disable'	  => 'hide_disabled'
 							];
 				print_sort_form($current_page, $current_url, $sort_array);
 			?>
@@ -108,6 +110,10 @@
 
 			    function generateTable(sortColumn) {
 				    var liste_annonces = <?php echo json_encode($annonces)?>;
+
+				    if(!liste_annonces || !columns || !filters || !user_name) {
+						console.log("ERREUR");
+				    }
 
 				    // look for the currently selected column. Used when we ask for sorting
 				    if(sortColumn == undefined) {
