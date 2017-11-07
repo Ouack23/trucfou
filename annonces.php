@@ -38,6 +38,7 @@
 				$i = 0;
 				while($annonce = $annonces_reponse_query->fetch()) {
 					$annonce["note"] = get_note($annonce["id"]);
+					$annonce["note_count"] = get_note_count($annonce["id"]);
 					$annonce["user_note"] = get_user_note($annonce["id"], $user->data['username']);
 					$annonce["comments"] = get_number_of_comments($annonce["id"]);
 					$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");

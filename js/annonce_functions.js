@@ -299,6 +299,9 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
                 td.setAttribute("class", "unknown");
                 td.appendChild(document.createTextNode("Inconnue"));
             }
+            else if (col == "note") {
+            	td.appendChild(document.createTextNode(row[col] + " (" + row["note_count"] + ")"));
+            }
             else {
                 td.appendChild(document.createTextNode(row[col]));
             }

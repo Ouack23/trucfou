@@ -125,6 +125,28 @@ function get_note($annonce) {
 	else return 10;
 }
 
+function get_note_count($annonce) {
+    global $bdd;
+    
+    $int_annonce = intval($annonce);
+    
+    $get_values = $bdd->prepare('SELECT COUNT(*) AS NB FROM notes WHERE annonce = :id');
+    $get_values->execute(array('id' => $int_annonce));
+    
+    if($get_values) {
+        $result = $get_values->fetch()["NB"];
+        $get_values->closeCursor();
+    }
+    
+    else {
+        echo('<p class="error">Invalid annonce value in get_note_count()</p>');
+        return -1;
+    }
+    
+    if($result > 0) return $result;
+    else return 10;
+}
+
 function is_auteur($username, $id) {
 	global $bdd;
 	
