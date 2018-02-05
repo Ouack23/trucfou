@@ -26,7 +26,7 @@
 			if(!$user->data['is_registered']) include('include/not_registered.php');
 			
 			else {
-
+                include('include/details_content.php');
 				echo('<div class="flex-container flex-column">');
 				secure_get();
 				$current_page = 'annonces.php';
@@ -41,7 +41,7 @@
 					$annonce["note_count"] = get_note_count($annonce["id"]);
 					$annonce["user_note"] = get_user_note($annonce["id"], $user->data['username']);
 					$annonce["comments"] = get_number_of_comments($annonce["id"]);
-					$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
+					//$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
 					$annonces[$i] = $annonce;
 					$i++;
 				}

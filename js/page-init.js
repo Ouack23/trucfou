@@ -13,6 +13,17 @@ $(document).ready(function() {
 	}).children().click(function(e) {
 	 	e.stopPropagation();
 	});
+	
+	// Details frame
+	$('.details-link').click(function() {
+	    $('#details-frame').fadeToggle('fast');
+	});
+	
+	$('#details-frame').click(function(){
+		$(this).fadeOut('fast');
+	}).children().click(function(e) {
+	 	e.stopPropagation();
+	});
 
 	// Sticky menu (fixed after some scroll)
 	$('.nav').sticky({topSpacing:0, zIndex:999});
