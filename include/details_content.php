@@ -47,7 +47,7 @@
 
 						 ?>
 					</select></span>
-					<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+					<input type="text" name="id" value="<?php echo $annonce_id; ?>" style='display: none'>
 					<input type="submit" name="Vote" value="Voter">
 				</p>
 			</form>
@@ -60,19 +60,19 @@
 					$set_available = $available ? "0" : "1";
 					$button_name = $available ? "Déclarer indisponible" : "Redéclarer disponible";
 				?>
-				<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
-				<input type="text" name="available" value=<?php echo '"'. $set_available.'"'; ?> style='display: none'>
-				<input type="submit" class="warning-button" value=<?php echo '"'.$button_name.'"' ?>  name="availability">
+				<input type="text" name="id" value="<?php echo $annonce_id; ?>" style='display: none'>
+				<input type="text" name="available" value="<?php echo $set_available; ?>" style='display: none'>
+				<input type="submit" class="warning-button" value="<?php echo $button_name ?>"  name="availability">
 			</form>
 			<form action="confirm_annonce_remove.php" method="post">
-				<input type="text" name="id" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+				<input type="text" name="id" value="<?php echo $annonce_id; ?>" style='display: none'>
 				<input type="submit" class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
 			</form>
 
 			<h3 class="comment_title"></h3>
 
 			<form action="new_comment.php" method="post">
-				<input type="text" name="annonce" value=<?php echo '"'.$annonce_id.'"';?> style='display: none'>
+				<input type="text" name="annonce" value="<?php echo $annonce_id; ?>" style='display: none'>
 				<input type="submit" name="new_comment" value="Nouveau commentaire">
 			</form>
 

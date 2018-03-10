@@ -1,8 +1,7 @@
 //@prepros-prepend jquery-3.1.1.min.js
 //@prepros-prepend sticky.js
-
-$(document).ready(function() {
-
+		
+$(window).on('load', function() {
 	// Login frame
 	$('.connexion-link').click(function() {
 	    $('#login-frame').fadeToggle('fast');
@@ -15,7 +14,7 @@ $(document).ready(function() {
 	});
 	
 	// Details frame
-	$('.details-link').click(function() {
+	$(document).on('click', '.details-link', function(){
 	    $('#details-frame').fadeToggle('fast');
 	});
 	
