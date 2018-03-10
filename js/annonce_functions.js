@@ -290,10 +290,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
                 td.appendChild(detailsSpan);
                 td.addEventListener("click", function() {showDetails(this, user_name); });
                 */
-                //var a = document.createElement('a');
-            	var a = document.createElement('span');
-                //a.setAttribute("href", row[col]);
-            	//a.setAttribute("class", "details-link simili-link");
+                var a = document.createElement('a');
             	a.setAttribute("class", "details-link");
                 a.appendChild(document.createTextNode("Details"));
                 td.appendChild(a);
