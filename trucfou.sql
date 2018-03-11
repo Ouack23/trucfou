@@ -1,3 +1,13 @@
+
+-- phpMyAdmin SQL Dump
+-- version 3.5.2.2
+-- http://www.phpmyadmin.net
+--
+-- Client: localhost
+-- Généré le: Lun 05 Février 2018 à 20:39
+-- Version du serveur: 10.1.24-MariaDB
+-- Version de PHP: 5.2.17
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -6,6 +16,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+--
+-- Base de données: `u691744162_truc`
+--
 
 -- --------------------------------------------------------
 
@@ -28,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `annonces` (
   `link` text COLLATE utf8_bin NOT NULL,
   `available` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=284 ;
 
 -- --------------------------------------------------------
 
@@ -60,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `auteur` mediumtext COLLATE utf8_bin NOT NULL,
   `comment` mediumtext COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=63 ;
 
 -- --------------------------------------------------------
 
@@ -77,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `CR` (
   `name` tinytext COLLATE utf8_bin NOT NULL,
   `enable` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -91,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `notes` (
   `annonce` smallint(5) unsigned NOT NULL,
   `value` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1467 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

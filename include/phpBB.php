@@ -3,7 +3,7 @@
 	$phpbb_root_path =(defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './forum/';
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include($phpbb_root_path . 'common.' . $phpEx);
-	global $user, $auth, $phpbb_root_path, $phpEx;
+	global $user, $auth, $phpbb_root_path, $phpEx, $phpbb_container;
 
 	// Start session management
 	$user->session_begin();
@@ -62,6 +62,6 @@ function secure_get() {
 	$sort_array['value_price'] = $request->variable('value_price', $sort_array['min_price']);
 	$sort_array['value_note'] = $request->variable('value_note', $sort_array['min_note']);
 	
-	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'false');
+	$sort_array['hide_disabled'] = $request->variable('hide_disabled', 'true');
 }
 ?>

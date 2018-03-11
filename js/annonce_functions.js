@@ -28,7 +28,7 @@ function onClickOnTableHeader(element, liste_annonces, columns, filters, reverse
 // --------------------------------------------------------
 // filter a json array
 // -------------------------------------------------------- 
-function filterJSON(inputArray, filters, columns) {
+function filterJSON(inputArray, filters) {
 	var filteredArray = inputArray;
 
 	// for each row
@@ -257,7 +257,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
     tr.setAttribute("class", "table-header");
 
     // filter array
-    var filtered_annonces = filterJSON(liste_annonces, filters, columns);
+    var filtered_annonces = filterJSON(liste_annonces, filters);
 
     // sort array
     sortJSONTable(filtered_annonces, sortColumn);
@@ -283,23 +283,31 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             }
             // details are specifics too
             else if (col == "details") {
+                /*
                 var detailsSpan = document.createElement("span");
                 detailsSpan.appendChild(document.createTextNode("Details"));
                 detailsSpan.setAttribute("class", "simili-link");
                 td.appendChild(detailsSpan);
                 td.addEventListener("click", function() {showDetails(this, user_name); });
-                td.id = row["id"];
+                */
+                var a = document.createElement('a');
+            	a.setAttribute("class", "details-link");
+                a.appendChild(document.createTextNode("Details"));
+                td.appendChild(a);
             }
             else if (col.startsWith("superf") && row[col] == 1) {
                 td.setAttribute("class", "unknown");
                 td.appendChild(document.createTextNode("Inconnue"));
+            }
+            else if (col == "note") {
+            	td.appendChild(document.createTextNode(row[col] + " (" + row["note_count"] + ")"));
             }
             else {
                 td.appendChild(document.createTextNode(row[col]));
             }
 
             // add class for note and habit to color cells. 
-            if(col == "habit" || col == "note") {
+            if(col == "habit" || col == "note" || col == "user_note") {
             	var className = "habit"; // TODO rename this class !
             	className += Math.round(row[col]); // e.g. "habit2"
             	td.setAttribute("class", className);

@@ -1,14 +1,24 @@
 //@prepros-prepend jquery-3.1.1.min.js
 //@prepros-prepend sticky.js
-
-$(document).ready(function() {
-
+		
+$(window).on('load', function() {
 	// Login frame
 	$('.connexion-link').click(function() {
 	    $('#login-frame').fadeToggle('fast');
 	});
 
 	$('#login-frame').click(function(){
+		$(this).fadeOut('fast');
+	}).children().click(function(e) {
+	 	e.stopPropagation();
+	});
+	
+	// Details frame
+	$(document).on('click', '.details-link', function(){
+	    $('#details-frame').fadeToggle('fast');
+	});
+	
+	$('#details-frame').click(function(){
 		$(this).fadeOut('fast');
 	}).children().click(function(e) {
 	 	e.stopPropagation();

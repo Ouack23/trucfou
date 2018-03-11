@@ -6,6 +6,10 @@ function get_available($annonce) {
 	global $bdd;
 
 	$answer = $bdd->query('SELECT available FROM annonces WHERE id = '.$annonce.'');
+	if(!$answer)
+	{
+		return false;
+	}
 	$available = $answer->fetch();
 	$answer->closeCursor();
 
@@ -16,11 +20,16 @@ function get_comments($annonce) {
 	global $bdd;
 
 	$query = 'SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$annonce.'';
-	$answers = $bdd->query($query);
+	$answers = $bdd->query('SELECT id, annonce, '.format_date().', auteur, comment FROM comments WHERE annonce = '.$annonce.'');
 	$comments = array();
+	if(!$answers)
+	{
+		return "zob";
+	}
+
 	$i = 0;
 
-	while($comment = $answers->fetch()) {
+	while( $comment = $answers->fetch()) {
 		$comments[$i] = $comment;
 		$i++;
 	}
@@ -114,6 +123,28 @@ function get_note($annonce) {
 	
 	if(!empty($values_array)) return round(array_sum($values_array) / count($values_array), 2);
 	else return 10;
+}
+
+function get_note_count($annonce) {
+    global $bdd;
+    
+    $int_annonce = intval($annonce);
+    
+    $get_values = $bdd->prepare('SELECT COUNT(*) AS NB FROM notes WHERE annonce = :id');
+    $get_values->execute(array('id' => $int_annonce));
+    
+    if($get_values) {
+        $result = $get_values->fetch()["NB"];
+        $get_values->closeCursor();
+    }
+    
+    else {
+        echo('<p class="error">Invalid annonce value in get_note_count()</p>');
+        return -1;
+    }
+    
+    if($result > 0) return $result;
+    else return 10;
 }
 
 function is_auteur($username, $id) {
