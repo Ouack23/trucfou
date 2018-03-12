@@ -122,7 +122,7 @@ function get_note($annonce) {
 	}
 	
 	if(!empty($values_array)) return round(array_sum($values_array) / count($values_array), 2);
-	else return 10;
+	else return 0;
 }
 
 function get_note_count($annonce) {
@@ -153,8 +153,38 @@ function is_auteur($username, $id) {
 	$get_annonce = $bdd->prepare('SELECT id, auteur FROM annonces WHERE id = :id');
 	$get_annonce->execute(array('id' => $id));
 	$auteur = $get_annonce->fetch()['auteur'];
+	$get_annonce->closeCursor();
 	
 	return $auteur == $username;
 }
 
+function annonces_query($username="") {
+    global $bdd, $user;
+    
+    if(empty($username)) $username = $user->data['username'];
+    $annonces_initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
+    $annonces_reponse_query = $bdd->query($annonces_initial_query);
+    
+    $annonces = [];
+    $i = 0;
+    $query_size = 13;
+    
+    while($annonce = $annonces_reponse_query->fetch()) {
+        for($j = 0; $j < $query_size; $j++) {
+            unset($annonce[$j]);
+        }
+        
+        $annonce["note"] = get_note($annonce["id"]);
+        $annonce["note_count"] = get_note_count($annonce["id"]);
+        $annonce["user_note"] = get_user_note($annonce["id"], $username);
+        $annonce["comments"] = get_number_of_comments($annonce["id"]);
+        //$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
+        $annonces[$i] = $annonce;
+        $i++;
+    }
+    
+    $annonces_reponse_query->closeCursor();
+    
+    return $annonces;
+}
 ?>

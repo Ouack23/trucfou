@@ -302,6 +302,10 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             else if (col == "note") {
             	td.appendChild(document.createTextNode(row[col] + " (" + row["note_count"] + ")"));
             }
+            else if (col == "id") {
+            	td.setAttribute("id", col);
+            	td.appendChild(document.createTextNode(row[col]));
+            }
             else {
                 td.appendChild(document.createTextNode(row[col]));
             }
