@@ -1,6 +1,7 @@
 //@prepros-prepend jquery-3.1.1.min.js
 //@prepros-prepend sticky.js
-		
+//@prepros-prepend jquery.form.js
+
 $(window).on('load', function() {
 	// Login frame
 	$('.connexion-link').click(function() {
@@ -16,6 +17,9 @@ $(window).on('load', function() {
 	// Details frame
 	$(document).on('click', '.details-link', function(){
 	    $('#details-frame').fadeToggle('fast');
+	    //Putting the announce id into the details forms
+	    //row architecture in annouces table : <tr><td id="id">my_id</td>...<td><a class="details-link">Details</a></td></tr>
+	    $('#details-frame #id').val($(this).parent().parent().find("#id").text());
 	});
 	
 	$('#details-frame').click(function(){
@@ -23,7 +27,7 @@ $(window).on('load', function() {
 	}).children().click(function(e) {
 	 	e.stopPropagation();
 	});
-
+	
 	// Sticky menu (fixed after some scroll)
 	$('.nav').sticky({topSpacing:0, zIndex:999});
 
@@ -40,5 +44,4 @@ $(window).on('load', function() {
 		$(this).parent('.box').toggleClass('box-hidden');
 		$(this).siblings('.box-content').slideToggle();
 	});
-
 });

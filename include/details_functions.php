@@ -1,5 +1,5 @@
 <?php
-	include_once("config.php");
+include_once("config.php");
 
 function vote($annonce, $author, $note_str)
 {
@@ -14,7 +14,7 @@ function vote($annonce, $author, $note_str)
 
 		while($current_note = $get_current_note->fetch()) {
 			if($current_note["auteur"] == $author) {
-				if($note >= 0 && $note <= 5 ) { //if valid note, update table
+				if($note >= 0 && $note <= 5) { //if valid note, update table
 					$update_note = $bdd->prepare('UPDATE notes SET value = :note WHERE id = :id');
 					$updated = $update_note->execute(array('note' => $note, 'id' => $current_note["id"]));
 					$ret = 'updated !';

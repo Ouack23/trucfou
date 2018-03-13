@@ -1,12 +1,11 @@
 <?php
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+include_once("include/annonce_functions.php");
+include_once("include/details_functions.php");
+include_once("include/config.php");
+include_once("include/database_getters.php");
+include_once("include/header_footer.php");
 
-	include_once("include/annonce_functions.php");
-	include_once("include/config.php");
-	include_once("include/database_getters.php");
-	include_once("include/header_footer.php");
+echo '{ "message": "' . request_var('message', '') . '" }';
 ?>
 
 <html>
@@ -30,21 +29,6 @@
 				echo('<div class="flex-container flex-column">');
 				secure_get();
 				$current_page = 'annonces.php';
-				
-				$annonces_initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces';
-				$annonces_reponse_query = $bdd->query($annonces_initial_query);
-
-				$annonces = [];
-				$i = 0;
-				while($annonce = $annonces_reponse_query->fetch()) {
-					$annonce["note"] = get_note($annonce["id"]);
-					$annonce["note_count"] = get_note_count($annonce["id"]);
-					$annonce["user_note"] = get_user_note($annonce["id"], $user->data['username']);
-					$annonce["comments"] = get_number_of_comments($annonce["id"]);
-					//$annonce["details"] = append_sid("details.php", "id=".$annonce["id"]."");
-					$annonces[$i] = $annonce;
-					$i++;
-				}
 
 				// Order of elements is order in the displayed table
 				$columns = [
@@ -81,8 +65,9 @@
 							'note' 		  => 'value_note',
 							'disable'	  => 'hide_disabled'
 							];
+				
 				print_sort_form($current_page, $current_url, $sort_array);
-			?>
+				?>
 
 			<div class="box">
 				<div class="box-header">
@@ -105,39 +90,86 @@
 		<script src="js/functions.js"></script>
 		<script src="js/annonce_functions.js"></script>
 		<script>
-			var columns = <?php echo json_encode($columns) ?>,
-			    filters = <?php echo json_encode($filters) ?>,
-			    user_name = <?php echo json_encode($user->data["username"]) ?>;
-
-			    function generateTable(sortColumn) {
-				    var liste_annonces = <?php echo json_encode($annonces)?>;
-
-				    if(!liste_annonces || !columns || !filters || !user_name) {
-						console.log("ERREUR");
-				    }
-
-				    // look for the currently selected column. Used when we ask for sorting
-				    if(sortColumn == undefined) {
-				        var table = document.getElementById("annonces-table");
-				        var headers = table.getElementsByTagName("th");
-				        for(var i = 0; i < headers.length; i++) {
-				            if(headers[i].getAttribute("type") == "sorted") {
-				                sortColumn = headers[i].id;
-				            }
+    		$(window).on('load', function() {
+    			 $.ajax({
+    			   url: 'include/details_json_management.php',
+    			   type: 'POST',
+    			   //contentType:'application/json',
+    			   data: {'user': '<?php echo $user->data['username']; ?>'},
+    			   success: processJson,
+				   error: function(xhr, ajaxOptions, thrownError) {
+				      //On error do this
+				        if (xhr.status == 200) {
+				            alert(ajaxOptions);
+				        }
+				        else {
+				            alert(xhr.status);
+				            alert(thrownError);
 				        }
 				    }
+    			 });
+    		});
+    		
+			var columns = <?php echo json_encode($columns) ?>;
+			var filters = <?php echo json_encode($filters) ?>;
+			var user_name = <?php echo json_encode($user->data["username"]) ?>;
 
-				    createTable(sortColumn, false, liste_annonces, columns, filters, user_name);
-				}
+		    function generateTable(liste_annonces, sortColumn) {
+			    //var liste_annonces = <php echo json_encode($annonces);?>;
+			    
+			    if(!liste_annonces || !columns || !filters || !user_name) {
+					console.log("ERREUR");
+			    }
+
+			    // look for the currently selected column. Used when we ask for sorting
+			    if(sortColumn == undefined) {
+			        var table = document.getElementById("annonces-table");
+			        var headers = table.getElementsByTagName("th");
+			        for(var i = 0; i < headers.length; i++) {
+			            if(headers[i].getAttribute("type") == "sorted") {
+			                sortColumn = headers[i].id;
+			            }
+			        }
+			    }
+
+			    createTable(sortColumn, false, liste_annonces, columns, filters, user_name);
+			}
+
+		    function showRequest(formData, jqForm, options) {
+		        var queryString = $.param(formData);
+		        alert('About to submit: \n\n' + queryString + '\nOptions : ' + options);
+		        return true;
+		    }
+
+		    function processJson(data) {
+		    	//alert(data);
+		        generateTable(JSON.parse(data), 'id');
+		    }
 
 			// At page load, generate offers table sorted by id
-			generateTable("id");
+			//generateTable("id");
 
 			// Monitoring changes in filters form for offers table automatic refresh
 			$("#form_sort_annonce").change(function() {
-				generateTable();
+				generateTable(<?php echo json_encode($annonces);?>);
 			});
+			$('#annonce_form').change(function() {
 
+			    $('#annonce_form').submit();
+
+			});
+			
+			$('#annonce_form').ajaxForm({
+				url: 'include/details_json_management.php',
+				data: {user: '<?php echo $user->data['username']; ?>'},
+				type: 'post',
+				//beforeSubmit: showRequest,
+				success: processJson,
+				error: function(jqXHR, textStatus, errorThrown){
+				     alert('Error Message: '+textStatus);
+				     alert('HTTP Error: '+errorThrown);
+				}
+			});
 		</script>
 	</body>
 </html>
