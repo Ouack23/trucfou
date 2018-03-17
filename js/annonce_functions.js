@@ -87,7 +87,7 @@ function unavailable() {
         if (this.readyState == 4 && this.status == 200) {
             var availability = document.getElementsByClassName("availability")[0];
             availability.getElementsByTagName("h3")[0].style.display = "inline-block";
-            availability.getElementsByTagName("input")[0].style.display = "none";   
+            availability.getElementsByTagName("input")[0].style.display = "none";
         }
     }
 
@@ -315,11 +315,18 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
             	var className = "habit"; // TODO rename this class !
             	className += Math.round(row[col]); // e.g. "habit2"
             	td.setAttribute("class", className);
+            	
+            	if(col == "user_note") {
+            		td.setAttribute("id", "user_note");
+            	}
             }
         }
 
         if (row["available"] == 0) {
             tr.setAttribute("class", "unavailable");
+        }
+        else {
+        	tr.setAttribute("class", "available");
         }
 
     }

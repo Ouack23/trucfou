@@ -1,23 +1,6 @@
-<?php
-$username = $user->data["username"];
-$annonce_id = 0;
-/*$annonce_id = $request->variable('id', '');
-$note_to_set = $request->variable('note_input', '');
-$available = $request->variable('available', '');*/
-
-//$annonces = annonces_query();
-	
-if(!empty($available))
-	set_available($annonce_id, $available);
-
-//$note = get_user_note($annonce_id, $username);
-//$comments = get_comments($annonce_id);
-//$available = get_available($annonce_id);
-?>
-
 <section id="details-frame" class="hidden">
 	<div class="box-header">
-		<h2>Détails de l'annonce <?php echo $annonce_id; ?> </h2>
+		<h2>Détails de l'annonce</h2>
 	</div>
 	<div class="box-content">
 		<div class="table">
@@ -31,39 +14,33 @@ if(!empty($available))
 				<p>
 					<label for="note_input">Note: </label>
 					<span class="select-wrapper"><select name="note_input" id="note_input" class="user_note" form="annonce_form">
-						<option value="-1" selected="true">aucun vote</option>
+						<option value="-1">aucun vote</option>
 						<?php
 							for($i = 0 ; $i < 6; $i++)
 							{
-								echo '<option ';
-								//if($i == $note) echo 'selected="true" ';
-								echo 'value="' .$i. '">' .$i. '</option>';
+								echo '<option value="' .$i. '">' .$i. '</option>';
 							}
 						 ?>
 					</select></span>
 					<input type="hidden" name="id" id="id" value="0">
 				</p>
 			</form>
-			<form action="#" method="post">
-				<?php
-					if(!$available)	echo '<h3>Annonce indisponible !</h3>';
-					
-					$set_available = $available ? "0" : "1";
-					$button_name = $available ? "Déclarer indisponible" : "Redéclarer disponible";
-				?>
-				<input type="hidden" name="id" id="id" value="<?php echo $annonce_id; ?>">
-				<input type="hidden" name="available" value="<?php echo $set_available; ?>">
-				<input type="submit" class="warning-button" value="<?php echo $button_name ?>" name="availability">
+			
+			<form method="post" id="available_form">
+				<input type="hidden" name="id" id="id">
+				<input type="hidden" name="available" id="available">
+				<input type="submit" id="available_submit" class="warning-button">
 			</form>
+			
 			<form action="confirm_annonce_remove.php" method="post">
-				<input type="hidden" name="id" id="id" value="<?php echo $annonce_id; ?>">
+				<input type="hidden" name="id" id="id">
 				<input type="submit" class="warning-button" value="Supprimer l'annonce" type="button" name="remove">
 			</form>
 
 			<h3 class="comment_title"></h3>
 
 			<form action="new_comment.php" method="post">
-				<input type="hidden" name="annonce" value="<?php echo $annonce_id; ?>">
+				<input type="hidden" name="id" id="id">
 				<input type="submit" name="new_comment" value="Nouveau commentaire">
 			</form>
 

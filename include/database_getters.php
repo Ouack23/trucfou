@@ -7,9 +7,8 @@ function get_available($annonce) {
 
 	$answer = $bdd->query('SELECT available FROM annonces WHERE id = '.$annonce.'');
 	if(!$answer)
-	{
 		return false;
-	}
+	
 	$available = $answer->fetch();
 	$answer->closeCursor();
 

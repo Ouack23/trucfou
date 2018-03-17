@@ -14,14 +14,6 @@ $(window).on('load', function() {
 	 	e.stopPropagation();
 	});
 	
-	// Details frame
-	$(document).on('click', '.details-link', function(){
-	    $('#details-frame').fadeToggle('fast');
-	    //Putting the announce id into the details forms
-	    //row architecture in annouces table : <tr><td id="id">my_id</td>...<td><a class="details-link">Details</a></td></tr>
-	    $('#details-frame #id').val($(this).parent().parent().find("#id").text());
-	});
-	
 	$('#details-frame').click(function(){
 		$(this).fadeOut('fast');
 	}).children().click(function(e) {

@@ -44,6 +44,9 @@ function vote($annonce, $author, $note_str)
 function set_available($annonce, $available)
 {
 	global $bdd;
+	
+	if($available != '0' and $available != '1') return 'ZOB';
+	
 	$set_unavailable = $bdd->prepare('UPDATE annonces SET available = :val WHERE id = :id');
 	$ret = $set_unavailable->execute(array('val' => $available, 'id' => $annonce));
 	return $available;

@@ -4,8 +4,6 @@ include_once("include/details_functions.php");
 include_once("include/config.php");
 include_once("include/database_getters.php");
 include_once("include/header_footer.php");
-
-echo '{ "message": "' . request_var('message', '') . '" }';
 ?>
 
 <html>
@@ -90,33 +88,38 @@ echo '{ "message": "' . request_var('message', '') . '" }';
 		<script src="js/functions.js"></script>
 		<script src="js/annonce_functions.js"></script>
 		<script>
+			function getAnnonces() {
+				var result = '';
+				$.ajax({
+	    			   url: 'include/details_json_management.php',
+	    			   type: 'POST',
+	    			   data: {'user': '<?php echo $user->data['username']; ?>'},
+	    			   success: function(data) {
+	        			   processJson(data);
+	        			   result =  JSON.parse(data);},
+					   error: function(xhr, ajaxOptions, thrownError) {
+					      //On error do this
+					        if (xhr.status == 200) {
+					            alert(ajaxOptions);
+					        }
+					        else {
+					            alert(xhr.status);
+					            alert(thrownError);
+					        }
+					    }
+	    			 });
+   			 	return result;
+			}
+			
     		$(window).on('load', function() {
-    			 $.ajax({
-    			   url: 'include/details_json_management.php',
-    			   type: 'POST',
-    			   //contentType:'application/json',
-    			   data: {'user': '<?php echo $user->data['username']; ?>'},
-    			   success: processJson,
-				   error: function(xhr, ajaxOptions, thrownError) {
-				      //On error do this
-				        if (xhr.status == 200) {
-				            alert(ajaxOptions);
-				        }
-				        else {
-				            alert(xhr.status);
-				            alert(thrownError);
-				        }
-				    }
-    			 });
+    			 getAnnonces();
     		});
     		
-			var columns = <?php echo json_encode($columns) ?>;
-			var filters = <?php echo json_encode($filters) ?>;
-			var user_name = <?php echo json_encode($user->data["username"]) ?>;
+			var columns = <?php echo json_encode($columns); ?>;
+			var filters = <?php echo json_encode($filters); ?>;
+			var user_name = <?php echo json_encode($user->data["username"]); ?>;
 
 		    function generateTable(liste_annonces, sortColumn) {
-			    //var liste_annonces = <php echo json_encode($annonces);?>;
-			    
 			    if(!liste_annonces || !columns || !filters || !user_name) {
 					console.log("ERREUR");
 			    }
@@ -142,23 +145,70 @@ echo '{ "message": "' . request_var('message', '') . '" }';
 		    }
 
 		    function processJson(data) {
-		    	//alert(data);
-		        generateTable(JSON.parse(data), 'id');
+		    	console.log(data);
+		    	var formatted_data = JSON.parse(data);
+		    	var final_data = [];
+		    	var update_id = "";
+		    	
+		        if(typeof(formatted_data["updatethisid"] != "undefined") && formatted_data["updatethisid"] !== null) {
+			       	update_id = formatted_data["updatethisid"];
+			       	
+    		        for(d in formatted_data) {
+        		        if(typeof(formatted_data[d]) != "string") {
+               		        final_data[d] = formatted_data[d];
+        		        }
+    		        }
+
+    		        formatted_data = final_data;
+		        }
+		        
+		        generateTable(formatted_data, 'id');
+
+				if(update_id !== "") {
+    		        updateForms($('#annonces-table #id').filter(function() {
+    			        return $(this).text() == update_id;
+    		        }).parent());
+				}
 		    }
 
-			// At page load, generate offers table sorted by id
-			//generateTable("id");
+		    function updateForms(tr) {
+			    //console.log(tr);
+		    	//Putting the announce id into the details forms
+			    //row architecture in annouces table : <tr><td id="id">my_id</td>...<td><a class="details-link">Details</a></td></tr>
+			    $('#details-frame #id').val(tr.find('#id').text());
+			    //Putting the usernote as selected value in note_input form
+				$('#annonce_form #note_input').val(tr.find('#user_note').text());
 
+				//Setting label of availability button
+				var available = tr.attr('class');
+				var text = 'Rendre ';
+				var value = '';
+				
+				if(available == 'available') {
+					text += 'indisponible';
+					value = '0';
+				}
+
+				else if (available == 'unavailable') {
+					text += 'disponible';
+					value = '1';
+				}
+
+				$('#available_form #available').val(value);
+				$('#available_form #available_submit').val(text);
+		    }
+		    
 			// Monitoring changes in filters form for offers table automatic refresh
 			$("#form_sort_annonce").change(function() {
-				generateTable(<?php echo json_encode($annonces);?>);
+				generateTable(getAnnonces());
 			});
+
+			//Monitoring changes in annonce_form
 			$('#annonce_form').change(function() {
-
 			    $('#annonce_form').submit();
-
 			});
-			
+
+			//Annonce_form management
 			$('#annonce_form').ajaxForm({
 				url: 'include/details_json_management.php',
 				data: {user: '<?php echo $user->data['username']; ?>'},
@@ -169,6 +219,29 @@ echo '{ "message": "' . request_var('message', '') . '" }';
 				     alert('Error Message: '+textStatus);
 				     alert('HTTP Error: '+errorThrown);
 				}
+			});
+
+			// Details frame
+			$(document).on('click', '.details-link', function(){
+			    $('#details-frame').fadeToggle('fast');
+			    updateForms($(this).parent().parent());
+			});
+
+			//available_form management
+			$('#available_form').ajaxForm({
+				url: 'include/details_json_management.php',
+				data: {user: '<?php echo $user->data['username']; ?>'},
+				type: 'post',
+				//beforeSubmit: showRequest,
+				success: processJson,
+				error: function(jqXHR, textStatus, errorThrown){
+				     alert('Error Message: '+textStatus);
+				     alert('HTTP Error: '+errorThrown);
+				}
+			});
+
+			$('#available_form').on('submit', function() {
+				$('#details-frame').fadeToggle('fast');
 			});
 		</script>
 	</body>
