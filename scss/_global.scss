@@ -89,6 +89,7 @@ h1 {
 		position: relative;
 		padding: 2px;
 		margin: -2px;
+		cursor: pointer;
 
 		&:before, &:after {
 			content: "";
@@ -133,6 +134,14 @@ h1 {
 	.error {
 		@extend .notification;
 		color: $error-color;
+	}
+
+	.error-color {
+		color: $error-color;
+	}
+
+	.success-color {
+		color: $success-color;
 	}
 }
 

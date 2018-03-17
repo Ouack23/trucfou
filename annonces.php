@@ -145,7 +145,7 @@ include_once("include/header_footer.php");
 		    }
 
 		    function processJson(data) {
-		    	console.log(data);
+		    	//console.log(data);
 		    	var formatted_data = JSON.parse(data);
 		    	var final_data = [];
 		    	var update_id = "";
@@ -206,6 +206,7 @@ include_once("include/header_footer.php");
 			//Monitoring changes in annonce_form
 			$('#annonce_form').change(function() {
 			    $('#annonce_form').submit();
+				$('#details-frame').fadeToggle('fast');
 			});
 
 			//Annonce_form management
