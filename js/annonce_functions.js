@@ -279,6 +279,7 @@ function createTable(sortColumn, reverse, liste_annonces, columns, filters, user
                 var link = document.createElement('a');
                 link.appendChild(document.createTextNode("Annonce"));
                 link.setAttribute("href", row[col]);
+                link.setAttribute("target", "_blank");
                 td.appendChild(link);
             }
             // details are specifics too
