@@ -7,6 +7,7 @@
 			<div>
 				<table>
 					<tbody class="table-reminder">
+					<?php if(isset($is_details_dedicated_page)) print_annonce_resume(get_annonce_resume($annonce_id));?>
 					</tbody>
 				</table>
 			</div>

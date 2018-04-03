@@ -14,17 +14,11 @@ $(window).on('load', function() {
 	 	e.stopPropagation();
 	});
 	
-	$('#details-frame').click(function(){
-		$(this).fadeOut('fast');
-	}).children().click(function(e) {
-	 	e.stopPropagation();
-	});
-	
 	// Sticky menu (fixed after some scroll)
 	$('.nav').sticky({topSpacing:0, zIndex:999});
 
 	// Hide content of specified boxes
-	$('.hide-by-default').addClass('box-hidden');
+	//$('.hide-by-default').addClass('box-hidden');
 
 	if (window.matchMedia('(max-width: 480px)').matches) {
 		$('.hide-by-default-mobile').addClass('box-hidden');

@@ -5,7 +5,7 @@ include_once("include/config.php");
 include_once("include/database_getters.php");
 include_once("include/header_footer.php");
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -145,7 +145,6 @@ include_once("include/header_footer.php");
 		    }
 
 		    function processJson(data) {
-		    	//console.log(data);
 		    	var formatted_data = JSON.parse(data);
 		    	var final_data = [];
 		    	var update_id = "";
@@ -172,7 +171,6 @@ include_once("include/header_footer.php");
 		    }
 
 		    function updateForms(tr) {
-			    //console.log(tr);
 		    	//Putting the announce id into the details forms
 			    //row architecture in annouces table : <tr><td id="id">my_id</td>...<td><a class="details-link">Details</a></td></tr>
 			    $('#details-frame #id').val(tr.find('#id').text());
@@ -244,6 +242,13 @@ include_once("include/header_footer.php");
 			$('#available_form').on('submit', function() {
 				$('#details-frame').fadeToggle('fast');
 			});
+			
+			$('#details-frame').click(function(){
+				$(this).fadeOut('fast');
+			}).children().click(function(e) {
+			 	e.stopPropagation();
+			});
+			
 		</script>
 	</body>
 </html>

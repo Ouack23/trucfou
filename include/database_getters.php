@@ -186,4 +186,30 @@ function annonces_query($username="") {
     
     return $annonces;
 }
+
+function get_annonce_resume($id) {
+    global $bdd, $user;
+    
+    $username = $user->data['username'];
+    $annonces_initial_query = 'SELECT id, '.format_date().', auteur, lieu, superf_h, superf_t, price, link, habit, time, distance, departement, available FROM annonces WHERE id = :id';
+    $annonces_reponse_query = $bdd->prepare($annonces_initial_query);
+    $annonces_reponse_query->execute(array(':id' => htmlspecialchars($id)));
+    
+    $annonce = [];
+    $query_size = 13;
+    
+    $annonce = $annonces_reponse_query->fetch();
+    
+    for($j = 0; $j < $query_size; $j++) {
+        unset($annonce[$j]);
+    }
+    
+    $annonce["note"] = get_note($annonce["id"]);
+    $annonce["note_count"] = get_note_count($annonce["id"]);
+    $annonce["user_note"] = get_user_note($annonce["id"], $username);
+    $annonce["comments"] = get_number_of_comments($annonce["id"]);
+        
+    $annonces_reponse_query->closeCursor();
+    return $annonce;
+}
 ?>

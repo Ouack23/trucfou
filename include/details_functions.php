@@ -63,4 +63,46 @@ function delete($annonce)
 	$delete = $bdd->prepare('DELETE FROM comments WHERE annonce = :id');
 	$updated = $delete->execute(array('id' => $annonce));
 }
+
+function print_annonce_resume($annonce) {
+    
+    echo '<table>
+            <tr class="table-header">
+                <th id="id">N</th>
+                <th id="date">Date</th>
+                <th id="auteur">Auteur</th>
+                <th id="lieu">Lieu</th>
+                <th id="departement">Dpt</th>
+                <th id="superf_h">Batiment</th>
+                <th id="superf_t">Terrain</th>
+                <th id="habit">Etat</th>
+                <th id="time">Trajet</th>
+                <th id="distance">Distance</th>
+                <th id="price">Prix</th>
+                <th id="note">Moy</th>
+                <th id="user_note">Note</th>
+                <th id="link">Lien</th>
+                <th id="comments">Comms</th>
+            </tr>';
+    
+    if($annonce['available'] == 1) echo '<tr class="available">';
+    else echo '<tr class="unavailable">';
+    
+    echo '<td id="id_">'.$annonce['id'].'</td>';
+    echo '<td>'.$annonce['date'].'</td>';
+    echo '<td>'.$annonce['auteur'].'</td>';
+    echo '<td>'.$annonce['lieu'].'</td>';
+    echo '<td>'.$annonce['departement'].'</td>';
+    echo '<td>'.$annonce['superf_h'].'</td>';
+    echo '<td>'.$annonce['superf_t'].'</td>';
+    echo '<td class="habit'.$annonce['habit'].'">'.$annonce['superf_t'].'</td>';
+    echo '<td>'.$annonce['time'].'</td>';
+    echo '<td>'.$annonce['distance'].'</td>';
+    echo '<td>'.$annonce['price'].'</td>';
+    echo '<td class="habit'.$annonce['note'].'">'.$annonce['note'].' ('.$annonce['note_count'].')</td>';
+    echo '<td id="user_note_" class="habit'.$annonce['user_note'].'">'.$annonce['user_note'].'</td>';
+    echo '<td><a href="'.$annonce['link'].' target="_blank">Annonce</a></td>';
+    echo '<td>'.$annonce['comments'].'</td>';
+    echo '</tr></table>';
+}
 ?>
