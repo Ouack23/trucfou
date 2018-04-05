@@ -2,6 +2,7 @@
 include_once('include/phpBB.php');
 include_once('include/new_annonce_functions.php');
 include_once('include/config.php');
+include_once('include/config_mattermost.php');
 include_once('include/header_footer.php');
 ?>
 
@@ -50,7 +51,8 @@ include_once('include/header_footer.php');
 									
 								$req->closeCursor();
 								
-								$get_id = $bdd->query('SELECT id, time, price, link, auteur FROM annonces WHERE time = '.$param_array['time'].' AND price = '.$param_array['price'].' AND link = \''.$param_array['link'].'\' AND auteur = \''.$user->data['username'].'\'');
+								$get_id = $bdd->prepare('SELECT id, time, price, link, auteur FROM annonces WHERE time = :time AND price = :price AND link = :link AND auteur = :auteur');
+								$get_id->execute(array('time' => $param_array['time'], 'price' => $param_array['price'], 'link' => $param_array['link'], 'auteur' => $user->data['username']));
 								$annonce = $get_id->fetch();
 								
 								$id_annonce = $annonce['id'];
@@ -60,7 +62,16 @@ include_once('include/header_footer.php');
 								$req_note = $bdd->prepare('INSERT INTO notes(auteur, annonce, value) VALUES(:auteur, :annonce, :value)');
 								$req_note->execute(array('auteur' => $user->data['username'], 'annonce' => $id_annonce, 'value' => $param_array['note']));
 								$req_note->closeCursor();
-									
+								
+								$token = login();
+								
+								if($token) {
+								    if(!sendMessage($token, $id_annonce)) {
+								        echo('<div class="notification"><p><span class="icon-cross"></span>Echec de l\'envoi du post mattermost !</p></div>');
+								    }
+								}
+								else echo('<div class="notification"><p><span class="icon-cross"></span>Echec de l\'authentification mattermost !</p></div>');
+								
 								echo('<div class="notification"><p><span class="icon-checkmark"></span> L\'annonce a bien été ajoutée, bien joué !</p></div>');
 							}
 						

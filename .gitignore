@@ -9,3 +9,5 @@ phpmyadmin
 /TODO
 index.html
 prepros-6.config
+include/config_mattermost.php
+errorlog.txt

@@ -1,5 +1,6 @@
 <?php
 include_once("utils.php");
+include_once("database_getters.php");
 
 function print_form_new_offer($params, $sort_array, $action) {
 	echo('<div class="flex-container">
@@ -132,5 +133,78 @@ function search_error_new_annonce($sort_array, $param_array) {
 	
 	if($param_array['price'] > $sort_array['max_price'] || $param_array['price'] < $sort_array['min_price'])
 		echo('<p id="form" class="error">Le prix doit être compris entre '.$sort_array['min_price'].' et '.$sort_array['max_price'].' k€ !</p>');
+}
+
+function httpPost($url, $data, $token="") {
+    global $request, $disable_local_send;
+    
+    if($request->server('SERVER_ADDR', '') == '127.0.0.1' && $disable_local_send)
+        return false;
+    
+    $root = $request->server('DOCUMENT_ROOT', '');
+    $fp = fopen($root.'\errorlog.txt', 'w');
+    
+    /* Pour utiliser en local,
+     * Télécharger cacert.pem sur https://curl.haxx.se/docs/caextract.html et le coller dans votre dossier Wamp
+     * 
+     * Ajouter la ligne suivante aux emplacements correspondants dans votre php.ini :
+     * curl.cainfo = "D:\Programmes\Wamp\cacert.pem"
+     * 
+     * Sur windows avec wamp : 2 fichiers à modifier :
+     * D:\Programmes\Wamp\bin\php\php5.6.31\phpForApache.ini
+     * D:\Programmes\Wamp\bin\php\php5.6.31\php.ini
+     */
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+    curl_setopt($curl, CURLOPT_VERBOSE, true);
+    curl_setopt($curl, CURLOPT_STDERR, $fp);
+    
+    if(!empty($token))
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Bearer '.$token));
+    
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return $response;
+}
+
+function login() {
+    global $login, $password, $request, $disable_local_send;
+    
+    if($request->server('SERVER_ADDR', '') == '127.0.0.1' && $disable_local_send)
+        return false;
+    
+    $url = 'https://framateam.org/api/v4/users/login';
+    $data = array('login_id' => $login, 'password' => $password);
+    
+    $result = httpPost($url, $data);
+    
+    preg_match('#Token:\s(\w+)\s#', $result, $token);
+    
+    if(!empty($token) && sizeof($token) > 1)
+        return $token[1];
+    
+    else return false;
+}
+
+function sendMessage($token, $annonce_id) {
+    global $channel, $request, $disable_local_send;
+    
+    if($request->server('SERVER_ADDR', '') == '127.0.0.1' && $disable_local_send)
+        return false;    
+    
+    if(get_annonce_resume($annonce_id)) {
+        $url = 'https://framateam.org/api/v4/posts';
+        $data = array('channel_id' => $channel, 'message' => '@channel: Bande de gens, allez voter pour la nouvelle annonce http://trucfou.pe.hu/details.php?id='.$annonce_id);
+        
+        httpPost($url, $data, $token);
+        return true;
+    }
+    
+    else return false;
 }
 ?>
