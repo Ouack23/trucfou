@@ -50,7 +50,7 @@ if($user->data['is_registered']) {
 					<label for="username" ><span class="icon-user login-icons"></span></label><input type="text" name="username" id="username" size="10" title="Username" placeholder="Login" /><br />
 					<label for="password" ><span class="icon-lock login-icons"></span></label><input type="password" name="password" id="password" size="10" title="Password" placeholder="Mot de passe" /><br />
 					<input type="submit" name="login" value="Connexion" />
-					<input type="hidden" name="redirect" value="../index.php" />
+					<input type="hidden" name="redirect" value="'.append_sid('..'.$request->server('REQUEST_URI')).'" />
 				</form>
 			</div>
 		</div>
