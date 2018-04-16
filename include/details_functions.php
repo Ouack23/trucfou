@@ -101,7 +101,7 @@ function print_annonce_resume($annonce) {
     echo '<td>'.$annonce['price'].'</td>';
     echo '<td class="habit'.$annonce['note'].'">'.$annonce['note'].' ('.$annonce['note_count'].')</td>';
     echo '<td id="user_note_" class="habit'.$annonce['user_note'].'">'.$annonce['user_note'].'</td>';
-    echo '<td><a href="'.$annonce['link'].' target="_blank">Annonce</a></td>';
+    echo '<td><a href="'.$annonce['link'].'" target="_blank">Annonce</a></td>';
     echo '<td>'.$annonce['comments'].'</td>';
     echo '</tr></table>';
 }
