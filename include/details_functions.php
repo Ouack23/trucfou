@@ -95,7 +95,7 @@ function print_annonce_resume($annonce) {
     echo '<td>'.$annonce['departement'].'</td>';
     echo '<td>'.$annonce['superf_h'].'</td>';
     echo '<td>'.$annonce['superf_t'].'</td>';
-    echo '<td class="habit'.$annonce['habit'].'">'.$annonce['superf_t'].'</td>';
+    echo '<td class="habit'.$annonce['habit'].'">'.$annonce['habit'].'</td>';
     echo '<td>'.$annonce['time'].'</td>';
     echo '<td>'.$annonce['distance'].'</td>';
     echo '<td>'.$annonce['price'].'</td>';
